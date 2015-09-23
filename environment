@@ -1,0 +1,15 @@
+; Properties determining, if the build should fail, if one of the tests fails
+env=dev
+
+test-unit.fail-on-violation = true
+test-feature.fail-on-violation = true
+test-static-cpd.fail-on-violation = true
+test-static-checkstyle.fail-on-violation = true
+test-static-pmd.fail-on-violation = true
+test-static-pdepend.fail-on-violation = false
+
+coding.standard=PSR2
+
+webserver.port=8000
+
+secret="vdflsut9032tlsdfj0wq3rsdlgfkjq824rsyndfa"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Fubbles" basedir="./" default="test">
+
+    <!--
+        Include local project properties.
+    -->
+    <property file="${basedir}/environment.local" />
+    <property file="${basedir}/environment" />
+
+    <!--
+        Import main target defintions (extension points)
+    -->
+    <import file="${basedir}/ant/main.xml" />
+
+    <!--
+        Enable used modules
+    -->
+    <import file="${basedir}/ant/modules/composer.xml" />
+    <import file="${basedir}/ant/modules/phpunit.xml" />
+    <import file="${basedir}/ant/modules/checkstyle.xml" />
+    <import file="${basedir}/ant/modules/pdepend.xml" />
+    <import file="${basedir}/ant/modules/phpcpd.xml" />
+    <import file="${basedir}/ant/modules/phpmd.xml" />
+    <import file="${basedir}/ant/modules/symfony2.xml" />
+
+    <!--
+        Custom modules
+    - ->
+    <import file="${basedir}/src/ant/serve.xml" />
+    <import file="${basedir}/src/ant/symfony2.xml" />
+    <import file="${basedir}/src/ant/bootstrap.xml" />
+    <import file="${basedir}/src/ant/bootstrap-compile.xml" />
+    <import file="${basedir}/src/ant/phpunit-feature.xml" />
+    <import file="${basedir}/src/ant/watch.xml" />
+    <import file="${basedir}/src/ant/deploy.xml" />
+    -->
+</project>
