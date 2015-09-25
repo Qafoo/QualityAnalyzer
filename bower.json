@@ -1,0 +1,9 @@
+{
+    "name": "Qafoo Quality Analyzer",
+    "description": "See composer.json",
+    "dependencies": {
+        "bootstrap": "~3.3",
+        "jquery": "~2.1",
+        "react": "~0.13"
+    }
+}

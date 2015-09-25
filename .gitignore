@@ -2,3 +2,4 @@
 /vendor/
 /composer.phar
 /environment.local
+/bower_components
