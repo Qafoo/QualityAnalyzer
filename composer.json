@@ -1,0 +1,16 @@
+{
+    "name":         "qafoo/quality-analyzer",
+    "description":  "Helper for code reviews",
+    "require":      {
+        "phpmd/phpmd": "@stable",
+        "pdepend/pdepend": "@stable",
+        "phploc/phploc": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "sebastian/phpcpd": "@stable"
+    },
+    "autoload": {
+        "psr-0": {
+            "Qafoo": ["src/php/", "tests/php/"]
+        }
+    }
+}
