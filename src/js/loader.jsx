@@ -7,7 +7,22 @@ var app = app || {};
     };
 
     app.Loader = React.createClass({
+        getInitialState: function() {
+            return {
+                done: false,
+                progress: 0
+            };
+        },
+
+        advanceProgress: function(step) {
+            this.setState({
+                progress: this.state.progress + step
+            });
+        },
+
         componentDidMount: function() {
+            var component = this;
+
             $.getJSON("data/project.json", null, function(data) {
                 app.Data = data;
 
@@ -15,12 +30,14 @@ var app = app || {};
                         type: "GET",
                         cache: false
                     },
+                    step = 100 / Object.keys(app.Data.analyzers).length,
                     deferreds = $.map(app.Data.analyzers, function(file, analyzer) {
                         return $.ajax(
                             $.extend({
                                     url: "data/" + file,
                                     success: function(data) {
                                         app.Data.analyzers[analyzer] = xml.xmlToJSON(data);
+                                        component.advanceProgress(step);
                                     }
                                 },
                                 defaults
@@ -29,12 +46,14 @@ var app = app || {};
                     });
 
                 $.when.apply($, deferreds).then(function() {
-                    console.log("All done");
+                    component.setState({done: true, progress: 100});
                     console.log(app.Data);
                 });
             });
         },
+
         render: function() {
+            var stateIcon = this.state.done ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-hourglass';
             return (<div className="row">
                 <div className="col-md-6 col-md-offset-3">
                     <div className="well">
@@ -43,9 +62,13 @@ var app = app || {};
                             Initializing application
                         </p>
                         <p>
-                            <span className="glyphicon glyphicon-hourglass"></span>
+                            <span className={stateIcon}></span>
                             Loading data
                         </p>
+                        <div className="progress">
+                            <div className="progress-bar" role="progressbar" style={{width: this.state.progress + '%'}}>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>);
