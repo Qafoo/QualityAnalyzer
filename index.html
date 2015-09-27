@@ -35,9 +35,24 @@
     <div class="container" id="content">
       <div class="row">
         <div class="col-md-12">
-          <h1>Hello, world!</h1>
-          <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-          <p id="example">TBR</p>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="well">
+                <p>
+                  <span class="glyphicon glyphicon-hourglass"></span>
+                  Initializing application…
+                </p>
+                <p class="text-danger" id="error">
+                </p>
+                <script>
+// Generic error handling so we can see when the application is not correctly initialized
+window.onerror = function(error, file, line) {
+    document.getElementById("error").textContent = file + " +" + line + ": " + error;
+};
+                </script>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
