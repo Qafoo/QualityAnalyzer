@@ -54,6 +54,7 @@ var app = app || {};
 
         render: function() {
             var stateIcon = this.state.done ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-hourglass';
+
             return (<div className="row">
                 <div className="col-md-6 col-md-offset-3">
                     <div className="well">
