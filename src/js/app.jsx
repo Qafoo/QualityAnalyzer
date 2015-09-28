@@ -10,6 +10,7 @@ var Qafoo = Qafoo || {QA: {}};
         Qafoo.QA.Modules.Metrics &&
         ReactRouter.Route &&
         Bootstrap.ProgressBar &&
+        Bootstrap.Navigation &&
         Bootstrap.NavLink
     )) {
         throw "Some application components were not correctly loaded.";
@@ -36,26 +37,9 @@ var Qafoo = Qafoo || {QA: {}};
             }
 
             return (<div className="loaded">
-                <nav className="navbar navbar-inverse navbar-fixed-top">
-                    <div className="container">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <ReactRouter.Link className="navbar-brand" to="overview">
-                                Quality Analyzer
-                            </ReactRouter.Link>
-                        </div>
-                        <div id="navbar" className="collapse navbar-collapse">
-                            <ul className="nav navbar-nav">
-                                <Bootstrap.NavLink to="metrics">Metrics</Bootstrap.NavLink>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={{
+                    metrics: "Metrics"
+                }} />
 
                 <div className="container">
                     <ReactRouter.RouteHandler />
@@ -67,8 +51,9 @@ var Qafoo = Qafoo || {QA: {}};
     var routes = (
         <ReactRouter.Route name="overview" handler={Qafoo.QA.App} path="/">
             <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
-            <ReactRouter.Route name="metrics" handler={Qafoo.QA.Modules.Metrics} />
             <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
+
+            <ReactRouter.Route name="metrics" handler={Qafoo.QA.Modules.Metrics} />
         </ReactRouter.Route>
     );
 
