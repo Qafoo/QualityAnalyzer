@@ -45,7 +45,7 @@ var Qafoo = Qafoo || {QA: {}};
             <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
             <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
 
-            <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
+            <ReactRouter.Route name="pdepend" path="pdepend" handler={Qafoo.QA.Modules.Metrics} />
             <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="tests" handler={Qafoo.QA.Modules.Dummy} />
