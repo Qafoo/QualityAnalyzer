@@ -5,6 +5,7 @@
     "bootstrap": "~3.3",
     "jquery": "~2.1",
     "react": "~0.13",
-    "xml-to-json": "*"
+    "xml-to-json": "*",
+    "react-router": "~0.13.3"
   }
 }
