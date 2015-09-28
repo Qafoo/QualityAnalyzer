@@ -8,6 +8,7 @@ var Qafoo = Qafoo || {QA: {}};
         Qafoo.QA.Loader &&
         Qafoo.QA.Overview &&
         Qafoo.QA.Modules.Metrics &&
+        Qafoo.QA.Modules.Dummy &&
         ReactRouter.Route &&
         Bootstrap.ProgressBar &&
         Bootstrap.Navigation &&
@@ -36,13 +37,18 @@ var Qafoo = Qafoo || {QA: {}};
                 </div>);
             }
 
+            var modules = {};
+            if (Qafoo.QA.Data.analyzers.pdepend) modules.pdepend = "Metrics";
+            if (Qafoo.QA.Data.analyzers.dependencies) modules.dependencies = "Dependencies";
+            if (Qafoo.QA.Data.analyzers.phpmd) modules.phpmd = "Mess Detector";
+            if (Qafoo.QA.Data.analyzers.tests) modules.tests = "Tests";
+            if (Qafoo.QA.Data.analyzers.cpd) modules.cpd = "Copy & Paste";
+
             return (<div className="loaded">
-                <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={{
-                    metrics: "Metrics"
-                }} />
+                <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
 
                 <div className="container">
-                    <ReactRouter.RouteHandler />
+                    <ReactRouter.RouteHandler parameters={this.props.parameters} data={Qafoo.QA.Data.analyzers} />
                 </div>
             </div>);
         }
@@ -53,7 +59,11 @@ var Qafoo = Qafoo || {QA: {}};
             <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
             <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
 
-            <ReactRouter.Route name="metrics" handler={Qafoo.QA.Modules.Metrics} />
+            <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
+            <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dummy} />
+            <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
+            <ReactRouter.Route name="tests" handler={Qafoo.QA.Modules.Dummy} />
+            <ReactRouter.Route name="cpd" handler={Qafoo.QA.Modules.Dummy} />
         </ReactRouter.Route>
     );
 
