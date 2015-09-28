@@ -3,6 +3,8 @@ var app = app || {};
 (function () {
     "use strict";
 
+    var ProgressBar = bootstrap.ProgressBar;
+
     app.Data = {
     };
 
@@ -66,10 +68,7 @@ var app = app || {};
                             <span className={stateIcon}></span>
                             Loading data
                         </p>
-                        <div className="progress">
-                            <div className="progress-bar" role="progressbar" style={{width: this.state.progress + '%'}}>
-                            </div>
-                        </div>
+                        <ProgressBar progress={this.state.progress} />
                     </div>
                 </div>
             </div>);
