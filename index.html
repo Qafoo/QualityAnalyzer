@@ -31,7 +31,9 @@
     <script>
 // Generic error handling so we can see when the application is not correctly initialized
 window.onerror = function(error, file, line) {
-    document.getElementById("error").textContent = file + " +" + line + ": " + error;
+    if (document.getElementById("error")) {
+        document.getElementById("error").textContent = file + " +" + line + ": " + error;
+    }
 };
     </script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
