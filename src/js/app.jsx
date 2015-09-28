@@ -3,20 +3,6 @@ var Qafoo = Qafoo || {QA: {}};
 (function () {
     "use strict";
 
-    if (!(
-        Qafoo.QA.Data &&
-        Qafoo.QA.Loader &&
-        Qafoo.QA.Overview &&
-        Qafoo.QA.Modules.Metrics &&
-        Qafoo.QA.Modules.Dummy &&
-        ReactRouter.Route &&
-        Bootstrap.ProgressBar &&
-        Bootstrap.Navigation &&
-        Bootstrap.NavLink
-    )) {
-        throw "Some application components were not correctly loaded.";
-    }
-
     Qafoo.QA.App = React.createClass({
         getInitialState: function() {
             return {
