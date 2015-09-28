@@ -1,17 +1,14 @@
-var app = app || {};
+var Qafoo = Qafoo || {QA: {}};
 
 (function () {
     "use strict";
 
-    var Data = app.Data;
-    var Loader = app.Loader;
-
-    if (!(app.Data && app.Loader)) {
+    if (!(Qafoo.QA.Data && Qafoo.QA.Loader)) {
         throw "Some application components were not correctly loaded.";
     }
 
     React.render(
-        <Loader/>,
+        <Qafoo.QA.Loader/>,
         document.getElementById('content')
     );
 })();

@@ -1,9 +1,9 @@
-var bootstrap = bootstrap || {};
+var Bootstrap = Bootstrap || {};
 
 (function () {
     "use strict";
 
-    bootstrap.ProgressBar = React.createClass({
+    Bootstrap.ProgressBar = React.createClass({
         getDefaultProps: function() {
             return {
                 progress: 0,

@@ -1,14 +1,12 @@
-var app = app || {};
+var Qafoo = Qafoo || {QA: {}};
 
 (function () {
     "use strict";
 
-    var ProgressBar = bootstrap.ProgressBar;
-
-    app.Data = {
+    Qafoo.QA.Data = {
     };
 
-    app.Loader = React.createClass({
+    Qafoo.QA.Loader = React.createClass({
         getInitialState: function() {
             return {
                 done: false,
@@ -26,19 +24,19 @@ var app = app || {};
             var component = this;
 
             $.getJSON("data/project.json", null, function(data) {
-                app.Data = data;
+                Qafoo.QA.Data = data;
 
                 var defaults = {
                         type: "GET",
                         cache: false
                     },
-                    step = 100 / Object.keys(app.Data.analyzers).length,
-                    deferreds = $.map(app.Data.analyzers, function(file, analyzer) {
+                    step = 100 / Object.keys(Qafoo.QA.Data.analyzers).length,
+                    deferreds = $.map(Qafoo.QA.Data.analyzers, function(file, analyzer) {
                         return $.ajax(
                             $.extend({
                                     url: "data/" + file,
                                     success: function(data) {
-                                        app.Data.analyzers[analyzer] = xml.xmlToJSON(data);
+                                        Qafoo.QA.Data.analyzers[analyzer] = xml.xmlToJSON(data);
                                         component.advanceProgress(step);
                                     }
                                 },
@@ -49,7 +47,7 @@ var app = app || {};
 
                 $.when.apply($, deferreds).then(function() {
                     component.setState({done: true, progress: 100});
-                    console.log(app.Data);
+                    console.log(Qafoo.QA.Data);
                 });
             });
         },
@@ -68,7 +66,7 @@ var app = app || {};
                             <span className={stateIcon}></span>
                             Loading data
                         </p>
-                        <ProgressBar progress={this.state.progress} />
+                        <Bootstrap.ProgressBar progress={this.state.progress} />
                     </div>
                 </div>
             </div>);
