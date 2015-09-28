@@ -68,7 +68,29 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         render: function() {
-            var metrics = this.getClassMetrics();
+            var metrics = {},
+                metricName = "Undefined",
+                type = this.props.query.type || "class",
+                metric = this.props.query.metric || "loc";
+
+            switch (type) {
+                case "method":
+                    metrics = this.getMethodMetrics();
+                    break;
+
+                case "class":
+                    metrics = this.getClassMetrics();
+                    break;
+
+                case "package":
+                    metrics = this.getPackageMetrics();
+                    break;
+
+                default:
+                    throw "Unknow metric type " + type;
+            }
+
+            metricName = this.metrics[type][metric];
 
             return (<div className="row">
                 <div className="col-md-3">
@@ -84,9 +106,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 </div>
                 <div className="col-md-9">
                     <h2>Tag Cloud</h2>
-                    <Qafoo.QA.TagCloud captions={["Artifact", "?"]} data={metrics} />
+                    <Qafoo.QA.TagCloud caption={metricName} data={metrics} />
                     <h2>Table</h2>
-                    <Qafoo.QA.Table captions={["Artifact", "?"]} data={metrics} />
+                    <Qafoo.QA.Table captions={["Artifact", metricName]} data={metrics} />
                 </div>
             </div>);
         }

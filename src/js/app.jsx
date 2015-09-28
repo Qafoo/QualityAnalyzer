@@ -34,7 +34,7 @@ var Qafoo = Qafoo || {QA: {}};
                 <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
 
                 <div className="container">
-                    <ReactRouter.RouteHandler parameters={this.props.parameters} data={Qafoo.QA.Data.analyzers} />
+                    <ReactRouter.RouteHandler parameters={this.props.parameters} query={this.props.query} data={Qafoo.QA.Data.analyzers} />
                 </div>
             </div>);
         }
@@ -55,7 +55,7 @@ var Qafoo = Qafoo || {QA: {}};
 
     ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Router, state) {
         React.render(
-            <Router parameters={state.parameters} />,
+            <Router parameters={state.params} query={state.query} />,
             document.getElementById('content')
         )
     });
