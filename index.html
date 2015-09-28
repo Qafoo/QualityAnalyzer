@@ -11,51 +11,29 @@
     <link href="src/css/app.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div id="content">
       <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Qafoo Quality Analyzer</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container has-error"><p class="text-danger" id="error"></p></div>
-    <div class="container" id="content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-              <div class="well">
-                <p>
-                  <span class="glyphicon glyphicon-hourglass"></span>
-                  Initializing application…
-                </p>
-                <script>
-// Generic error handling so we can see when the application is not correctly initialized
-window.onerror = function(error, file, line) {
-    document.getElementById("error").textContent = file + " +" + line + ": " + error;
-};
-                </script>
-              </div>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <h1>Qafoo Quality Analyzer</h1>
+            <p class="text-danger" id="error"></p>
+            <div class="well">
+              <p>
+                <span class="glyphicon glyphicon-hourglass"></span>
+                Initializing application…
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script>
+// Generic error handling so we can see when the application is not correctly initialized
+window.onerror = function(error, file, line) {
+    document.getElementById("error").textContent = file + " +" + line + ": " + error;
+};
+    </script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/react/react.js"></script>

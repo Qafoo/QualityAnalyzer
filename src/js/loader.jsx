@@ -47,6 +47,9 @@ var Qafoo = Qafoo || {QA: {}};
 
                 $.when.apply($, deferreds).then(function() {
                     component.setState({done: true, progress: 100});
+                    if (component.props.onComplete) {
+                        component.props.onComplete(true);
+                    }
                     console.log(Qafoo.QA.Data);
                 });
             });
@@ -57,6 +60,7 @@ var Qafoo = Qafoo || {QA: {}};
 
             return (<div className="row">
                 <div className="col-md-6 col-md-offset-3">
+                    <h1>Qafoo Quality Analyzer</h1>
                     <div className="well">
                         <p>
                             <span className="glyphicon glyphicon-ok"></span>
