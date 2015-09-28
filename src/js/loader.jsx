@@ -50,7 +50,6 @@ var Qafoo = Qafoo || {QA: {}};
                     if (component.props.onComplete) {
                         component.props.onComplete(true);
                     }
-                    console.log(Qafoo.QA.Data);
                 });
             });
         },
