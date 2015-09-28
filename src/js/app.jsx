@@ -9,7 +9,8 @@ var Qafoo = Qafoo || {QA: {}};
         Qafoo.QA.Overview &&
         Qafoo.QA.Modules.Metrics &&
         ReactRouter.Route &&
-        Bootstrap
+        Bootstrap.ProgressBar &&
+        Bootstrap.NavLink
     )) {
         throw "Some application components were not correctly loaded.";
     }
@@ -44,11 +45,13 @@ var Qafoo = Qafoo || {QA: {}};
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <ReactRouter.Link className="navbar-brand" to="overview">Quality Analyzer</ReactRouter.Link>
+                            <ReactRouter.Link className="navbar-brand" to="overview">
+                                Quality Analyzer
+                            </ReactRouter.Link>
                         </div>
                         <div id="navbar" className="collapse navbar-collapse">
                             <ul className="nav navbar-nav">
-                                <li><ReactRouter.Link to="metrics">Metrics</ReactRouter.Link></li>
+                                <Bootstrap.NavLink to="metrics">Metrics</Bootstrap.NavLink>
                             </ul>
                         </div>
                     </div>
