@@ -21,7 +21,6 @@ var Qafoo = Qafoo || {QA: {}};
         render: function() {
             var file = this.getFileName(this.props.parameters.splat);
 
-            console.log(file);
             return (<div className="row">
                 <div className="col-md-12">
                     <h1>Source</h1>
