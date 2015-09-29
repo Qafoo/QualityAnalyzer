@@ -6,6 +6,14 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
     Qafoo.QA.Modules.Metrics = React.createClass({
         metrics: {
+            package: {
+                cr: "Code Rank",
+                rcr: "Reverse Code Rank",
+                noc: "Number of Classes",
+                nof: "Number of Functions",
+                noi: "Number of Interfaces",
+                nom: "Number of Methods"
+            },
             class: {
                 loc: "Line of Code",
                 cloc: "Comment Lines of Code",
@@ -32,6 +40,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 wmcnp: "Non Private Weighted Method Count",
                 dit: "Depth of Inheritance Tree",
                 nocc: "Number of Child Classes"
+            },
+            method: {
             }
         },
 
@@ -39,7 +49,59 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             data: React.PropTypes.object.isRequired
         },
 
+        getPackageMetrics: function() {
+            var metrics = [];
+
+            for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
+                var artifact = this.props.data.pdepend.metrics.package[i],
+                    data = {
+                        namespace: "",
+                        class: artifact["@name"],
+                        file: null,
+                        start: null,
+                        end: null,
+                        metrics: {}
+                    };
+
+                for (var metric in this.metrics.package) {
+                    data.metrics[metric] = Number(artifact["@" + metric]) || 0;
+                }
+
+                metrics.push(data);
+            }
+
+            return metrics;
+        },
+
         getClassMetrics: function() {
+            var metrics = [];
+
+            for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
+                var namespace = this.props.data.pdepend.metrics.package[i];
+
+                for (var j = 0; j < namespace.class.length; ++j) {
+                    var artifact = namespace.class[j],
+                        data = {
+                            namespace: namespace["@name"],
+                            class: artifact["@name"],
+                            file: artifact.file["@name"],
+                            start: Number(artifact["@start"]),
+                            end: Number(artifact["@end"]),
+                            metrics: {}
+                        };
+
+                    for (var metric in this.metrics.class) {
+                        data.metrics[metric] = Number(artifact["@" + metric]) || 0;
+                    }
+
+                    metrics.push(data);
+                }
+            }
+
+            return metrics;
+        },
+
+        getMethodMetrics: function() {
             var metrics = [];
 
             for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
@@ -81,43 +143,74 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             var metrics = {},
                 metricName = "Undefined",
                 type = this.props.query.type || "class",
-                metric = this.props.query.metric || "loc";
+                selected = this.props.query.metric || "loc";
 
             switch (type) {
-                case "method":
-                    metrics = this.getMethodMetrics();
+                case "package":
+                    metrics = this.getPackageMetrics();
                     break;
 
                 case "class":
                     metrics = this.getClassMetrics();
                     break;
 
-                case "package":
-                    metrics = this.getPackageMetrics();
+                case "method":
+                    metrics = this.getMethodMetrics();
                     break;
 
                 default:
                     throw "Unknow metric type " + type;
             }
 
-            metricName = this.metrics[type][metric];
+            metricName = this.metrics[type][selected];
 
             return (<div className="row">
                 <div className="col-md-3">
                     <h2>Metrics</h2>
                     <h3>Package</h3>
+                    <ul>
+                    {$.map(this.metrics.package, function(name, metric) {
+                        return (<li key={metric}>
+                            <ReactRouter.Link to="pdepend" query={{type: "package", metric: metric}}>
+                                {type == "package" && metric == selected ?
+                                    <strong>{name}</strong> :
+                                    {name}
+                                }
+                            </ReactRouter.Link>
+                        </li>);
+                    })}
+                    </ul>
                     <h3>Type</h3>
                     <ul>
                     {$.map(this.metrics.class, function(name, metric) {
-                        return (<li key={metric}><ReactRouter.Link to="pdepend" query={{type: "class", metric: metric}}>{name}</ReactRouter.Link></li>);
+                        return (<li key={metric}>
+                            <ReactRouter.Link to="pdepend" query={{type: "class", metric: metric}}>
+                                {type == "class" && metric == selected ?
+                                    <strong>{name}</strong> :
+                                    {name}
+                                }
+                            </ReactRouter.Link>
+                        </li>);
                     })}
                     </ul>
                     <h3>Method</h3>
+                    <ul>
+                    {$.map(this.metrics.method, function(name, metric) {
+                        return (<li key={metric}>
+                            <ReactRouter.Link to="pdepend" query={{type: "method", metric: metric}}>
+                                {type == "method" && metric == selected ?
+                                    <strong>{name}</strong> :
+                                    {name}
+                                }
+                            </ReactRouter.Link>
+                        </li>);
+                    })}
+                    </ul>
                 </div>
                 <div className="col-md-9">
                     <Qafoo.QA.Table
                         captions={["Artifact", metricName]}
-                        data={$.map(this.sortBySingleMetric(metrics, metric, 25), function(values) {
+                        data={$.map(this.sortBySingleMetric(metrics, selected, 25), function(values) {
                             return [[
                                 (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace}\<strong>{values.class}</strong></ReactRouter.Link>),
                                 values.metric
