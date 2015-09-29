@@ -5,7 +5,6 @@ var Qafoo = Qafoo || {QA: {}};
 
     Qafoo.QA.Table = React.createClass({
         render: function() {
-            console.log(this.props);
             return (<table className="table table-striped table-bordered table-hover table-condensed">
                 <thead>
                     <tr>
