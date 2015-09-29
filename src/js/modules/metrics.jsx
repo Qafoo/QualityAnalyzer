@@ -74,7 +74,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 var artifact = this.props.data.pdepend.metrics.package[i],
                     data = {
                         namespace: "",
-                        class: artifact["@name"],
+                        name: artifact["@name"],
                         file: null,
                         start: null,
                         end: null,
@@ -101,7 +101,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     var artifact = namespace.class[j],
                         data = {
                             namespace: namespace["@name"] + "\\",
-                            class: artifact["@name"],
+                            name: artifact["@name"],
                             file: artifact.file["@name"],
                             start: Number(artifact["@start"]),
                             end: Number(artifact["@end"]),
@@ -135,7 +135,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         var artifact = type.method[k],
                             data = {
                                 namespace: namespace["@name"] + "\\" + type["@name"] + "::",
-                                class: artifact["@name"] + "()",
+                                name: artifact["@name"] + "()",
                                 file: type.file["@name"],
                                 start: Number(artifact["@start"]),
                                 end: Number(artifact["@end"]),
@@ -238,8 +238,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         data={$.map(this.sortBySingleMetric(metrics, selected, 25), function(values) {
                             return [[
                                 (values.file ?
-                                    (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} <strong>{values.class}</strong></ReactRouter.Link>) :
-                                    (<span>{values.namespace} <strong>{values.class}</strong></span>)
+                                    (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} <strong>{values.name}</strong></ReactRouter.Link>) :
+                                    (<span>{values.namespace} <strong>{values.name}</strong></span>)
                                 ),
                                 values.metric
                             ]];
