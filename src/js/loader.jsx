@@ -23,7 +23,7 @@ var Qafoo = Qafoo || {QA: {}};
         componentDidMount: function() {
             var component = this;
 
-            $.getJSON("data/project.json", null, function(data) {
+            $.getJSON("/data/project.json", null, function(data) {
                 Qafoo.QA.Data = data;
 
                 var defaults = {
@@ -34,7 +34,7 @@ var Qafoo = Qafoo || {QA: {}};
                     deferreds = $.map(Qafoo.QA.Data.analyzers, function(file, analyzer) {
                         return $.ajax(
                             $.extend({
-                                    url: "data/" + file,
+                                    url: "/data/" + file,
                                     success: function(data) {
                                         Qafoo.QA.Data.analyzers[analyzer] = xml.xmlToJSON(data);
                                         component.advanceProgress(step);
