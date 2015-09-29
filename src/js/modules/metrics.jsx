@@ -42,6 +42,24 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 nocc: "Number of Child Classes"
             },
             method: {
+                loc: "Line of Code",
+                cloc: "Comment Lines of Code",
+                ncloc: "Non-Comment Line of Code",
+                eloc: "Executable Lines of Code",
+                lloc: "Logical Lines Of Code",
+                ccn: "Cyclomatic Complexity",
+                ccn2: "Extended Cyclomatic Complexity",
+                npath: "NPath Complexity",
+                hb: "?",
+                hd: "?",
+                he: "?",
+                hi: "?",
+                hl: "?",
+                hnd: "?",
+                hnt: "?",
+                ht: "?",
+                hv: "?",
+                mi: "?"
             }
         },
 
@@ -82,7 +100,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 for (var j = 0; j < namespace.class.length; ++j) {
                     var artifact = namespace.class[j],
                         data = {
-                            namespace: namespace["@name"],
+                            namespace: namespace["@name"] + "\\",
                             class: artifact["@name"],
                             file: artifact.file["@name"],
                             start: Number(artifact["@start"]),
@@ -108,21 +126,28 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 var namespace = this.props.data.pdepend.metrics.package[i];
 
                 for (var j = 0; j < namespace.class.length; ++j) {
-                    var artifact = namespace.class[j],
-                        data = {
-                            namespace: namespace["@name"],
-                            class: artifact["@name"],
-                            file: artifact.file["@name"],
-                            start: Number(artifact["@start"]),
-                            end: Number(artifact["@end"]),
-                            metrics: {}
-                        };
-
-                    for (var metric in this.metrics.class) {
-                        data.metrics[metric] = Number(artifact["@" + metric]) || 0;
+                    var type = namespace.class[j];
+                    if (!type.method) {
+                        continue;
                     }
 
-                    metrics.push(data);
+                    for (var k = 0; k < type.method.length; ++k) {
+                        var artifact = type.method[k],
+                            data = {
+                                namespace: namespace["@name"] + "\\" + type["@name"] + "::",
+                                class: artifact["@name"] + "()",
+                                file: type.file["@name"],
+                                start: Number(artifact["@start"]),
+                                end: Number(artifact["@end"]),
+                                metrics: {}
+                            };
+
+                        for (var metric in this.metrics.method) {
+                            data.metrics[metric] = Number(artifact["@" + metric]) || 0;
+                        }
+
+                        metrics.push(data);
+                    }
                 }
             }
 
@@ -212,7 +237,10 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         captions={["Artifact", metricName]}
                         data={$.map(this.sortBySingleMetric(metrics, selected, 25), function(values) {
                             return [[
-                                (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace}\<strong>{values.class}</strong></ReactRouter.Link>),
+                                (values.file ?
+                                    (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} <strong>{values.class}</strong></ReactRouter.Link>) :
+                                    (<span>{values.namespace} <strong>{values.class}</strong></span>)
+                                ),
                                 values.metric
                             ]];
                         })}
