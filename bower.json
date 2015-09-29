@@ -6,6 +6,7 @@
     "jquery": "~2.1",
     "react": "~0.13",
     "xml-to-json": "*",
-    "react-router": "~0.13.3"
+    "react-router": "~0.13.3",
+    "jszip": "Stuk/jszip#~2.5.0"
   }
 }
