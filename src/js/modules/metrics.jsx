@@ -51,13 +51,13 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                             namespace: namespace["@name"],
                             class: artifact["@name"],
                             file: artifact.file["@name"],
-                            start: artifact["@start"],
-                            end: artifact["@end"],
+                            start: Number(artifact["@start"]),
+                            end: Number(artifact["@end"]),
                             metrics: {}
                         };
 
                     for (var metric in this.metrics.class) {
-                        data.metrics[metric] = artifact["@" + metric];
+                        data.metrics[metric] = Number(artifact["@" + metric]) || 0;
                     }
 
                     metrics.push(data);
@@ -65,6 +65,16 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             }
 
             return metrics;
+        },
+
+        sortBySingleMetric: function(metrics, metric, count) {
+            return $.map(metrics, function(data) {
+                data.metric = data.metrics[metric];
+                delete data.metrics;
+                return data;
+            }).sort(function(a, b) {
+                return (a.metric < b.metric ? 1 : (a.metric > b.metric) ? -1 : 0);
+            }).slice(0, count);
         },
 
         render: function() {
@@ -105,10 +115,15 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     <h3>Method</h3>
                 </div>
                 <div className="col-md-9">
-                    <h2>Tag Cloud</h2>
-                    <Qafoo.QA.TagCloud caption={metricName} data={metrics} />
-                    <h2>Table</h2>
-                    <Qafoo.QA.Table captions={["Artifact", metricName]} data={metrics} />
+                    <Qafoo.QA.Table
+                        captions={["Artifact", metricName]}
+                        data={$.map(this.sortBySingleMetric(metrics, metric, 25), function(values) {
+                            return [[
+                                (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} {values.class}</ReactRouter.Link>),
+                                values.metric
+                            ]];
+                        })}
+                    />
                 </div>
             </div>);
         }
