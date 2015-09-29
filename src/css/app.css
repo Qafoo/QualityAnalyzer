@@ -1,3 +1,13 @@
 body {
     margin-top: 70px;
 }
+
+ul.source-tree,
+ul.source-tree ul {
+    list-style-type: none;
+    padding-left: 1em;
+}
+
+.source-tree .selected > .name {
+    font-weight: bold;
+}
