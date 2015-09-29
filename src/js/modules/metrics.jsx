@@ -119,7 +119,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         captions={["Artifact", metricName]}
                         data={$.map(this.sortBySingleMetric(metrics, metric, 25), function(values) {
                             return [[
-                                (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} {values.class}</ReactRouter.Link>),
+                                (<ReactRouter.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace}\<strong>{values.class}</strong></ReactRouter.Link>),
                                 values.metric
                             ]];
                         })}
