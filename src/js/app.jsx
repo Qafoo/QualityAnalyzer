@@ -34,7 +34,7 @@ var Qafoo = Qafoo || {QA: {}};
                 <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
 
                 <div className="container">
-                    <ReactRouter.RouteHandler parameters={this.props.parameters} query={this.props.query} data={Qafoo.QA.Data.analyzers} />
+                    <ReactRouter.RouteHandler parameters={this.props.parameters} query={this.props.query} data={Qafoo.QA.Data} />
                 </div>
             </div>);
         }
@@ -45,7 +45,8 @@ var Qafoo = Qafoo || {QA: {}};
             <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
             <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
 
-            <ReactRouter.Route name="pdepend" path="pdepend" handler={Qafoo.QA.Modules.Metrics} />
+            <ReactRouter.Route name="source" path="/source/*" handler={Qafoo.QA.Source} />
+            <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
             <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="tests" handler={Qafoo.QA.Modules.Dummy} />

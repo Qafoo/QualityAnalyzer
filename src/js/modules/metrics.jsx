@@ -67,11 +67,18 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             data: React.PropTypes.object.isRequired
         },
 
-        getPackageMetrics: function() {
-            var metrics = [];
+        getFileName: function(file) {
+            var basedir = this.props.data.baseDir;
 
-            for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
-                var artifact = this.props.data.pdepend.metrics.package[i],
+            return "/" + file.replace(basedir, '');
+        },
+
+        getPackageMetrics: function() {
+            var metrics = [],
+                pdependData = this.props.data.analyzers.pdepend.metrics;
+
+            for (var i = 0; i < pdependData.package.length; ++i) {
+                var artifact = pdependData.package[i],
                     data = {
                         namespace: "",
                         name: artifact["@name"],
@@ -92,17 +99,18 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         getClassMetrics: function() {
-            var metrics = [];
+            var metrics = [],
+                pdependData = this.props.data.analyzers.pdepend.metrics;
 
-            for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
-                var namespace = this.props.data.pdepend.metrics.package[i];
+            for (var i = 0; i < pdependData.package.length; ++i) {
+                var namespace = pdependData.package[i];
 
                 for (var j = 0; j < namespace.class.length; ++j) {
                     var artifact = namespace.class[j],
                         data = {
                             namespace: namespace["@name"] + "\\",
                             name: artifact["@name"],
-                            file: artifact.file["@name"],
+                            file: this.getFileName(artifact.file["@name"]),
                             start: Number(artifact["@start"]),
                             end: Number(artifact["@end"]),
                             metrics: {}
@@ -120,10 +128,11 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         getMethodMetrics: function() {
-            var metrics = [];
+            var metrics = [],
+                pdependData = this.props.data.analyzers.pdepend.metrics;
 
-            for (var i = 0; i < this.props.data.pdepend.metrics.package.length; ++i) {
-                var namespace = this.props.data.pdepend.metrics.package[i];
+            for (var i = 0; i < pdependData.package.length; ++i) {
+                var namespace = pdependData.package[i];
 
                 for (var j = 0; j < namespace.class.length; ++j) {
                     var type = namespace.class[j];
@@ -136,7 +145,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                             data = {
                                 namespace: namespace["@name"] + "\\" + type["@name"] + "::",
                                 name: artifact["@name"] + "()",
-                                file: type.file["@name"],
+                                file: this.getFileName(type.file["@name"]),
                                 start: Number(artifact["@start"]),
                                 end: Number(artifact["@end"]),
                                 metrics: {}
@@ -191,7 +200,6 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
             return (<div className="row">
                 <div className="col-md-3">
-                    <h2>Metrics</h2>
                     <h3>Package</h3>
                     <ul>
                     {$.map(this.metrics.package, function(name, metric) {
