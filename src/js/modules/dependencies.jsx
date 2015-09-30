@@ -26,7 +26,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         type: "package",
                         children: {},
                         count: 0,
-                        folded: true
+                        folded: false
                     }
                 }
 
@@ -113,7 +113,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
         componentDidMount: function() {
             Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), {
-                width: '100%'
+                width: $('#dependency-chart').width()
             }, this.getChartState());
         },
 

@@ -22,7 +22,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         update: function(element, state) {
             this.svg.attr('height', Math.max(500, state.leaves.length * 24 + 10) + "px");
 
-            this._drawRows(element, state.leaves);
+            this._drawRows(element, this.svg.attr('width'), state.leaves);
         },
 
         destroy: function(element) {
@@ -51,23 +51,33 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             return {x: x, y: y, z: z};
         },
 
-        _drawRows: function(element, leaves) {
+        _drawRows: function(element, width, leaves) {
             var g = d3.select(element).selectAll('.dependencies');
 
-            var text = g.selectAll('.row')
-                .data(leaves);
+            var row = g.selectAll('.row').data(leaves);
 
-            text.enter().append('text').attr('class', 'row');
+            row.enter().append('g').attr('class', 'row');
 
-            text.attr('y', function(leave, count) { return (count + 1) * 24; })
-                .attr('x', function(leave) { return leave.depth * 20; })
-                .text(function(leave) { console.log(leave); return leave.name; })
+            var rect = row.append('rect').attr('class', 'bg'),
+                text = row.append('text').attr('class', 'caption');
+
+            row .on("mouseover", function() { d3.select(this).select(".bg").attr("fill", '#eee'); })
+                .on("mouseout", function(leave, count) { d3.select(this).select(".bg").attr("fill", (count % 2) ? '#fff' : '#f4f4f4'); });
+
+            rect.attr('y', function(leave, count) { return count * 24 + 1; })
+                .attr('x', 1)
+                .attr('height', 22)
+                .attr('width', width - 2)
+                .attr("fill", function(leave, count) { return (count % 2) ? '#fff' : '#f4f4f4'; });
+
+            text.attr('y', function(leave, count) { return (count + 1) * 24 - 7; })
+                .attr('x', function(leave) { return leave.depth * 20 + 5; })
+                .text(function(leave) { return leave.name; })
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "14px")
-                .attr("color", "black");
+                .attr("fill", "black");
 
-            text.exit()
-                .remove();
+            row.exit().remove();
         }
     };
 })();
