@@ -35,6 +35,14 @@ ol.code > li {
     font-family: monospace;
 }
 
+ol.code > li:hover {
+    background-color: #ddd;
+}
+
+ol.code > li.highlight {
+    background-color: #eee;
+}
+
 ol.code .keyword {
     font-weight: bold;
 }

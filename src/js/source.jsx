@@ -103,7 +103,7 @@ var Qafoo = Qafoo || {QA: {}};
                 }</div>
                 <div className="col-md-8">
                     {current ?
-                        <Qafoo.QA.SourceView file={current} data={this.props.data} /> :
+                        <Qafoo.QA.SourceView file={current} data={this.props.data} start={this.props.query.start} end={this.props.query.end} /> :
                         <h2>File not found</h2>
                     }
                 </div>

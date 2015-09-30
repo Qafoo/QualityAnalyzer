@@ -44,16 +44,39 @@ var Qafoo = Qafoo || {QA: {}};
             return lines;
         },
 
+        scrollIntoView: function() {
+            var element = null;
+
+            if (element = document.getElementById('l' + (this.props.start - 5))) {
+                element.scrollIntoView();
+            }
+        },
+
+        componentDidMount: function() {
+            this.scrollIntoView();
+        },
+
+        componentDidUpdate: function() {
+            this.scrollIntoView();
+        },
+
         render: function() {
             var file = this.props.file,
-                lines = this.addMarkup(this.splitLines(file.file.asText()));
+                lines = this.addMarkup(this.splitLines(file.file.asText())),
+                start = this.props.start || 0,
+                end = this.props.end || 0;
  
             return (<div>
                 <h2>{file.name}</h2>
                 <h3>{file.file.name}</h3>
                 <ol className="code">
                     {$.map(lines, function(line, number) {
-                        return <li key={number} id={number + 1} dangerouslySetInnerHTML={{__html: line}}></li>
+                        var lineNumber = number + 1;
+
+                        return <li key={number} id={"l" + lineNumber}
+                            className={((lineNumber >= start) && (lineNumber <= end)) ? "highlight" : ""}
+                            dangerouslySetInnerHTML={{__html: line}}>
+                        </li>
                     })}
                 </ol>
             </div>);
