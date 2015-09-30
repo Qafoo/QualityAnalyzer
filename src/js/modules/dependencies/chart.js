@@ -5,21 +5,24 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
     "use strict";
 
     Qafoo.QA.Modules.DependenciesChart = {
+        svg: null,
+
         create: function(element, props, state) {
-            var svg = d3.select(element).append('svg')
+            this.svg = d3.select(element).append('svg')
                 .attr('class', 'd3')
                 .attr('width', props.width)
-                .attr('height', props.height);
+                .attr('height', '500px');
 
-            svg.append('g')
-                .attr('class', 'd3-points');
+            this.svg.append('g')
+                .attr('class', 'dependencies');
 
             this.update(element, state);
         },
 
         update: function(element, state) {
-            var scales = this._scales(element, state.domain);
-            this._drawPoints(element, scales, state.data);
+            this.svg.attr('height', Math.max(500, state.leaves.length * 24 + 10) + "px");
+
+            this._drawRows(element, state.leaves);
         },
 
         destroy: function(element) {
@@ -48,20 +51,22 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             return {x: x, y: y, z: z};
         },
 
-        _drawPoints: function(element, scales, data) {
-            var g = d3.select(element).selectAll('.d3-points');
+        _drawRows: function(element, leaves) {
+            var g = d3.select(element).selectAll('.dependencies');
 
-            var point = g.selectAll('.d3-point')
-                .data(data, function(d) { return d.id; });
+            var text = g.selectAll('.row')
+                .data(leaves);
 
-            point.enter().append('circle')
-                .attr('class', 'd3-point');
+            text.enter().append('text').attr('class', 'row');
 
-            point.attr('cx', function(d) { return scales.x(d.x); })
-                .attr('cy', function(d) { return scales.y(d.y); })
-                .attr('r', function(d) { return scales.z(d.z); });
+            text.attr('y', function(leave, count) { return (count + 1) * 24; })
+                .attr('x', function(leave) { return leave.depth * 20; })
+                .text(function(leave) { console.log(leave); return leave.name; })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "14px")
+                .attr("color", "black");
 
-            point.exit()
+            text.exit()
                 .remove();
         }
     };

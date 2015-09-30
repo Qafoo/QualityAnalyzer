@@ -8,13 +8,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         dependencyTree: {
             name: "/",
             type: "package",
-            children: {}
-        },
-
-        getInitialState: function() {
-            return {
-                displayTree: {}
-            };
+            children: {},
+            count: 0,
+            folded: false
         },
 
         addTypeWithDependencies: function(type, dependencies) {
@@ -28,10 +24,13 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     treeReference.children[component] = {
                         name: component,
                         type: "package",
-                        children: {}
+                        children: {},
+                        count: 0,
+                        folded: true
                     }
                 }
 
+                treeReference.count++;
                 treeReference = treeReference.children[component];
             }
 
@@ -69,6 +68,43 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     }
                 }
             }
+
+            this.setState({
+                leaves: this.getLeaves(this.dependencyTree, 0),
+                initialized: true
+            });
+        },
+
+        getLeaves: function(tree, depth) {
+            var leave = $.extend({}, tree);
+            var leaves = [leave];
+
+            leave.depth = depth;
+            leave.hidden = !leave.folded;
+
+            delete leave.children;
+            delete leave.folded;
+
+            if (tree.folded) {
+                return leaves;
+            }
+            
+            for (var child in tree.children) {
+                leaves = leaves.concat(this.getLeaves(tree.children[child], depth + 1));
+            }
+
+            return leaves;
+        },
+
+        calculateDependencies: function(leaves) {
+            return [];
+        },
+
+        getInitialState: function() {
+            return {
+                leaves: [],
+                initialized: false
+            };
         },
 
         getChartElement: function() {
@@ -77,8 +113,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
         componentDidMount: function() {
             Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), {
-                width: '100%',
-                height: '300px'
+                width: '100%'
             }, this.getChartState());
         },
 
@@ -87,14 +122,13 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         getChartState: function() {
+            if (!this.state.initialized) {
+                this.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+            }
+
             return {
-                data: [
-                    {id: '1', x: 2, y: 98, z: 2},
-                    {id: '2', x: 28, y: 98, z: 3},
-                    {id: '3', x: 2, y: 2, z: 4},
-                    {id: '4', x: 28, y: 2, z: 5},
-                ],
-                domain: {x: [0, 30], y: [0, 100]}
+                leaves: this.state.leaves,
+                links: this.calculateDependencies(this.state.leaves)
             };
         },
 
@@ -103,11 +137,6 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         render: function() {
-            if (!this.dependencyTree.children) {
-                this.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
-            }
-
-            console.log(this.dependencyTree);
             return (<div className="row">
                 <div className="col-md-12">
                     <h1>Dependencies</h1>
