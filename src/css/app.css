@@ -35,6 +35,7 @@ ol.code > li {
     font-family: monospace;
 }
 
+ol.code > li.highlight:hover,
 ol.code > li:hover {
     background-color: #ddd;
 }
