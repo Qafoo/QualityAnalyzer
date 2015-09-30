@@ -71,34 +71,35 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             }
         },
 
+        getChartElement: function() {
+            return document.getElementById('dependency-chart');
+        },
+
         componentDidMount: function() {
-            var element = this.getDOMNode();
-            Qafoo.QA.Modules.DependenciesChart.create(element, {
+            Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), {
                 width: '100%',
                 height: '300px'
             }, this.getChartState());
         },
 
         componentDidUpdate: function() {
-            var element = this.getDOMNode();
-            Qafoo.QA.Modules.DependenciesChart.update(element, this.getChartState());
+            Qafoo.QA.Modules.DependenciesChart.update(this.getChartElement(), this.getChartState());
         },
 
         getChartState: function() {
             return {
                 data: [
-                    {id: '5fbmzmtc', x: 2, y: 98, z: 6},
-                    {id: 's4f8phwm', x: 28, y: 98, z: 9},
-                    {id: '5fbmzmtc', x: 2, y: 2, z: 6},
-                    {id: 's4f8phwm', x: 28, y: 2, z: 9},
+                    {id: '1', x: 2, y: 98, z: 2},
+                    {id: '2', x: 28, y: 98, z: 3},
+                    {id: '3', x: 2, y: 2, z: 4},
+                    {id: '4', x: 28, y: 2, z: 5},
                 ],
                 domain: {x: [0, 30], y: [0, 100]}
             };
         },
 
         componentWillUnmount: function() {
-            var element = this.getDOMNode();
-            Qafoo.QA.Modules.DependenciesChart.destroy(element);
+            Qafoo.QA.Modules.DependenciesChart.destroy(this.getChartElement());
         },
 
         render: function() {
@@ -110,7 +111,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             return (<div className="row">
                 <div className="col-md-12">
                     <h1>Dependencies</h1>
-                    <div className="Chart"></div>
+                    <div id="dependency-chart"></div>
                 </div>
             </div>);
         }
