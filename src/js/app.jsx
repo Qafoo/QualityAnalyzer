@@ -82,7 +82,7 @@ var Qafoo = Qafoo || {QA: {}};
             <ReactRouter.Route name="source" path="/source" handler={Qafoo.QA.Source} />
             <ReactRouter.Route name="source_with_path" path="/source/*" handler={Qafoo.QA.Source} />
             <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
-            <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dummy} />
+            <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dependencies} />
             <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="tests" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="cpd" handler={Qafoo.QA.Modules.Dummy} />
