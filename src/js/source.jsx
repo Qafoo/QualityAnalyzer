@@ -10,6 +10,12 @@ var Qafoo = Qafoo || {QA: {}};
             };
         },
 
+        unfold: function() {
+            this.setState({
+                opened: !this.state.opened
+            });
+        },
+
         render: function() {
             var folder = this.props.folder,
                 selected = this.props.selected,
@@ -18,7 +24,9 @@ var Qafoo = Qafoo || {QA: {}};
                 icon = opened ? "glyphicon glyphicon-folder-open" : "glyphicon glyphicon-folder-close";
 
             return (<li className={nodeSelected ? "selected" : ""}>
-                <span className={icon}></span> <span className="name">{this.props.folder.name}</span>
+                <a onClick={this.unfold}>
+                    <span className={icon}></span> <span className="name">{this.props.folder.name}</span>
+                </a>
                 {!(folder.children && opened) ? "" :
                 (<ul>
                     {$.map(folder.children, function(child) {

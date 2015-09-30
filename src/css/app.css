@@ -8,6 +8,11 @@ ul.source-tree ul {
     padding-left: 1em;
 }
 
+ul.source-tree a {
+    color: inherit;
+    cursor: pointer;
+}
+
 .source-tree .selected > .name {
     font-weight: bold;
 }
