@@ -13,6 +13,14 @@ ul.source-tree a {
     cursor: pointer;
 }
 
-.source-tree .selected > .name {
+ul.source-tree .glyphicon {
+    color: gray;
+}
+
+.source-tree .selected > a {
     font-weight: bold;
+}
+
+.source-tree .selected > a .glyphicon {
+    color: inherit;
 }

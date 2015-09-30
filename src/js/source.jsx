@@ -3,50 +3,15 @@ var Qafoo = Qafoo || {QA: {}};
 (function () {
     "use strict";
 
-    Qafoo.QA.SourceFolder = React.createClass({
-        getInitialState: function() {
-            return {
-                opened: false
-            };
-        },
-
-        unfold: function() {
-            this.setState({
-                opened: !this.state.opened
-            });
-        },
-
-        render: function() {
-            var folder = this.props.folder,
-                selected = this.props.selected,
-                nodeSelected = folder.name === selected[0],
-                opened = nodeSelected || this.state.opened,
-                icon = opened ? "glyphicon glyphicon-folder-open" : "glyphicon glyphicon-folder-close";
-
-            return (<li className={nodeSelected ? "selected" : ""}>
-                <a onClick={this.unfold}>
-                    <span className={icon}></span> <span className="name">{this.props.folder.name}</span>
-                </a>
-                {!(folder.children && opened) ? "" :
-                (<ul>
-                    {$.map(folder.children, function(child) {
-                        return child.type === 'folder' ?
-                            <Qafoo.QA.SourceFolder key={child.name} folder={child} selected={selected.slice(1)} /> :
-                            <Qafoo.QA.SourceFile key={child.name} file={child} selected={selected.slice(1)} />
-                    })}
-                </ul>)
-                }
-            </li>);
-        }
-    });
-
     Qafoo.QA.SourceFile = React.createClass({
         render: function() {
             var file = this.props.file,
                 nodeSelected = file.name === this.props.selected[0];
 
             return (<li className={nodeSelected ? "selected" : ""}>
-                <span className="glyphicon glyphicon-file"></span> <span className="name">{this.props.file.name}</span>
+                <ReactRouter.Link to={"/source/" + file.file.name}>
+                    <span className="glyphicon glyphicon-file"></span> <span className="name">{this.props.file.name}</span>
+                </ReactRouter.Link>
             </li>);
         }
     });
