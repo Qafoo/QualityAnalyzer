@@ -89,7 +89,7 @@ var Qafoo = Qafoo || {QA: {}};
         },
 
         render: function() {
-            var file = this.getFileName(this.props.parameters.splat),
+            var file = this.getFileName(this.props.parameters.splat || "/"),
                 selected = file.split("/"),
                 current = this.getSelectedFile(selected);
 

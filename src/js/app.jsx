@@ -23,7 +23,10 @@ var Qafoo = Qafoo || {QA: {}};
                 </div>);
             }
 
-            var modules = {};
+            var modules = {
+                source: "Source"
+            };
+
             if (Qafoo.QA.Data.analyzers.pdepend) modules.pdepend = "Metrics";
             if (Qafoo.QA.Data.analyzers.dependencies) modules.dependencies = "Dependencies";
             if (Qafoo.QA.Data.analyzers.phpmd) modules.phpmd = "Mess Detector";
@@ -45,7 +48,8 @@ var Qafoo = Qafoo || {QA: {}};
             <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
             <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
 
-            <ReactRouter.Route name="source" path="/source/*" handler={Qafoo.QA.Source} />
+            <ReactRouter.Route name="source" path="/source" handler={Qafoo.QA.Source} />
+            <ReactRouter.Route name="source_with_path" path="/source/*" handler={Qafoo.QA.Source} />
             <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
             <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dummy} />
             <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
