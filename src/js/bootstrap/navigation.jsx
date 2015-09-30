@@ -28,8 +28,12 @@ var Bootstrap = Bootstrap || {};
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
-                            {$.map(this.props.items, function(name, id) {
-                                return (<Bootstrap.NavLink key={id} to={id}>{name}</Bootstrap.NavLink>);
+                            {$.map(this.props.items, function(item, i) {
+                                return (<Bootstrap.NavLink key={i} to={item.path}>
+                                    {!item.icon ? '' :
+                                        <span className={item.icon}></span>
+                                    } {item.name}
+                                </Bootstrap.NavLink>);
                             })}
                         </ul>
                     </div>

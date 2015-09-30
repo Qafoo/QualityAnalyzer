@@ -4,6 +4,39 @@ var Qafoo = Qafoo || {QA: {}};
     "use strict";
 
     Qafoo.QA.App = React.createClass({
+
+        navigation: [
+            {   path: "source",
+                name: "Source",
+                icon: "glyphicon glyphicon-folder-open"
+            },
+            {   path: "pdepend",
+                name: "Metrics",
+                icon: "glyphicon glyphicon-stats",
+                analyzer: true
+            },
+            {   path: "dependencies",
+                name: "Dependencies",
+                icon: "glyphicon glyphicon-retweet",
+                analyzer: true
+            },
+            {   path: "phpmd",
+                name: "Mess Detector",
+                icon: "glyphicon glyphicon-trash",
+                analyzer: true
+            },
+            {   path: "tests",
+                name: "Tests",
+                icon: "glyphicon glyphicon-thumbs-up",
+                analyzer: true
+            },
+            {   path: "cpd",
+                name: "Copy & Paste",
+                icon: "glyphicon glyphicon-paste",
+                analyzer: true
+            }
+        ],
+
         getInitialState: function() {
             return {
                 initialized: false
@@ -23,15 +56,13 @@ var Qafoo = Qafoo || {QA: {}};
                 </div>);
             }
 
-            var modules = {
-                source: "Source"
-            };
-
-            if (Qafoo.QA.Data.analyzers.pdepend) modules.pdepend = "Metrics";
-            if (Qafoo.QA.Data.analyzers.dependencies) modules.dependencies = "Dependencies";
-            if (Qafoo.QA.Data.analyzers.phpmd) modules.phpmd = "Mess Detector";
-            if (Qafoo.QA.Data.analyzers.tests) modules.tests = "Tests";
-            if (Qafoo.QA.Data.analyzers.cpd) modules.cpd = "Copy & Paste";
+            var modules = [];
+            for (var i = 0; i < this.navigation.length; ++i) {
+                if (!this.navigation[i].analyzer ||
+                    Qafoo.QA.Data.analyzers[this.navigation[i].path]) {
+                    modules.push(this.navigation[i]);
+                }
+            }
 
             return (<div className="loaded">
                 <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
