@@ -3,19 +3,6 @@ var Qafoo = Qafoo || {QA: {}};
 (function () {
     "use strict";
 
-    Qafoo.QA.SourceFile = React.createClass({
-        render: function() {
-            var file = this.props.file,
-                nodeSelected = file.name === this.props.selected[0];
-
-            return (<li className={nodeSelected ? "selected" : ""}>
-                <ReactRouter.Link to={"/source/" + file.file.name}>
-                    <span className="glyphicon glyphicon-file"></span> <span className="name">{this.props.file.name}</span>
-                </ReactRouter.Link>
-            </li>);
-        }
-    });
-
     Qafoo.QA.Source = React.createClass({
         sourceTree: {
             name: "/",
@@ -85,9 +72,26 @@ var Qafoo = Qafoo || {QA: {}};
             });
         },
 
+        getSelectedFile: function(selected) {
+            var treeReference = this.sourceTree;
+
+            for (var i = 0; i < selected.length; ++i) {
+                var name = selected[i];
+
+                if (!treeReference.children[name]) {
+                    return undefined;
+                }
+
+                treeReference = treeReference.children[name];
+            }
+
+            return treeReference;
+        },
+
         render: function() {
             var file = this.getFileName(this.props.parameters.splat),
-                selected = file.split("/");
+                selected = file.split("/"),
+                current = this.getSelectedFile(selected);
 
             selected.unshift("/");
             return (<div className="row">
@@ -98,6 +102,10 @@ var Qafoo = Qafoo || {QA: {}};
                     </ul>
                 }</div>
                 <div className="col-md-8">
+                    {current ?
+                        <Qafoo.QA.SourceView file={current} data={this.props.data} /> :
+                        <h2>File not found</h2>
+                    }
                 </div>
             </div>);
         }

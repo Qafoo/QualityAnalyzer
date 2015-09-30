@@ -24,3 +24,24 @@ ul.source-tree .glyphicon {
 .source-tree .selected > a .glyphicon {
     color: inherit;
 }
+
+ol.code {
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+ol.code > li {
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
+ol.code .keyword {
+    font-weight: bold;
+}
+
+ol.code .string {
+    color: red;
+}
+ol.code .number {
+    color: blue;
+}
