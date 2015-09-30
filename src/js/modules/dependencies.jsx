@@ -11,7 +11,10 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             children: {}
         },
 
-        componentOnMount: function() {
+        getInitialState: function() {
+            return {
+                displayTree: {}
+            };
         },
 
         addTypeWithDependencies: function(type, dependencies) {
@@ -68,12 +71,46 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             }
         },
 
+        componentDidMount: function() {
+            var element = this.getDOMNode();
+            Qafoo.QA.Modules.DependenciesChart.create(element, {
+                width: '100%',
+                height: '300px'
+            }, this.getChartState());
+        },
+
+        componentDidUpdate: function() {
+            var element = this.getDOMNode();
+            Qafoo.QA.Modules.DependenciesChart.update(element, this.getChartState());
+        },
+
+        getChartState: function() {
+            return {
+                data: [
+                    {id: '5fbmzmtc', x: 2, y: 98, z: 6},
+                    {id: 's4f8phwm', x: 28, y: 98, z: 9},
+                    {id: '5fbmzmtc', x: 2, y: 2, z: 6},
+                    {id: 's4f8phwm', x: 28, y: 2, z: 9},
+                ],
+                domain: {x: [0, 30], y: [0, 100]}
+            };
+        },
+
+        componentWillUnmount: function() {
+            var element = this.getDOMNode();
+            Qafoo.QA.Modules.DependenciesChart.destroy(element);
+        },
+
         render: function() {
-            this.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+            if (!this.dependencyTree.children) {
+                this.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+            }
+
             console.log(this.dependencyTree);
             return (<div className="row">
                 <div className="col-md-12">
                     <h1>Dependencies</h1>
+                    <div className="Chart"></div>
                 </div>
             </div>);
         }
