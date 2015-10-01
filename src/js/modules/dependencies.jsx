@@ -4,19 +4,19 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 (function () {
     "use strict";
 
-    Qafoo.QA.Modules.Dependencies = React.createClass({
-        dependencyTree: {
+    Qafoo.QA.Modules.DependenciesModel = function() {
+        var dependencyTree = {
             id: "0",
             name: "/",
             type: "package",
             children: {},
             size: 0,
             folded: false
-        },
+        };
 
-        addTypeWithDependencies: function(type, dependencies) {
+        var addTypeWithDependencies = function(type, dependencies) {
             var components = type.split("\\"),
-                treeReference = this.dependencyTree;
+                treeReference = dependencyTree;
 
             for (var i = 0; i < components.length; ++i) {
                 var component = components[i];
@@ -45,9 +45,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
                 return [type.split("\\")];
             });
-        },
+        };
 
-        calculateDependencyTree: function(dependencies) {
+        this.calculateDependencyTree = function(dependencies) {
             for (var i = 0; i < dependencies.package.length; ++i) {
                 var namespace = dependencies.package[i];
 
@@ -55,16 +55,16 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     var type = namespace.class[j];
 
                     if (!type.efferent) {
-                        this.addTypeWithDependencies(namespace["@name"] + "\\" + type["@name"], []);
+                        addTypeWithDependencies(namespace["@name"] + "\\" + type["@name"], []);
                     } else if (type.efferent.type instanceof Array) {
-                        this.addTypeWithDependencies(
+                        addTypeWithDependencies(
                             namespace["@name"] + "\\" + type["@name"],
                             $.map(type.efferent.type, function(target) {
                                 return target["@namespace"] + "\\" + target["@name"];
                             })
                         );
                     } else {
-                        this.addTypeWithDependencies(
+                        addTypeWithDependencies(
                             namespace["@name"] + "\\" + type["@name"],
                             [type.efferent.type["@namespace"] + "\\" + type.efferent.type["@name"]]
                         );
@@ -72,13 +72,13 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 }
             }
 
-            this.setState({
-                leaves: this.getLeaves(this.dependencyTree, 0),
-                initialized: true
-            });
-        },
+            addTypeWithDependencies('$external', []);
+        };
 
-        getLeaves: function(tree, depth) {
+        this.getLeaves =  function(tree, depth) {
+            tree = tree || dependencyTree;
+            depth = depth || 0;
+
             var leave = $.extend({}, tree);
             var leaves = [leave];
 
@@ -97,26 +97,33 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             }
 
             return leaves;
-        },
+        };
 
-        findAndUnfold: function(tree, leaveId) {
+        this.findAndUnfold = function(leaveId, tree) {
+            tree = tree || dependencyTree;
+
             if (tree.id === leaveId) {
                 tree.folded = !tree.folded;
                 return true;
             }
 
             for (var child in tree.children) {
-                if (this.findAndUnfold(tree.children[child], leaveId)) {
+                if (this.findAndUnfold(leaveId, tree.children[child])) {
                     return true;
                 }
             }
 
             return false;
-        },
+        };
 
-        calculateDependencies: function(leaves) {
+        this.calculateDependencies = function(leaves) {
             return [];
-        },
+        };
+    };
+
+    Qafoo.QA.Modules.Dependencies = React.createClass({
+
+        model: new Qafoo.QA.Modules.DependenciesModel(),
 
         getInitialState: function() {
             return {
@@ -130,9 +137,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         unfoldLeave: function(leave) {
-            this.findAndUnfold(this.dependencyTree, leave.id);
+            this.model.findAndUnfold(leave.id);
             this.setState({
-                leaves: this.getLeaves(this.dependencyTree, 0),
+                leaves: this.model.getLeaves(),
             });
         },
 
@@ -146,12 +153,17 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
         getChartState: function() {
             if (!this.state.initialized) {
-                this.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+                this.model.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+
+                this.setState({
+                    leaves: this.model.getLeaves(),
+                    initialized: true
+                });
             }
 
             return {
                 leaves: this.state.leaves,
-                links: this.calculateDependencies(this.state.leaves)
+                links: this.model.calculateDependencies(this.state.leaves)
             };
         },
 
@@ -162,7 +174,6 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         render: function() {
             return (<div className="row">
                 <div className="col-md-12">
-                    <h1>Dependencies</h1>
                     <div id="dependency-chart"></div>
                 </div>
             </div>);
