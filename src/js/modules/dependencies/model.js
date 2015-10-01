@@ -40,12 +40,12 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
             treeReference.type = "type";
             treeReference.folded = true;
-            treeReference.efferent = $.map(dependencies, function(type) {
+            treeReference.efferent = _.map(dependencies, function(type) {
                 if (type[0] === "\\") {
                     type = type.substring(1);
                 }
 
-                return [type];
+                return type;
             });
         };
 
@@ -61,7 +61,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     } else if (type.efferent.type instanceof Array) {
                         addTypeWithDependencies(
                             namespace["@name"] + "\\" + type["@name"],
-                            $.map(type.efferent.type, function(target) {
+                            _.map(type.efferent.type, function(target) {
                                 return target["@namespace"] + "\\" + target["@name"];
                             })
                         );
@@ -81,7 +81,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             tree = tree || dependencyTree;
             depth = depth || 0;
 
-            var leave = $.extend({}, tree);
+            var leave = _.clone(tree);
             var leaves = [leave];
 
             leave.depth = depth;
@@ -121,8 +121,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
         this.calculateDependencies = function(leaves) {
             var fallbackLeaveId = null,
-                activeLeaves = $.map(leaves, function(leave) {
-                    return leave.hidden ? null : leave;
+                activeLeaves = _.filter(leaves, function(leave) {
+                    return !leave.hidden;
                 }),
                 dependencies = [];
 

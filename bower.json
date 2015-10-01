@@ -9,6 +9,7 @@
     "react-router": "~0.13.3",
     "jszip": "Stuk/jszip#~2.5.0",
     "js-jquery": "https://github.com/henrya/js-jquery.git",
-    "d3": "~3.5.6"
+    "d3": "~3.5.6",
+    "underscore": "~1.8.3"
   }
 }
