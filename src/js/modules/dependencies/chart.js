@@ -126,11 +126,14 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
                     if (from < to) {
                         return "M" + ((width * 2 / 3) - 14) + "," + ((from * 24) + 12) +
-                            "Q" + ((width * 2 / 3) - 14 - (distance / 2)) + "," + ((from * 24) + 12 + (distance / 2)) +
-                            "," + ((width * 2 / 3) - 14) + "," + ((to * 24) + 12);
+                            "A" + Math.min(maxWidth, distance / 2) + "," + (distance / 2) +
+                            " 0 0,0" +
+                            " " + ((width * 2 / 3) - 14) + "," + ((to * 24) + 12);
                     } else {
                         return "M" + ((width * 2 / 3) + 14) + "," + ((to * 24) + 12) +
-                            "L" + ((width * 2 / 3) + 14) + "," + ((from * 24) + 12);
+                            "A" + Math.min(maxWidth, distance / 2) + "," + (distance / 2) +
+                            " 0 0,1" +
+                            " " + ((width * 2 / 3) + 14) + "," + ((from * 24) + 12);
                     }
                 })
                 .attr("fill", "none")
