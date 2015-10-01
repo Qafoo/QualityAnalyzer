@@ -9,7 +9,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             name: "/",
             type: "package",
             children: {},
-            count: 0,
+            size: 0,
             folded: false
         },
 
@@ -25,16 +25,17 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         name: component,
                         type: "package",
                         children: {},
-                        count: 0,
+                        size: 0,
                         folded: false
                     }
                 }
 
-                treeReference.count++;
+                treeReference.size++;
                 treeReference = treeReference.children[component];
             }
 
             treeReference.type = "type";
+            treeReference.folded = true;
             treeReference.efferent = $.map(dependencies, function(type) {
                 if (type[0] === "\\") {
                     type = type.substring(1);
@@ -112,9 +113,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         },
 
         componentDidMount: function() {
-            Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), {
-                width: $('#dependency-chart').width()
-            }, this.getChartState());
+            Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), this.getChartState());
         },
 
         componentDidUpdate: function() {
