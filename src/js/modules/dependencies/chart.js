@@ -18,7 +18,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 .attr('height', '500px');
 
             this.svg.append('g')
-                .attr('class', 'dependencies');
+                .attr('class', 'rows');
+            this.svg.append('g')
+                .attr('class', 'paths');
 
             this.update(element, state);
         },
@@ -26,27 +28,30 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         update: function(element, state) {
             this.svg.attr('height', (state.leaves.length * 24 + 10) + "px");
 
-            
-            this._drawRows(
-                element,
-                this._scales(element, state.leaves),
-                state.leaves
-            );
+            var scales = this._scales(element, state.leaves, state.links);
+
+            this._drawRows(element, scales, state.leaves);
+            this._drawLinks(element, scales, state.links, state.leaves);
         },
 
         destroy: function(element) {
         },
 
-        _scales: function(element, leaves) {
+        _scales: function(element, leaves, links) {
+            var maxLinks = _.max(_.pluck(links, "count"));
+
             return {
                 size: d3.scale.sqrt()
                     .range([2, 12])
-                    .domain([0, leaves[0] ? leaves[0].size : 1])
+                    .domain([0, leaves[0] ? leaves[0].size : 1]),
+                link: d3.scale.sqrt()
+                    .range([1, 5])
+                    .domain([0, maxLinks])
             }
         },
 
         _drawRows: function(element, scales, leaves) {
-            var g = d3.select(element).selectAll(".dependencies"),
+            var g = d3.select(element).selectAll(".rows"),
                 width = element.offsetWidth,
                 callback = this.callback;
 
@@ -102,6 +107,38 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 .style("display", function(leave) { return leave.hidden ? "none" : "block"; });
 
             row.exit().remove();
+        },
+
+        _drawLinks: function(element, scales, links, leaves) {
+            var g = d3.select(element).selectAll(".paths"),
+                width = element.offsetWidth,
+                leaveIndex = _.object(_.pluck(leaves, 'id'), _.range(leaves.length));
+
+            var link = g.selectAll(".link").data(links);
+
+            link.enter().append("path").attr("class", "link");
+
+            link.attr("d", function(link) {
+                    var from = leaveIndex[link.source],
+                        to = leaveIndex[link.target],
+                        maxWidth = (width / 3 - 10),
+                        distance = Math.abs(from - to) * 24;
+
+                    if (from < to) {
+                        return "M" + ((width * 2 / 3) - 14) + "," + ((from * 24) + 12) +
+                            "Q" + ((width * 2 / 3) - 14 - (distance / 2)) + "," + ((from * 24) + 12 + (distance / 2)) +
+                            "," + ((width * 2 / 3) - 14) + "," + ((to * 24) + 12);
+                    } else {
+                        return "M" + ((width * 2 / 3) + 14) + "," + ((to * 24) + 12) +
+                            "L" + ((width * 2 / 3) + 14) + "," + ((from * 24) + 12);
+                    }
+                })
+                .attr("fill", "none")
+                .attr("stroke-width", function(link) { return scales.link(link.count); })
+                .attr("stroke-linecap", "round")
+                .attr("stroke", "#00dd00");
+
+            link.exit().remove();
         }
     };
 })();
