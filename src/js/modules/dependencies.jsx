@@ -6,6 +6,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
     Qafoo.QA.Modules.Dependencies = React.createClass({
         dependencyTree: {
+            id: "0",
             name: "/",
             type: "package",
             children: {},
@@ -22,11 +23,12 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
                 if (!treeReference.children[component]) {
                     treeReference.children[component] = {
+                        id: Math.random().toString(36).substring(2, 8),
                         name: component,
                         type: "package",
                         children: {},
                         size: 0,
-                        folded: false
+                        folded: true
                     }
                 }
 
@@ -97,6 +99,21 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             return leaves;
         },
 
+        findAndUnfold: function(tree, leaveId) {
+            if (tree.id === leaveId) {
+                tree.folded = !tree.folded;
+                return true;
+            }
+
+            for (var child in tree.children) {
+                if (this.findAndUnfold(tree.children[child], leaveId)) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
         calculateDependencies: function(leaves) {
             return [];
         },
@@ -112,8 +129,15 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             return document.getElementById('dependency-chart');
         },
 
+        unfoldLeave: function(leave) {
+            this.findAndUnfold(this.dependencyTree, leave.id);
+            this.setState({
+                leaves: this.getLeaves(this.dependencyTree, 0),
+            });
+        },
+
         componentDidMount: function() {
-            Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), this.getChartState());
+            Qafoo.QA.Modules.DependenciesChart.create(this.getChartElement(), this.unfoldLeave, this.getChartState());
         },
 
         componentDidUpdate: function() {
