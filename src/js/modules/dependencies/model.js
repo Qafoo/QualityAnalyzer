@@ -8,6 +8,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         var dependencyTree = {
             id: "0",
             name: "/",
+            fullName: "/",
             type: "package",
             children: {},
             size: -1, // Cope for external
@@ -25,6 +26,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     treeReference.children[component] = {
                         id: Math.random().toString(36).substring(2, 8),
                         name: component,
+                        fullName: components.slice(0, i + 1).join("\\"),
                         type: "package",
                         children: {},
                         size: 0,
@@ -43,7 +45,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     type = type.substring(1);
                 }
 
-                return [type.split("\\")];
+                return [type];
             });
         };
 
@@ -118,42 +120,71 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
         };
 
         this.calculateDependencies = function(leaves) {
-            return [];
-
             var fallbackLeaveId = null,
-                activeLeaves = leaves.filter(function(leave) {
-                    return !leave.hidden;
-                });
+                activeLeaves = $.map(leaves, function(leave) {
+                    return leave.hidden ? null : leave;
+                }),
+                dependencies = [];
 
-            for (var i = 0; i < activeLeaves.length; ++i) {
-                leave.nodes = this.collectChildrenIds(activeLeaves[i], this.dependencyTree, false);
+            // This is always supposed to be the "externals" node
+            fallbackLeaveId = activeLeaves[activeLeaves.length - 1].id;
+
+            for (var i = 0; i < (activeLeaves.length - 1); ++i) {
+                var leaveDependencies = {
+                        source: activeLeaves[i].id,
+                        dependencies: []
+                    },
+                    nodes = collectChildrenIds(activeLeaves[i], dependencyTree, false);
+
+                for (var j = 0; j < nodes.length; ++j) {
+                    var found = false;
+
+                    for (var k = 0; k < (activeLeaves.length - 1); ++k) {
+                        if (nodes[j].indexOf(activeLeaves[k].fullName) === 0) {
+                            leaveDependencies.dependencies.push(activeLeaves[k].id);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        leaveDependencies.dependencies.push(fallbackLeaveId);
+                    }
+                }
+
+                leaveDependencies.dependencies = leaveDependencies.dependencies.reduce(
+                    function(countMap, word) {
+                        countMap[word] = ++countMap[word] || 1;
+                        return countMap
+                    },
+                    {}
+                );
+                dependencies.push(leaveDependencies);
             }
-            fallbackLeaveId = activeLeaves[i].id;
 
-            return [];
+            return dependencies;
         };
 
         var collectChildrenIds = function(leave, tree, found) {
+            var efferent = [];
+
             if (tree.type === "type") {
                 if (!found) {
                     return [];
                 } else {
-                    return [tree.id];
+                    return tree.efferent;
                 }
             }
 
-            if (tree.id === leaveId) {
-                tree.folded = !tree.folded;
-                return true;
+            if (tree.id === leave.id) {
+                found = true;
             }
 
             for (var child in tree.children) {
-                if (this.findAndUnfold(tree.children[child], leaveId)) {
-                    return true;
-                }
+                efferent = efferent.concat(collectChildrenIds(leave, tree.children[child], found));
             }
 
-            return false;
+            return efferent;
         };
     };
 })();
