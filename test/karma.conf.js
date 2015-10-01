@@ -3,6 +3,7 @@ module.exports = function(config) {
         basePath: '../',
         frameworks: ['jasmine'],
         files: [
+            'bower_components/jquery/dist/jquery.js',
             'src/js/**/*.js',
             'test/js/**/*.js'
         ],
