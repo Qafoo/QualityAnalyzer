@@ -49,7 +49,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
             row.enter().append("g").attr("class", "row");
 
-            var rect = row.append("rect").attr("class", "bg"),
+            var bg   = row.append("rect").attr("class", "bg"),
                 text = row.append("text").attr("class", "caption"),
                 node = row.append("circle").attr("class", "node");
 
@@ -64,7 +64,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     d3.select(this).select(".node").style("display", leave.hidden ? "none" : "block");
                 });
 
-            rect.attr("y", function(leave, count) { return count * 24 + 1; })
+            bg  .attr("y", function(leave, count) { return count * 24 + 1; })
                 .attr("x", 1)
                 .attr("height", 22)
                 .attr("width", width - 2)
