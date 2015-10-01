@@ -169,6 +169,13 @@ describe("Module/Depenencies/Model", function() {
             ]);
     });
 
+    it("analyzes depencies on empty tree", function() {
+        var model = new Qafoo.QA.Modules.DependenciesModel();
+
+        expect(model.calculateDependencies(model.getLeaves()))
+            .toEqual([]);
+    });
+
     it("analyzes folded depencies", function() {
         var model = new Qafoo.QA.Modules.DependenciesModel();
 

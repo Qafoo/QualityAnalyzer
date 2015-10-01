@@ -126,6 +126,10 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 }),
                 dependencies = [];
 
+            if (activeLeaves.length <= 1) {
+                return [];
+            }
+
             // This is always supposed to be the "externals" node
             fallbackLeaveId = activeLeaves[activeLeaves.length - 1].id;
 
