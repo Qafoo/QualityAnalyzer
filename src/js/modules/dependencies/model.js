@@ -124,7 +124,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 activeLeaves = _.filter(leaves, function(leave) {
                     return !leave.hidden;
                 }),
-                dependencies = [];
+                links = [];
 
             if (activeLeaves.length <= 1) {
                 return [];
@@ -163,10 +163,21 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     },
                     {}
                 );
-                dependencies.push(leaveDependencies);
+
+                for (var target in leaveDependencies.dependencies) {
+                    if (leaveDependencies.source === target) {
+                        continue;
+                    }
+
+                    links.push({
+                        source: leaveDependencies.source,
+                        target: target,
+                        count: leaveDependencies.dependencies[target]
+                    });
+                }
             }
 
-            return dependencies;
+            return links;
         };
 
         var collectChildrenIds = function(leave, tree, found) {

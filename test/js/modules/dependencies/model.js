@@ -182,17 +182,9 @@ describe("Module/Depenencies/Model", function() {
         model.calculateDependencyTree(dependencyExample);
         expect(model.calculateDependencies(model.getLeaves()))
             .toEqual([
-                {
-                    source: "zjimef", dependencies: {
-                        "zjimef": 1,
-                        "zyq4vi": 1,
-                        "tpubzs": 1
-                    }
-                }, {
-                    source: "zyq4vi", dependencies: {
-                        "zjimef": 1
-                    }
-                }
+                {source: "zjimef", target: "zyq4vi", count: 1},
+                {source: "zjimef", target: "tpubzs", count: 1},
+                {source: "zyq4vi", target: "zjimef", count: 1}
             ]);
     });
 
@@ -204,17 +196,9 @@ describe("Module/Depenencies/Model", function() {
 
         expect(model.calculateDependencies(model.getLeaves()))
             .toEqual([
-                {
-                    source: "zjimef", dependencies: {
-                        "zjimef": 1,
-                        "tukvg7": 1,
-                        "tpubzs": 1
-                    }
-                }, {
-                    source: "tukvg7", dependencies: {
-                        "zjimef": 1
-                    }
-                }
+                {source: "zjimef", target: "tukvg7", count: 1},
+                {source: "zjimef", target: "tpubzs", count: 1},
+                {source: "tukvg7", target: "zjimef", count: 1}
             ]);
     });
 });
