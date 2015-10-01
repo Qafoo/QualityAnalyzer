@@ -10,7 +10,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             name: "/",
             type: "package",
             children: {},
-            size: 0,
+            size: -1, // Cope for external
             folded: false
         };
 
@@ -87,6 +87,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
             delete leave.children;
             delete leave.folded;
+            delete leave.efferent;
 
             if (tree.folded) {
                 return leaves;
