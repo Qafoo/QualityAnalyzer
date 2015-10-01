@@ -118,6 +118,41 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
         this.calculateDependencies = function(leaves) {
             return [];
+
+            var fallbackLeaveId = null,
+                activeLeaves = leaves.filter(function(leave) {
+                    return !leave.hidden;
+                });
+
+            for (var i = 0; i < activeLeaves.length; ++i) {
+                leave.nodes = this.collectChildrenIds(activeLeaves[i], this.dependencyTree, false);
+            }
+            fallbackLeaveId = activeLeaves[i].id;
+
+            return [];
+        };
+
+        var collectChildrenIds = function(leave, tree, found) {
+            if (tree.type === "type") {
+                if (!found) {
+                    return [];
+                } else {
+                    return [tree.id];
+                }
+            }
+
+            if (tree.id === leaveId) {
+                tree.folded = !tree.folded;
+                return true;
+            }
+
+            for (var child in tree.children) {
+                if (this.findAndUnfold(tree.children[child], leaveId)) {
+                    return true;
+                }
+            }
+
+            return false;
         };
     };
 })();
