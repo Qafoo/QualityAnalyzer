@@ -67,6 +67,9 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     d3.select(this).select(".bg").attr("fill", "#eee");
                     d3.select(this).select(".node").style("display", "block");
 
+                    d3.select(element).selectAll(".link").style("stroke", "#dddddd");
+                    d3.select(element).selectAll(".node-" + leave.id).style("stroke", "#0000dd");
+
                     if (leave.type === "package") {
                         d3.select(this).select(".caption").attr("text-decoration", "underline");
                     }
@@ -74,6 +77,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 .on("mouseout", function(leave, count) {
                     d3.select(this).select(".bg").attr("fill", (count % 2) ? "#fff" : "#f4f4f4");
                     d3.select(this).select(".node").style("display", leave.hidden ? "none" : "block");
+
+                    d3.select(element).selectAll(".link").style("stroke", "#00dd00");
 
                     if (leave.type === "package") {
                         d3.select(this).select(".caption").attr("text-decoration", "none");
@@ -116,7 +121,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
             var link = g.selectAll(".link").data(links);
 
-            link.enter().append("path").attr("class", "link");
+            link.enter().append("path");
 
             link.attr("d", function(link) {
                     var from = leaveIndex[link.source],
@@ -136,6 +141,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                             " " + ((width * 2 / 3) + 14) + "," + ((from * 24) + 12);
                     }
                 })
+                .attr("class", function(link) { return "link node-" + link.source; })
                 .attr("fill", "none")
                 .attr("stroke-width", function(link) { return scales.link(link.count); })
                 .attr("stroke-linecap", "round")
