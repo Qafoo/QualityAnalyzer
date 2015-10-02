@@ -56,17 +56,5 @@
     "latedef":      true,
     "camelcase":    false,
     "indent":       4,
-    "undef":        true,
-
-    "globals": {
-        "d3": true,
-        "_": true,
-        "Qafoo": true,
-        "jQuery": true,
-        "define": true,
-        "describe": true,
-        "it": true,
-        "expect": true,
-        "beforeEach": true
-    }
+    "undef":        true
 }
