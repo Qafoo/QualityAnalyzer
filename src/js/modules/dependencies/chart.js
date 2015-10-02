@@ -1,3 +1,5 @@
+/* globals _, d3 */
+
 var Qafoo = Qafoo || {QA: {}};
 Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
@@ -6,9 +8,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
     Qafoo.QA.Modules.DependenciesChart = {
         svg: null,
-        callback: function(leave) {
-            console.log(leave);
-        },
+        callback: null,
 
         create: function(element, callback, state) {
             this.callback = callback;
@@ -47,7 +47,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 link: d3.scale.sqrt()
                     .range([1, 5])
                     .domain([0, maxLinks])
-            }
+            };
         },
 
         _drawRows: function(element, scales, leaves) {

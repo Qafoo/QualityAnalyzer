@@ -40,7 +40,7 @@ var Qafoo = Qafoo || {QA: {}};
                         name: component,
                         type: "folder",
                         children: {}
-                    }
+                    };
                 }
 
                 treeReference = treeReference.children[component];

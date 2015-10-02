@@ -1,3 +1,5 @@
+/* globals _ */
+
 var Qafoo = Qafoo || {QA: {}};
 Qafoo.QA.Modules = Qafoo.QA.Modules || {};
 
@@ -31,7 +33,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                         children: {},
                         size: 0,
                         folded: true
-                    }
+                    };
                 }
 
                 treeReference.size++;
@@ -159,7 +161,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 leaveDependencies.dependencies = leaveDependencies.dependencies.reduce(
                     function(countMap, word) {
                         countMap[word] = ++countMap[word] || 1;
-                        return countMap
+                        return countMap;
                     },
                     {}
                 );
