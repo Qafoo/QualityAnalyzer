@@ -10,6 +10,26 @@ module.exports = function(grunt) {
         }
     });
  
+    grunt.config("jshint", {
+        options: {
+            jshintrc: "jshint.json"
+        },
+        all: [
+            "Gruntfile.js",
+            "test/karma.conf.js",
+            "test/js//**/*.js",
+            "src/js/**/*.js"
+        ]
+    });
+
     grunt.loadNpmTasks('grunt-karma');
-    grunt.registerTask('default', ['karma']);
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+
+    grunt.registerTask("initialize", []);
+    grunt.registerTask("prepare", []);
+    grunt.registerTask("test-unit", ["karma"]);
+    grunt.registerTask("test-spec", []);
+    grunt.registerTask("test-feature", []);
+    grunt.registerTask("test-static", ["jshint"]);
+    grunt.registerTask('package', []);
 };
