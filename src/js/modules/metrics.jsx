@@ -50,16 +50,16 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 ccn: "Cyclomatic Complexity",
                 ccn2: "Extended Cyclomatic Complexity",
                 npath: "NPath Complexity",
-                hb: "?",
-                hd: "?",
-                he: "?",
-                hi: "?",
-                hl: "?",
-                hnd: "?",
-                hnt: "?",
-                ht: "?",
-                hv: "?",
-                mi: "?"
+                mi: "Maintainability Index",
+                hb: "Halstead Bugs",
+                hd: "Halstead Difficulty",
+                he: "Halstead Effort",
+                hi: "Halstead Content",
+                hl: "Halstead Level",
+                hnd: "Halstead Vocabulary",
+                hnt: "Halstead Length",
+                ht: "Halstead Time",
+                hv: "Halstead Volumne"
             }
         },
 
