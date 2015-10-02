@@ -68,7 +68,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                     d3.select(this).select(".node").style("display", "block");
 
                     d3.select(element).selectAll(".link").style("stroke", "#dddddd");
-                    d3.select(element).selectAll(".node-" + leave.id).style("stroke", "#0000dd");
+                    d3.select(element).selectAll(".source-" + leave.id).style("stroke", "#0000dd");
+                    d3.select(element).selectAll(".target-" + leave.id).style("stroke", "#dd0000");
 
                     if (leave.type === "package") {
                         d3.select(this).select(".caption").attr("text-decoration", "underline");
@@ -126,7 +127,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
             link.attr("d", function(link) {
                     var from = leaveIndex[link.source],
                         to = leaveIndex[link.target],
-                        maxWidth = (width / 3 - 10),
+                        maxWidth = (width / 3 - 20),
                         distance = Math.abs(from - to) * 24;
 
                     if (from < to) {
@@ -141,7 +142,7 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                             " " + ((width * 2 / 3) + 14) + "," + ((from * 24) + 12);
                     }
                 })
-                .attr("class", function(link) { return "link node-" + link.source; })
+                .attr("class", function(link) { return "link source-" + link.source + " target-" + link.target; })
                 .attr("fill", "none")
                 .attr("stroke-width", function(link) { return scales.link(link.count); })
                 .attr("stroke-linecap", "round")
