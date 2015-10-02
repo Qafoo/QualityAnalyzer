@@ -13,7 +13,7 @@
     "bitwise":      true,
     "curly":        true,
     "eqeqeq":       true,
-    "forin":        true,
+    "forin":        false,
     "immed":        true,
     "newcap":       true,
     "noarg":        true,
@@ -59,10 +59,14 @@
     "undef":        true,
 
     "globals": {
-        "require": true,
+        "d3": true,
+        "_": true,
+        "Qafoo": true,
+        "jQuery": true,
         "define": true,
         "describe": true,
         "it": true,
-        "expect": true
+        "expect": true,
+        "beforeEach": true
     }
 }
