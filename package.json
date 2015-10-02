@@ -1,6 +1,7 @@
 {
   "name": "qafooQualityAnalyzer",
   "description": "See composer.json",
+  "repository": "git@bitbucket.org:qafoo/qa.git",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
