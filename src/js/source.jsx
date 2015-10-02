@@ -4,57 +4,18 @@ var Qafoo = Qafoo || {QA: {}};
     "use strict";
 
     Qafoo.QA.Source = React.createClass({
-        sourceTree: {
-            name: "/",
-            type: "folder",
-            children: {}
-        },
-
         getInitialState: function() {
             return {
                 loaded: false
             };
         },
 
-        ensureStartingSlash: function(path) {
-            while (path[0] === "/") {
-                path = path.substring(1);
-            }
-
-            return "/" + path;
-        },
-
-        getFileName: function(string) {
-            string = this.ensureStartingSlash(string);
-
-            return this.ensureStartingSlash(string.replace(this.props.data.baseDir, "")).substring(1);
-        },
-
-        addFile: function(file) {
-            var components = file.name.split("/"),
-                treeReference = this.sourceTree;
-
-            for (var i = 0; i < components.length; ++i) {
-                var component = components[i];
-
-                if (!treeReference.children[component]) {
-                    treeReference.children[component] = {
-                        name: component,
-                        type: "folder",
-                        children: {}
-                    }
-                }
-
-                treeReference = treeReference.children[component];
-            }
-
-            treeReference.type = "file";
-            treeReference.file = file;
-        },
+        sourceTree: new Qafoo.QA.SourceTree(),
 
         componentWillMount: function() {
             var component = this;
 
+            component.sourceTree.setBaseDir(this.props.data.baseDir);
             $.ajax('/data/source.zip', {
                 method: "GET",
                 contentType: "text/plain; charset=x-user-defined",
@@ -64,41 +25,23 @@ var Qafoo = Qafoo || {QA: {}};
                 success: function(data) {
                     var source = new JSZip(data);
 
-                    for (var file in source.files) {
-                        component.addFile(source.files[file]);
-                    }
+                    component.sourceTree.addFiles(source.files);
                     component.setState({loaded: true});
                 }
             });
         },
 
-        getSelectedFile: function(selected) {
-            var treeReference = this.sourceTree;
-
-            for (var i = 0; i < selected.length; ++i) {
-                var name = selected[i];
-
-                if (!treeReference.children[name]) {
-                    return undefined;
-                }
-
-                treeReference = treeReference.children[name];
-            }
-
-            return treeReference;
-        },
-
         render: function() {
-            var file = this.getFileName(this.props.parameters.splat || "/"),
+            var file = this.sourceTree.getFileName(this.props.parameters.splat || "/"),
                 selected = file.split("/"),
-                current = this.getSelectedFile(selected);
+                current = this.sourceTree.getSelectedFile(selected);
 
             selected.unshift("/");
             return (<div className="row">
                 <div className="col-md-4">
                     { !this.state.loaded ? (<h2>Loading source…</h2>) :
                     <ul className="source-tree">
-                        <Qafoo.QA.SourceFolder folder={this.sourceTree} selected={selected} />
+                        <Qafoo.QA.SourceFolder folder={this.sourceTree.getTree()} selected={selected} />
                     </ul>
                 }</div>
                 <div className="col-md-8">
