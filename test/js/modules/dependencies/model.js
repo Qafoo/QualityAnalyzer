@@ -1,3 +1,5 @@
+/*jshint bitwise: false*/
+
 "use strict";
 
 describe("Module/Depenencies/Model", function() {
