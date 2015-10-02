@@ -1,3 +1,5 @@
+/* globals module */
+
 module.exports = function(config) {
     config.set({
         basePath: '../',
@@ -23,5 +25,5 @@ module.exports = function(config) {
             'karma-phantomjs-launcher',
             'karma-junit-reporter'
         ]
-    })
-}
+    });
+};
