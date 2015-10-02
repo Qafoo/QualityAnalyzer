@@ -15,6 +15,11 @@ var Qafoo = Qafoo || {QA: {}};
         componentWillMount: function() {
             var component = this;
 
+            if (component.sourceTree.hasFiles()) {
+                component.setState({loaded: true});
+                return;
+            }
+
             component.sourceTree.setBaseDir(this.props.data.baseDir);
             $.ajax('/data/source.zip', {
                 method: "GET",
