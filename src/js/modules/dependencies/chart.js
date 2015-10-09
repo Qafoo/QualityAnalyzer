@@ -114,8 +114,8 @@ Qafoo.QA.Modules = Qafoo.QA.Modules || {};
                 });
 
             bg  .attr("x", 1)
-                .attr("y", function(leave, count) { return count * 24 + 1; })
-                .attr("height", 22)
+                .attr("y", function(leave, count) { return count * 24; })
+                .attr("height", 24)
                 .attr("width", width - 2)
                 .attr("cursor", function(leave) { return leave.type === "package" ? "pointer" : "default"; })
                 .attr("fill", function(leave, count) { return (count % 2) ? "#fff" : "#f4f4f4"; });
