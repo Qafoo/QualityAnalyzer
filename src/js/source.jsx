@@ -37,9 +37,7 @@ let Source = React.createClass({
                 component.sourceTree.addFiles(source.files);
                 component.setState({loaded: true});
             },
-            error: function(jqXHR, textStatus) {
-                console.log("Error", textStatus);
-            }
+            error: console.log
         });
     },
 
