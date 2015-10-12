@@ -88,8 +88,6 @@ let Metrics = React.createClass({
                     metrics: {}
                 };
 
-            console.log(artifact);
-
             for (var metric in this.metrics.package) {
                 data.metrics[metric] = Number(artifact.$[metric]) || 0;
             }
