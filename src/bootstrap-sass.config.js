@@ -28,7 +28,7 @@ module.exports = {
         // Reset and dependencies
         "normalize": true,
         "print": true,
-        "glyphicons": false,
+        "glyphicons": true,
 
         // Core CSS
         "scaffolding": true,
