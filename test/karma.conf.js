@@ -5,8 +5,8 @@ module.exports = function(config) {
         basePath: '../',
         frameworks: ['jasmine'],
         files: [
-            'bower_components/underscore/underscore.js',
-            'src/js/**/*.js',
+            'test/bind-polyfill.js',
+            'assets/bundle.js',
             'test/js/**/*.js'
         ],
         reporters: ['dots', 'junit'],
