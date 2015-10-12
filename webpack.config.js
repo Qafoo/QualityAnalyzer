@@ -7,7 +7,7 @@ module.exports = {
         "./src/js/app.jsx"
     ],
     output: {
-        path: __dirname,
+        path: __dirname + "/assets/",
         filename: "bundle.js"
     },
     module: {

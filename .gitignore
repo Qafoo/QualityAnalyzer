@@ -4,4 +4,4 @@
 /environment.local
 /bower_components
 /node_modules
-/bundle.*
+/assets/bundle.*
