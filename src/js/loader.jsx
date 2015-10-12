@@ -21,7 +21,6 @@ let Loader = React.createClass({
 
     componentDidMount: function() {
         var component = this,
-            parser = new xml2js.Parser(),
             data = {};
 
         jQuery.getJSON("/data/project.json", null, function(projectData) {
@@ -29,21 +28,34 @@ let Loader = React.createClass({
 
             var defaults = {
                     type: "GET",
-                    cache: false
+                    cache: false,
+                    dataType: "text"
                 },
                 step = 100 / Object.keys(data.analyzers).length,
                 deferreds = jQuery.map(data.analyzers, function(file, analyzer) {
                     return jQuery.ajax(
                         jQuery.extend({
                                 url: "/data/" + file,
-                                success: function(analyzerData) {
-                                    data.analyzers[analyzer] = parser.parseString(analyzerData, {attrkey: "@"});
-                                    component.advanceProgress(step);
-                                }
                             },
                             defaults
                         )
-                    );
+                    ).pipe(function(analyzerData) {
+                        var deferred = jQuery.Deferred(),
+                            parser = new xml2js.Parser();
+
+                        parser.parseString(analyzerData, function(error, result) {
+                            if (error) {
+                                deferred.reject(error);
+                            }
+                            deferred.resolve(result);
+                        });
+
+                        return deferred.promise();
+                    }).pipe(function(result) {
+                        data.analyzers[analyzer] = result;
+                        component.advanceProgress(step);
+                        return data;
+                    });
                 });
 
             jQuery.when.apply(jQuery, deferreds).then(function() {
