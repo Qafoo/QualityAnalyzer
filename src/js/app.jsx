@@ -6,6 +6,7 @@ import Overview from "./overview.jsx";
 import Source from "./source.jsx";
 
 import Metrics from "./modules/metrics.jsx";
+import Dependencies from "./modules/dependencies.jsx";
 import Dummy from "./modules/dummy.jsx";
 
 import Navigation from "./bootstrap/navigation.jsx";
@@ -95,7 +96,7 @@ var routes = (
         <Router.Route name="source" path="/source" handler={Source} />
         <Router.Route name="source_with_path" path="/source/*" handler={Source} />
         <Router.Route name="pdepend" handler={Metrics} />
-        <Router.Route name="dependencies" handler={Dummy} />
+        <Router.Route name="dependencies" handler={Dependencies} />
         <Router.Route name="phpmd" handler={Dummy} />
         <Router.Route name="tests" handler={Dummy} />
         <Router.Route name="cpd" handler={Dummy} />

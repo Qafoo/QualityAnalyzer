@@ -8,6 +8,7 @@
     "bootstrap-sass": "^3.2.0",
     "bootstrap-sass-loader": "^1.0.9",
     "css-loader": "^0.18.0",
+    "d3": "^3.5.6",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
     "grunt": "^0.4.5",
@@ -31,6 +32,7 @@
     "react-router": "^0.13",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
+    "underscore": "^1.8.3",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2",
     "xml2js": "^0.4.12"
