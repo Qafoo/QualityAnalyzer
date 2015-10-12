@@ -1,98 +1,108 @@
-var Qafoo = Qafoo || {QA: {}};
+import React from 'react';
+import Router from 'react-router';
 
-(function () {
-    "use strict";
+import Loader from "./loader.jsx";
+import Overview from "./overview.jsx";
 
-    Qafoo.QA.App = React.createClass({
+import Navigation from "./bootstrap/navigation.jsx";
 
-        navigation: [
-            {   path: "source",
-                name: "Source",
-                icon: "glyphicon glyphicon-folder-open"
-            },
-            {   path: "pdepend",
-                name: "Metrics",
-                icon: "glyphicon glyphicon-stats",
-                analyzer: true
-            },
-            {   path: "dependencies",
-                name: "Dependencies",
-                icon: "glyphicon glyphicon-retweet",
-                analyzer: true
-            },
-            {   path: "phpmd",
-                name: "Mess Detector",
-                icon: "glyphicon glyphicon-trash",
-                analyzer: true
-            },
-            {   path: "tests",
-                name: "Tests",
-                icon: "glyphicon glyphicon-thumbs-up",
-                analyzer: true
-            },
-            {   path: "cpd",
-                name: "Copy & Paste",
-                icon: "glyphicon glyphicon-paste",
-                analyzer: true
-            }
-        ],
+let App = React.createClass({
 
-        getInitialState: function() {
-            return {
-                initialized: false
-            };
+    navigation: [
+        {   path: "source",
+            name: "Source",
+            icon: "glyphicon glyphicon-folder-open"
         },
-
-        setInitialized: function(initialized) {
-            this.setState({
-                initialized: !!initialized
-            });
+        {   path: "pdepend",
+            name: "Metrics",
+            icon: "glyphicon glyphicon-stats",
+            analyzer: true
         },
+        {   path: "dependencies",
+            name: "Dependencies",
+            icon: "glyphicon glyphicon-retweet",
+            analyzer: true
+        },
+        {   path: "phpmd",
+            name: "Mess Detector",
+            icon: "glyphicon glyphicon-trash",
+            analyzer: true
+        },
+        {   path: "tests",
+            name: "Tests",
+            icon: "glyphicon glyphicon-thumbs-up",
+            analyzer: true
+        },
+        {   path: "cpd",
+            name: "Copy & Paste",
+            icon: "glyphicon glyphicon-paste",
+            analyzer: true
+        }
+    ],
 
-        render: function() {
-            if (!this.state.initialized) {
-                return (<div className="container">
-                    <Qafoo.QA.Loader onComplete={this.setInitialized} />
-                </div>);
+    getInitialState: function() {
+        return {
+            initialized: false,
+            data: {
+                analyzers: {}
             }
+        };
+    },
 
-            var modules = [];
-            for (var i = 0; i < this.navigation.length; ++i) {
-                if (!this.navigation[i].analyzer ||
-                    Qafoo.QA.Data.analyzers[this.navigation[i].path]) {
-                    modules.push(this.navigation[i]);
-                }
-            }
+    setInitialized: function(data) {
+        this.setState({
+            initialized: true,
+            data: data
+        });
+    },
 
-            return (<div className="loaded">
-                <Bootstrap.Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
-
-                <div className="container">
-                    <ReactRouter.RouteHandler parameters={this.props.parameters} query={this.props.query} data={Qafoo.QA.Data} />
-                </div>
+    render: function() {
+        if (!this.state.initialized) {
+            return (<div className="container">
+                <Loader onComplete={this.setInitialized} />
             </div>);
         }
-    });
 
-    var routes = (
-        <ReactRouter.Route name="overview" handler={Qafoo.QA.App} path="/">
-            <ReactRouter.DefaultRoute handler={Qafoo.QA.Overview} />
-            <ReactRouter.NotFoundRoute handler={Qafoo.QA.Overview}/>
+        var modules = [],
+            data = this.state.data;
 
-            <ReactRouter.Route name="source" path="/source" handler={Qafoo.QA.Source} />
-            <ReactRouter.Route name="source_with_path" path="/source/*" handler={Qafoo.QA.Source} />
-            <ReactRouter.Route name="pdepend" handler={Qafoo.QA.Modules.Metrics} />
-            <ReactRouter.Route name="dependencies" handler={Qafoo.QA.Modules.Dependencies} />
-            <ReactRouter.Route name="phpmd" handler={Qafoo.QA.Modules.Dummy} />
-            <ReactRouter.Route name="tests" handler={Qafoo.QA.Modules.Dummy} />
-            <ReactRouter.Route name="cpd" handler={Qafoo.QA.Modules.Dummy} />
-        </ReactRouter.Route>
-    );
+        for (var i = 0; i < this.navigation.length; ++i) {
+            if (!this.navigation[i].analyzer ||
+                data.analyzers[this.navigation[i].path]) {
+                modules.push(this.navigation[i]);
+            }
+        }
 
-    ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Router, state) {
-        React.render(
-            <Router parameters={state.params} query={state.query} />,
-            document.getElementById('content')
-        )
-    });
-})();
+        return (<div className="loaded">
+            <Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
+
+            <div className="container">
+                <Router.RouteHandler parameters={this.props.parameters} query={this.props.query} data={data} />
+            </div>
+        </div>);
+    }
+});
+
+var routes = (
+    <Router.Route name="overview" handler={App} path="/">
+        <Router.DefaultRoute handler={Overview} />
+        <Router.NotFoundRoute handler={Overview}/>
+
+    {/*
+        <Router.Route name="source" path="/source" handler={Source} />
+        <Router.Route name="source_with_path" path="/source/*" handler={Source} />
+        <Router.Route name="pdepend" handler={Modules.Metrics} />
+        <Router.Route name="dependencies" handler={Modules.Dependencies} />
+        <Router.Route name="phpmd" handler={Modules.Dummy} />
+        <Router.Route name="tests" handler={Modules.Dummy} />
+        <Router.Route name="cpd" handler={Modules.Dummy} />
+    */}
+    </Router.Route>
+);
+
+Router.run(routes, Router.HistoryLocation, function (Router, state) {
+    React.render(
+        <Router parameters={state.params} query={state.query} />,
+        document.getElementById('content')
+    )
+});

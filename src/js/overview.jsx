@@ -1,11 +1,9 @@
-var Qafoo = Qafoo || {QA: {}};
+import React from "react";
 
-(function () {
-    "use strict";
+let Overview = React.createClass({
+    render: function() {
+        return (<h1>Overview</h1>);
+    }
+});
 
-    Qafoo.QA.Overview = React.createClass({
-        render: function() {
-            return (<h1>Overview</h1>);
-        }
-    });
-})();
+export default Overview; 

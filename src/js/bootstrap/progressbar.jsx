@@ -1,24 +1,22 @@
-var Bootstrap = Bootstrap || {};
+import React from "react";
 
-(function () {
-    "use strict";
+let ProgressBar = React.createClass({
+    getDefaultProps: function() {
+        return {
+            progress: 0,
+            type: "default",
+            text: null
+        };
+    },
 
-    Bootstrap.ProgressBar = React.createClass({
-        getDefaultProps: function() {
-            return {
-                progress: 0,
-                type: "default",
-                text: null
-            };
-        },
+    render: function() {
+        var className = "progress-bar progress-bar-" + this.props.type;
 
-        render: function() {
-            var className = "progress-bar progress-bar-" + this.props.type;
+        return (<div className="progress">
+            <div className={className} role="progressbar" style={{width: this.props.progress + '%'}}>
+            </div>
+        </div>);
+    }
+});
 
-            return (<div className="progress">
-                <div className={className} role="progressbar" style={{width: this.props.progress + '%'}}>
-                </div>
-            </div>);
-        }
-    });
-})();
+export default ProgressBar; 
