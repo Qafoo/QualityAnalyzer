@@ -1,12 +1,9 @@
-var Qafoo = Qafoo || {QA: {}};
-Qafoo.QA.Modules = Qafoo.QA.Modules || {};
+import React from "react";
 
-(function () {
-    "use strict";
+let Dummy = React.createClass({
+    render: function() {
+        return (<h1>To Be Implemented</h1>);
+    }
+});
 
-    Qafoo.QA.Modules.Dummy = React.createClass({
-        render: function() {
-            return (<h1>To Be Implemented</h1>);
-        }
-    });
-})();
+export default Dummy; 

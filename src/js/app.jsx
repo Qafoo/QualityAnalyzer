@@ -3,6 +3,9 @@ import Router from 'react-router';
 
 import Loader from "./loader.jsx";
 import Overview from "./overview.jsx";
+import Source from "./source.jsx";
+
+import Dummy from "./modules/dummy.jsx";
 
 import Navigation from "./bootstrap/navigation.jsx";
 
@@ -88,15 +91,13 @@ var routes = (
         <Router.DefaultRoute handler={Overview} />
         <Router.NotFoundRoute handler={Overview}/>
 
-    {/*
         <Router.Route name="source" path="/source" handler={Source} />
         <Router.Route name="source_with_path" path="/source/*" handler={Source} />
-        <Router.Route name="pdepend" handler={Modules.Metrics} />
-        <Router.Route name="dependencies" handler={Modules.Dependencies} />
-        <Router.Route name="phpmd" handler={Modules.Dummy} />
-        <Router.Route name="tests" handler={Modules.Dummy} />
-        <Router.Route name="cpd" handler={Modules.Dummy} />
-    */}
+        <Router.Route name="pdepend" handler={Dummy} />
+        <Router.Route name="dependencies" handler={Dummy} />
+        <Router.Route name="phpmd" handler={Dummy} />
+        <Router.Route name="tests" handler={Dummy} />
+        <Router.Route name="cpd" handler={Dummy} />
     </Router.Route>
 );
 
