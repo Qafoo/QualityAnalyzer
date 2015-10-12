@@ -31,10 +31,14 @@ let Source = React.createClass({
             responseType: "arraybuffer",
             processData: false,
             success: function(data) {
+                console.log(data);
                 var source = new JSZip(data);
 
                 component.sourceTree.addFiles(source.files);
                 component.setState({loaded: true});
+            },
+            error: function(jqXHR, textStatus) {
+                console.log("Error", textStatus);
             }
         });
     },

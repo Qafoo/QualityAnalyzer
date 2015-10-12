@@ -1,4 +1,5 @@
 import React from "react";
+import Router from 'react-router';
 
 let NavLink = React.createClass({
     contextTypes: {
@@ -9,7 +10,7 @@ let NavLink = React.createClass({
         var activeClass = this.context.router.isActive(this.props.to) ? "active" : "";
 
         return (<li className={activeClass}>
-            <ReactRouter.Link {...this.props}>{this.props.children}</ReactRouter.Link>
+            <Router.Link {...this.props}>{this.props.children}</Router.Link>
         </li>);
     }
 });

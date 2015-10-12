@@ -1,4 +1,5 @@
 import React from "react";
+import Router from 'react-router';
 
 let SourceFile = React.createClass({
     render: function() {
@@ -6,9 +7,9 @@ let SourceFile = React.createClass({
             nodeSelected = file.name === this.props.selected[0];
 
         return (<li className={nodeSelected ? "selected" : ""}>
-            <ReactRouter.Link to={"/source/" + file.file.name}>
+            <Router.Link to={"/source/" + file.file.name}>
                 <span className="glyphicon glyphicon-file"></span> <span className="name">{this.props.file.name}</span>
-            </ReactRouter.Link>
+            </Router.Link>
         </li>);
     }
 });

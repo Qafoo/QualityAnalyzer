@@ -1,4 +1,5 @@
 import React from "react";
+import Router from 'react-router';
 
 import NavLink from "./navlink.jsx";
 
@@ -21,9 +22,9 @@ let Navigation = React.createClass({
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <ReactRouter.Link className="navbar-brand" to={this.props.brandLink}>
+                    <Router.Link className="navbar-brand" to={this.props.brandLink}>
                         {this.props.brand}
-                    </ReactRouter.Link>
+                    </Router.Link>
                 </div>
                 <div id="navbar" className="collapse navbar-collapse">
                     <ul className="nav navbar-nav">
