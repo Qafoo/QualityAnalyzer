@@ -1,6 +1,10 @@
 /* globals module */
 
 module.exports = function(grunt) {
+
+    var webpack = require("webpack");
+    var webpackConfig = require("./webpack.config.js");
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
  
@@ -8,6 +12,26 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'test/karma.conf.js',
                 background: false
+            }
+        },
+
+        webpack: {
+            options: webpackConfig,
+            build: {
+                devtool: "sourcemap",
+                debug: true
+            }
+        },
+
+        watch: {
+            app: {
+                files: ["./src/**/*"],
+                tasks: ["webpack:build"],
+                options: {
+                    debounceDelay: 250,
+                    spawn: false,
+                    verbose: true
+                },
             }
         }
     });
@@ -26,9 +50,14 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-webpack');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
+    grunt.registerTask("watcher", ["webpack:build", "watch:app"]);
+
+    /* Tasks to be called by the ant build process */
     grunt.registerTask("initialize", []);
-    grunt.registerTask("prepare", []);
+    grunt.registerTask("prepare", ["webpack:build"]);
     grunt.registerTask("test-unit", ["karma"]);
     grunt.registerTask("test-spec", []);
     grunt.registerTask("test-feature", []);
