@@ -5,9 +5,7 @@ module.exports = function(config) {
         basePath: '../',
         frameworks: ['jasmine'],
         files: [
-            'test/bind-polyfill.js',
-            'assets/bundle.js',
-            'test/js/**/*.js'
+            'assets/tests.js'
         ],
         reporters: ['dots', 'junit'],
         junitReporter: {

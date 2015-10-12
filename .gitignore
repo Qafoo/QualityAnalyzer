@@ -5,6 +5,7 @@
 /bower_components
 /node_modules
 /assets/bundle.*
+/assets/tests.*
 /assets/*.woff2
 /assets/*.svg
 /assets/*.ttf

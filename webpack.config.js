@@ -2,13 +2,18 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {  
-    entry: [
-        "bootstrap-sass!./src/bootstrap.config.js",
-        "./src/js/app.jsx"
-    ],
+    entry: {
+        bundle: [
+            "bootstrap-sass!./src/bootstrap.config.js",
+            "./src/js/app.jsx"
+        ],
+        tests: [
+            "./test/js/modules/dependencies/model.js"
+        ]
+    },
     output: {
         path: __dirname + "/assets/",
-        filename: "bundle.js"
+        filename: "[name].js"
     },
     module: {
         loaders: [
