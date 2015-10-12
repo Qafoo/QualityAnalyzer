@@ -1,7 +1,7 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    bootstrapCustomizations: "./src/bootstrap-sass.config.scss",
+    bootstrapCustomizations: "./src/css/variables.scss",
     mainSass: "./src/css/app.scss",
     verbose: true,
     debug: false,

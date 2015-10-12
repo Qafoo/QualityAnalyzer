@@ -3,7 +3,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {  
     entry: [
-        "bootstrap-sass!./src/bootstrap-sass.config.js",
+        "bootstrap-sass!./src/bootstrap.config.js",
         "./src/js/app.jsx"
     ],
     output: {
