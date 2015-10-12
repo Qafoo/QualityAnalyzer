@@ -12,7 +12,7 @@ let Chart = {
             .attr('width', '100%')
             .attr('height', '500px');
 
-        var defs = this.svg.append("defs")
+        var defs = this.svg.append("defs");
         defs.append("marker")
             .attr({
                 "id": "arrow",
@@ -145,8 +145,7 @@ let Chart = {
         link.attr("d", function(link) {
                 var from = leaveIndex[link.source],
                     to = leaveIndex[link.target],
-                    maxWidth = (width / 3 - 20),
-                    distance = Math.abs(from - to) * 24;
+                    maxWidth = (width / 3 - 20);
 
                 return chart._getLinkPath(
                     (width * 2 / 3),
@@ -171,12 +170,12 @@ let Chart = {
             return "M" + (x - 14) + "," + yFrom +
                 "A" + Math.min(maxWidth, distance / 2) + "," + (distance / 2) +
                 " 0 0,0" +
-                " " + (x - 14) + "," + yTo
+                " " + (x - 14) + "," + yTo;
         } else {
             return "M" + (x + 14) + "," + yFrom +
                 "A" + Math.min(maxWidth, distance / 2) + "," + (distance / 2) +
                 " 0 0,0" +
-                " " + (x + 14) + "," + yTo
+                " " + (x + 14) + "," + yTo;
         }
     },
 
@@ -264,23 +263,23 @@ let Chart = {
             .attr("stroke", "#ddd")
             .attr("fill", "#f4f4f4");
 
-        var node1 = hoverLegend.append("circle"),
-            node2 = hoverLegend.append("circle"),
-            node3 = hoverLegend.append("circle");
+        var node2_1 = hoverLegend.append("circle"),
+            node2_2 = hoverLegend.append("circle"),
+            node2_3 = hoverLegend.append("circle");
 
-        node1
+        node2_1
             .attr("cx", legendCenter)
             .attr("cy", 12 + 1 + margin)
             .attr("r", 6)
             .attr("fill", "black");
 
-        node2
+        node2_2
             .attr("cx", legendCenter)
             .attr("cy", 24 + 12 + 1 + margin)
             .attr("r", 8)
             .attr("fill", "black");
 
-        node3
+        node2_3
             .attr("cx", legendCenter)
             .attr("cy", 48 + 12 + 1 + margin)
             .attr("r", 4)

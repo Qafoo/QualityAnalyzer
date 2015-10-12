@@ -53,12 +53,12 @@ let Model = function() {
                 var type = namespace.class[j];
 
                 if (!type.efferent) {
-                    addTypeWithDependencies(namespace.$["name"] + "\\" + type.$["name"], []);
+                    addTypeWithDependencies(namespace.$.name + "\\" + type.$.name, []);
                 } else {
                     addTypeWithDependencies(
-                        namespace.$["name"] + "\\" + type.$["name"],
+                        namespace.$.name + "\\" + type.$.name,
                         _.map(type.efferent[0].type, function(target) {
-                            return target.$["namespace"] + "\\" + target.$["name"];
+                            return target.$.namespace + "\\" + target.$.name;
                         })
                     );
                 }
