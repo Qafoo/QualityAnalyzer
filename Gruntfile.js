@@ -20,6 +20,19 @@ module.exports = function(grunt) {
             build: {
                 devtool: "sourcemap",
                 debug: true
+            },
+            package: {
+                plugins: webpackConfig.plugins.concat(
+                    new webpack.DefinePlugin({
+                        "process.env": {
+                            // This has effect on the react lib size
+                            "NODE_ENV": JSON.stringify("production")
+                        }
+                    }),
+                    new webpack.optimize.DedupePlugin(),
+                    new webpack.optimize.UglifyJsPlugin({minimize: true})
+                ),
+                debug: true
             }
         },
 
@@ -62,5 +75,5 @@ module.exports = function(grunt) {
     grunt.registerTask("test-spec", []);
     grunt.registerTask("test-feature", []);
     grunt.registerTask("test-static", ["jshint"]);
-    grunt.registerTask('package', []);
+    grunt.registerTask('package', ["webpack:package"]);
 };

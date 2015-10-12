@@ -26,7 +26,6 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin("./bundle.css"),
-        new webpack.optimize.UglifyJsPlugin({minimize: true}),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
