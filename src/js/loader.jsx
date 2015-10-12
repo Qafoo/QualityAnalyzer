@@ -3,6 +3,8 @@ import React from "react";
 import ProgressBar from "./bootstrap/progressbar.jsx";
 import jQuery from "jquery";
 
+import xml2js from 'xml2js';
+
 let Loader = React.createClass({
     getInitialState: function() {
         return {
@@ -19,6 +21,7 @@ let Loader = React.createClass({
 
     componentDidMount: function() {
         var component = this,
+            parser = new xml2js.Parser(),
             data = {};
 
         jQuery.getJSON("/data/project.json", null, function(projectData) {
@@ -34,7 +37,7 @@ let Loader = React.createClass({
                         jQuery.extend({
                                 url: "/data/" + file,
                                 success: function(analyzerData) {
-                                    data.analyzers[analyzer] = xml.xmlToJSON(analyzerData);
+                                    data.analyzers[analyzer] = parser.parseString(analyzerData, {attrkey: "@"});
                                     component.advanceProgress(step);
                                 }
                             },
