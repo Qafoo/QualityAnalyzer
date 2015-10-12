@@ -20,7 +20,7 @@ module.exports = {
         "tab": false,
         "tags": false,
         "tooltip": false,
-        "transition": true
+        "transition": false
     },
     styles: {
         "mixins": true,
