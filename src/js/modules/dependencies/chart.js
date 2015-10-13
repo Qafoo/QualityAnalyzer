@@ -63,44 +63,40 @@ let Chart = {
         };
     },
 
+    _addClass: function(node, className) {
+        if (node.attr("class").indexOf(className) < 0) {
+            node.attr("class", node.attr("class") + " " + className);
+        }
+    },
+
+    _removeClass: function(node, className) {
+        if (node.attr("class").indexOf(className) >= 0) {
+            node.attr("class", node.attr("class").replace(className, ""));
+        }
+    },
+
     _drawRows: function(element, scales, leaves) {
         var g = d3.select(element).selectAll(".rows"),
             width = element.offsetWidth,
-            callback = this.callback;
+            callback = this.callback,
+            chart = this;
 
-        var row = g.selectAll(".row").data(leaves);
+        var row = g.selectAll(".row").data(leaves, function(leave, count) {return leave.id + count + leave.hidden + leave.type;}),
+            rowEnter = row.enter(),
+            group = rowEnter.append("g");
 
-        row.enter().append("g").attr("class", "row");
-
-        var bg   = row.append("rect").attr("class", "bg"),
-            text = row.append("text").attr("class", "caption"),
-            node = row.append("circle").attr("class", "node");
-
-        row .on("mouseover", function(leave) {
-                d3.select(this).select(".bg").attr("fill", "#eee");
-                d3.select(this).select(".node").style("display", "block");
-
-                d3.select(element).selectAll(".link").style("stroke", "#dddddd");
-                d3.select(element).selectAll(".source-" + leave.id).style("stroke", "#0000dd");
-                d3.select(element).selectAll(".target-" + leave.id).style("stroke", "#dd0000");
-
-                d3.select(element).selectAll(".hover").style("display", "block");
-
-                if (leave.type === "package") {
-                    d3.select(this).select(".caption").attr("text-decoration", "underline");
-                }
+        group
+            .attr("class", function(leave, count) {
+                return "row " +
+                    leave.type + " " +
+                    ((count % 2) ? "uneven " : "") +
+                    (leave.hidden ? "unfolded " : "");
+            })
+            .on("mouseover", function(leave) {
+                chart._addClass(d3.select(this), "hover");
             })
             .on("mouseout", function(leave, count) {
-                d3.select(this).select(".bg").attr("fill", (count % 2) ? "#fff" : "#f4f4f4");
-                d3.select(this).select(".node").style("display", leave.hidden ? "none" : "block");
-
-                d3.select(element).selectAll(".link").style("stroke", "#00dd00");
-
-                d3.select(element).selectAll(".hover").style("display", "none");
-
-                if (leave.type === "package") {
-                    d3.select(this).select(".caption").attr("text-decoration", "none");
-                }
+                chart._removeClass(d3.select(this), "hover");
             })
             .on("click", function(leave) {
                 if (leave.type === "package") {
@@ -108,26 +104,26 @@ let Chart = {
                 }
             });
 
-        bg  .attr("x", 1)
+
+
+        group
+            .append("rect").attr("class", "bg")
+            .attr("x", 1)
             .attr("y", function(leave, count) { return count * 24; })
             .attr("height", 24)
-            .attr("width", width - 2)
-            .attr("cursor", function(leave) { return leave.type === "package" ? "pointer" : "default"; })
-            .attr("fill", function(leave, count) { return (count % 2) ? "#fff" : "#f4f4f4"; });
+            .attr("width", width - 2);
 
-        text.attr("x", function(leave) { return leave.depth * 20 + 5; })
+        group
+            .append("text").attr("class", "caption")
+            .attr("x", function(leave) { return leave.depth * 20 + 5; })
             .attr("y", function(leave, count) { return (count + 1) * 24 - 7; })
-            .text(function(leave) { return leave.name; })
-            .attr("cursor", function(leave) { return leave.type === "package" ? "pointer" : "default"; })
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "14px")
-            .attr("fill", function(leave) { return leave.hidden ? "gray" : "black"; });
+            .text(function(leave) { return leave.name; });
 
-        node.attr("cx", width * 2 / 3)
+        group
+            .append("circle").attr("class", "node")
+            .attr("cx", width * 2 / 3)
             .attr("cy", function(leave, count) { return count * 24 + 12; })
-            .attr("r", function(leave) { return scales.size(leave.size); })
-            .attr("fill", "black")
-            .style("display", function(leave) { return leave.hidden ? "none" : "block"; });
+            .attr("r", function(leave) { return scales.size(leave.size); });
 
         row.exit().remove();
     },

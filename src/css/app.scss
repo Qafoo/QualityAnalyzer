@@ -1,56 +1,106 @@
 body {
-    margin-top: 70px;
+    margin-top: ($navbar-height + $navbar-margin-bottom);
 }
 
-ul.source-tree,
-ul.source-tree ul {
-    list-style-type: none;
-    padding-left: 1em;
+#dependency-chart {
+    .row {
+        .node {
+            fill: $gray-base;
+        }
+
+        .bg {
+            fill: $table-bg;
+        }
+
+        &.uneven .bg {
+            fill: $table-bg-accent;
+        }
+
+        .caption {
+            font-family: $font-family-sans-serif;
+            font-size: $font-size-base;
+            fill: $gray-base;
+        }
+
+        &.package {
+            .bg, text {
+                cursor: pointer;
+            }
+        }
+
+        &.unfolded {
+            .node {
+                fill: $gray-lighter;
+            }
+
+            .caption {
+                fill: $gray;
+            }
+        }
+
+        &.hover {
+            .bg {
+                fill: $table-bg-hover;
+            }
+
+            .node {
+                fill: $primary;
+            }
+        }
+    }
 }
 
-ul.source-tree a {
-    color: inherit;
-    cursor: pointer;
+ul.source-tree {
+    &, & ul {
+        list-style-type: none;
+        padding-left: $padding-base-horizontal;
+    }
+
+    a {
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .glyphicon {
+        color: $gray-light;
+    }
+
+    .selected > a {
+        font-weight: bold;
+    }
+
+    .selected > a .glyphicon {
+        color: inherit;
+    }
 }
 
-ul.source-tree .glyphicon {
-    color: gray;
-}
-
-.source-tree .selected > a {
-    font-weight: bold;
-}
-
-.source-tree .selected > a .glyphicon {
-    color: inherit;
-}
 
 ol.code {
-    border: 1px solid gray;
-    padding: 5px;
-}
+    border: 1px solid $gray-lighter;
+    padding: $padding-small-vertical;
 
-ol.code > li {
-    white-space: pre-wrap;
-    font-family: monospace;
-}
+    & > li {
+        white-space: pre-wrap;
+        font-family: monospace;
+    }
 
-ol.code > li.highlight:hover,
-ol.code > li:hover {
-    background-color: #ddd;
-}
+    & > li.highlight:hover,
+    & > li:hover {
+        background-color: $gray-lighter;
+    }
 
-ol.code > li.highlight {
-    background-color: #eee;
-}
+    & > li.highlight {
+        background-color: $gray-verylight;
+    }
 
-ol.code .keyword {
-    font-weight: bold;
-}
+    .keyword {
+        font-weight: bold;
+    }
 
-ol.code .string {
-    color: red;
-}
-ol.code .number {
-    color: blue;
+    .string {
+        color: $primary;
+    }
+    .number {
+        color: $red;
+    }
 }
