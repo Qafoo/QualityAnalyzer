@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -z "$1" ] ; then
+    echo "Missing at least one path to check"
+    exit 64
+fi
+
+function setTitle {
+    echo -ne "\033]0;$1\007"
+    echo "$1"
+}
+
+while true; do
+    inotifywait -qq -r -e modify --exclude=".swp" $@
+    setTitle "Compiling started at `date +%T`"
+    ant watch:compile -Doffline=${OFFLINE:=false}
+    if [ $? -ne 0 ]; then
+        setTitle "ERROR - compiling failed"
+    else
+        setTitle "Compiled at `date +%T`"
+    fi
+done

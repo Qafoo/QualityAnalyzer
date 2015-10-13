@@ -26,13 +26,6 @@
 
     <!--
         Custom modules
-    - ->
-    <import file="${basedir}/src/ant/serve.xml" />
-    <import file="${basedir}/src/ant/symfony2.xml" />
-    <import file="${basedir}/src/ant/bootstrap.xml" />
-    <import file="${basedir}/src/ant/bootstrap-compile.xml" />
-    <import file="${basedir}/src/ant/phpunit-feature.xml" />
-    <import file="${basedir}/src/ant/watch.xml" />
-    <import file="${basedir}/src/ant/deploy.xml" />
     -->
+    <import file="${basedir}/src/ant/watch.xml" />
 </project>

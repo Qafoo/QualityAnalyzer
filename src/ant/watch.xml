@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Watch">
+    <property name="grunt.executable" location="node_modules/grunt-cli/bin/grunt" />
+
+    <target name="watch" depends="prepare">
+        <dirname property="watch.basedir" file="${ant.file.Watch}" />
+
+        <echo>Watching CSS &amp; JS files for compile</echo>
+        <exec executable="${watch.basedir}/watch" failonerror="true" dir="${basedir}">
+            <arg value="${basedir}/src" />
+
+            <env key="OFFLINE" value="${offline}" />
+        </exec>
+    </target>
+
+    <target name="watch:compile" depends="-grunt:check">
+        <tool-exists executable="${grunt.executable}" error="Install grunt using `npm install grunt-cli`" />
+
+        <exec executable="${grunt.executable}" failonerror="true">
+            <arg value="webpack:build" />
+        </exec>
+    </target>
+</project>
