@@ -48,6 +48,28 @@ body {
             }
         }
     }
+
+    .paths {
+        .link {
+            fill: none;
+            stroke: $green;
+            stroke-linecap: round;
+        }
+
+        &.hover {
+            .link {
+                stroke: $gray-lighter;
+            }
+
+            .link.incoming {
+                stroke: $primary;
+            }
+
+            .link.outgoing {
+                stroke: $yellow;
+            }
+        }
+    }
 }
 
 ul.source-tree {

@@ -63,16 +63,24 @@ let Chart = {
         };
     },
 
-    _addClass: function(node, className) {
-        if (node.attr("class").indexOf(className) < 0) {
-            node.attr("class", node.attr("class") + " " + className);
-        }
+    _addClass: function(nodes, className) {
+        nodes.each(function() {
+            var node = d3.select(this);
+
+            if (node.attr("class").indexOf(className) < 0) {
+                node.attr("class", node.attr("class") + " " + className);
+            }
+        });
     },
 
-    _removeClass: function(node, className) {
-        if (node.attr("class").indexOf(className) >= 0) {
-            node.attr("class", node.attr("class").replace(className, ""));
-        }
+    _removeClass: function(nodes, className) {
+        nodes.each(function() {
+            var node = d3.select(this);
+
+            if (node.attr("class").indexOf(className) >= 0) {
+                node.attr("class", node.attr("class").replace(className, ""));
+            }
+        });
     },
 
     _drawRows: function(element, scales, leaves) {
@@ -81,7 +89,7 @@ let Chart = {
             callback = this.callback,
             chart = this;
 
-        var row = g.selectAll(".row").data(leaves, function(leave, count) {return leave.id + count + leave.hidden + leave.type;}),
+        var row = g.selectAll(".row").data(leaves, function(leave, count) {return "l" + leave.id + count + leave.hidden + leave.type;}),
             rowEnter = row.enter(),
             group = rowEnter.append("g");
 
@@ -94,17 +102,23 @@ let Chart = {
             })
             .on("mouseover", function(leave) {
                 chart._addClass(d3.select(this), "hover");
+
+                chart._addClass(d3.select(element).selectAll(".paths"), "hover");
+                chart._addClass(d3.select(element).selectAll(".source-" + leave.id), "outgoing");
+                chart._addClass(d3.select(element).selectAll(".target-" + leave.id), "incoming");
             })
-            .on("mouseout", function(leave, count) {
+            .on("mouseout", function(leave) {
                 chart._removeClass(d3.select(this), "hover");
+
+                chart._removeClass(d3.select(element).selectAll(".paths"), "hover");
+                chart._removeClass(d3.select(element).selectAll(".source-" + leave.id), "outgoing");
+                chart._removeClass(d3.select(element).selectAll(".target-" + leave.id), "incoming");
             })
             .on("click", function(leave) {
                 if (leave.type === "package") {
                     callback(leave);
                 }
             });
-
-
 
         group
             .append("rect").attr("class", "bg")
@@ -134,11 +148,12 @@ let Chart = {
             leaveIndex = _.object(_.pluck(leaves, 'id'), _.range(leaves.length)),
             chart = this;
 
-        var link = g.selectAll(".link").data(links);
+        var link = g.selectAll(".link").data(links, function(link, count) {
+            return "l" + link.source + link.target + count + leaveIndex[link.target];
+        });
 
-        link.enter().append("path");
-
-        link.attr("d", function(link) {
+        link.enter().append("path")
+            .attr("d", function(link) {
                 var from = leaveIndex[link.source],
                     to = leaveIndex[link.target],
                     maxWidth = (width / 3 - 20);
@@ -150,11 +165,8 @@ let Chart = {
                     maxWidth
                 );
             })
-            .attr("fill", "none")
             .attr("class", function(link) { return "link source-" + link.source + " target-" + link.target; })
-            .attr("stroke-width", function(link) { return scales.link(link.count); })
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#00dd00");
+            .attr("stroke-width", function(link) { return scales.link(link.count); });
 
         link.exit().remove();
     },
