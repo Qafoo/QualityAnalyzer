@@ -53,7 +53,7 @@ module.exports = {
         "badges": true,
         "jumbotron": false,
         "thumbnails": false,
-        "alerts": false,
+        "alerts": true,
         "progress-bars": true,
         "media": false,
         "list-group": true,
