@@ -22,7 +22,6 @@
     <import file="${basedir}/ant/modules/phpcpd.xml" />
     <import file="${basedir}/ant/modules/phpmd.xml" />
     <import file="${basedir}/ant/modules/npm.xml" />
-    <import file="${basedir}/ant/modules/bower.xml" />
     <import file="${basedir}/ant/modules/grunt.xml" />
 
     <!--
