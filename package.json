@@ -20,6 +20,8 @@
     "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
     "jquery": "^2.1.4",
+    "jszip": "^2.5.0",
+    "jszip-utils": "0.0.2",
     "karma": "^0.13.10",
     "karma-jasmine": "^0.3.6",
     "karma-junit-reporter": "^0.3.7",

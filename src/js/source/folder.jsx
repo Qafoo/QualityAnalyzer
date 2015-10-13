@@ -1,5 +1,8 @@
 import React from "react";
 
+import Folder from "./folder.jsx";
+import File from "./file.jsx";
+
 let SourceFolder = React.createClass({
     getInitialState: function() {
         return {
@@ -32,8 +35,8 @@ let SourceFolder = React.createClass({
             (<ul>
                 {$.map(folder.children, function(child) {
                     return child.type === 'folder' ?
-                        <Qafoo.QA.SourceFolder key={child.name} folder={child} selected={selected.slice(1)} /> :
-                        <Qafoo.QA.SourceFile key={child.name} file={child} selected={selected.slice(1)} />
+                        <Folder key={child.name} folder={child} selected={selected.slice(1)} /> :
+                        <File key={child.name} file={child} selected={selected.slice(1)} />
                 })}
             </ul>)
             }

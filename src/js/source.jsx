@@ -1,10 +1,11 @@
 import React from "react";
 
 import Folder from "./source/folder.jsx";
-import File from "./source/file.jsx";
 import View from "./source/view.jsx";
-
 import Tree from "./source/model.js";
+
+import zip from "jszip";
+import util from "jszip-utils";
 
 let Source = React.createClass({
     getInitialState: function() {
@@ -24,20 +25,16 @@ let Source = React.createClass({
         }
 
         component.sourceTree.setBaseDir(this.props.data.baseDir);
-        $.ajax('/data/source.zip', {
-            method: "GET",
-            contentType: "text/plain; charset=x-user-defined",
-            dataType: "binary",
-            responseType: "arraybuffer",
-            processData: false,
-            success: function(data) {
-                console.log(data);
-                var source = new JSZip(data);
+        util.getBinaryContent("/data/source.zip", function(error, data) {
+            if (error) {
+                console.log("Error", error);
+                return;
+            }
 
-                component.sourceTree.addFiles(source.files);
-                component.setState({loaded: true});
-            },
-            error: console.log
+            var source = new zip(data);
+
+            component.sourceTree.addFiles(source.files);
+            component.setState({loaded: true});
         });
     },
 
