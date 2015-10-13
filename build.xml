@@ -28,4 +28,5 @@
         Custom modules
     -->
     <import file="${basedir}/src/ant/watch.xml" />
+    <import file="${basedir}/src/ant/serve.xml" />
 </project>

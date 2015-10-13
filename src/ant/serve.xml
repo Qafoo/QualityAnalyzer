@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Internal Server Task">
+    <property name="webserver.port" value="8080" />
+
+    <target name="serve" depends="prepare">
+        <echo>Server starting on http://localhost:${webserver.port}/</echo>
+        <exec executable="${executable.php}" failonerror="true" dir="${basedir}">
+            <arg value="-S" />
+            <arg value="localhost:${webserver.port}" />
+            <arg value="-t" />
+            <arg value="./" />
+            <arg value="serve.php" />
+        </exec>
+    </target>
+</project>

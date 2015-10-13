@@ -10,6 +10,4 @@ test-static-pdepend.fail-on-violation = false
 
 coding.standard=PSR2
 
-webserver.port=8000
-
 secret="vdflsut9032tlsdfj0wq3rsdlgfkjq824rsyndfa"
