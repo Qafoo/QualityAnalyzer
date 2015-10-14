@@ -246,14 +246,12 @@ let Chart = {
             .attr("r", 6);
 
         legend.append("path").attr("class", "link")
-            .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60));
 
         legend.append("path").attr("class", "link")
-            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60));
 
         legend.append("text").attr("class", "caption")
             .attr("x", legendCenter - 32)
@@ -279,7 +277,7 @@ let Chart = {
             .attr("cy", 12 + 1 + margin)
             .attr("r", 6);
 
-        hoverLegend.append("circle").attr("class", "node")
+        hoverLegend.append("circle").attr("class", "node active")
             .attr("cx", legendCenter)
             .attr("cy", 24 + 12 + 1 + margin)
             .attr("r", 8);
@@ -290,24 +288,20 @@ let Chart = {
             .attr("r", 4);
 
         hoverLegend.append("path").attr("class", "link incoming")
-            .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60));
 
         hoverLegend.append("path").attr("class", "link outgoing")
-            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 48 + 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 48 + 12 + 1 + margin, 60));
 
         hoverLegend.append("path").attr("class", "link outgoing")
-            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60));
 
         hoverLegend.append("path").attr("class", "link incoming")
-            .attr("d", this._getLinkPath(legendCenter, 48 + 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2);
+            .attr("d", this._getLinkPath(legendCenter, 48 + 12 + 1 + margin, 24 + 12 + 1 + margin, 60));
 
         hoverLegend.append("text").attr("class", "caption")
             .attr("x", legendCenter - 32)

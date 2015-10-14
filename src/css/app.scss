@@ -5,6 +5,10 @@ body {
 #dependency-chart {
     .node {
         fill: $gray-base;
+
+        &.active {
+            fill: $primary;
+        }
     }
 
     .row {
@@ -90,6 +94,10 @@ body {
             font-family: $font-family-sans-serif;
             font-size:  $font-size-small;
             fill: $gray-base;
+        }
+
+        .link {
+            stroke-width: 2px;
         }
     }
 }
