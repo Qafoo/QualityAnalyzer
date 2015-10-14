@@ -3,11 +3,11 @@ body {
 }
 
 #dependency-chart {
-    .row {
-        .node {
-            fill: $gray-base;
-        }
+    .node {
+        fill: $gray-base;
+    }
 
+    .row {
         .bg {
             fill: $table-bg;
         }
@@ -49,25 +49,47 @@ body {
         }
     }
 
-    .paths {
+    .link {
+        fill: none;
+        stroke: $green;
+        stroke-linecap: round;
+    }
+
+    .hover {
         .link {
-            fill: none;
-            stroke: $green;
-            stroke-linecap: round;
+            stroke: $gray-lighter;
         }
 
-        &.hover {
-            .link {
-                stroke: $gray-lighter;
-            }
+        .link.incoming {
+            stroke: $primary;
+        }
 
-            .link.incoming {
-                stroke: $primary;
-            }
+        .link.outgoing {
+            stroke: $yellow;
+        }
+    }
 
-            .link.outgoing {
-                stroke: $yellow;
-            }
+    .legends {
+        .hover {
+            display: none;
+        }
+
+        &.hover .hover {
+            display: block;
+        }
+    }
+
+    .legend {
+        .background {
+            stroke-width: 1px;
+            stroke: $table-border-color;
+            fill: $table-bg-accent;
+        }
+
+        .caption {
+            font-family: $font-family-sans-serif;
+            font-size:  $font-size-small;
+            fill: $gray-base;
         }
     }
 }

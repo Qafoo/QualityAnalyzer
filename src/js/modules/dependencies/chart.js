@@ -32,8 +32,8 @@ let Chart = {
         this.svg.append('g')
             .attr('class', 'paths');
         this.svg.append('g')
-            .attr('class', 'legend');
-        this._drawLegend(element);
+            .attr('class', 'legends');
+        this._drawLegends(element);
 
         this.update(element, state);
     },
@@ -105,6 +105,7 @@ let Chart = {
                 chart._addClass(d3.select(this), "hover");
 
                 chart._addClass(d3.select(element).selectAll(".paths"), "hover");
+                chart._addClass(d3.select(element).selectAll(".legends"), "hover");
                 chart._addClass(d3.select(element).selectAll(".source-" + leave.id), "outgoing");
                 chart._addClass(d3.select(element).selectAll(".target-" + leave.id), "incoming");
             })
@@ -112,6 +113,7 @@ let Chart = {
                 chart._removeClass(d3.select(this), "hover");
 
                 chart._removeClass(d3.select(element).selectAll(".paths"), "hover");
+                chart._removeClass(d3.select(element).selectAll(".legends"), "hover");
                 chart._removeClass(d3.select(element).selectAll(".source-" + leave.id), "outgoing");
                 chart._removeClass(d3.select(element).selectAll(".target-" + leave.id), "incoming");
             })
@@ -217,189 +219,119 @@ let Chart = {
         }
     },
 
-    _drawLegend: function(element) {
-        var g = d3.select(element).selectAll(".legend"),
+    _drawLegends: function(element) {
+        var legends = d3.select(element).selectAll(".legends"),
+            legend = legends.append("g").attr("class", "legend"),
+            hoverLegend = legends.append("g").attr("class", "legend hover"),
             width = element.offsetWidth,
             margin = 5.5,
             legendWidth = 150,
             legendCenter = width - margin - (legendWidth / 2);
 
-        var background = g.append("rect").attr("class", "main");
-
-        background
+        // Common legend
+        legend.append("rect").attr("class", "background")
             .attr("x", width - legendWidth - 1 - margin)
             .attr("y", margin)
             .attr("width", legendWidth + 1)
-            .attr("height", 24 * 2 + 1)
-            .attr("stroke-width", 1)
-            .attr("stroke", "#ddd")
-            .attr("fill", "#f4f4f4");
+            .attr("height", 24 * 2 + 1);
 
-        var node1 = g.append("circle"),
-            node2 = g.append("circle");
-
-        node1
+        legend.append("circle").attr("class", "node")
             .attr("cx", legendCenter)
             .attr("cy", 12 + 1 + margin)
-            .attr("r", 8)
-            .attr("fill", "black");
+            .attr("r", 8);
 
-        node2
+        legend.append("circle").attr("class", "node")
             .attr("cx", legendCenter)
             .attr("cy", 24 + 12 + 1 + margin)
-            .attr("r", 6)
-            .attr("fill", "black");
+            .attr("r", 6);
 
-        var up = g.append("path"),
-            down = g.append("path");
-
-        down.attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
-            .attr("fill", "none")
+        legend.append("path").attr("class", "link")
+            .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#00dd00");
+            .attr("stroke-width", 2);
 
-        up  .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60))
-            .attr("fill", "none")
+        legend.append("path").attr("class", "link")
+            .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60))
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#00dd00");
+            .attr("stroke-width", 2);
 
-        var upText = g.append("text"),
-            downText = g.append("text");
-
-        downText
+        legend.append("text").attr("class", "caption")
             .attr("x", legendCenter - 32)
             .attr("y", 24 + 4 + 1 + margin)
             .attr("text-anchor", "end")
-            .text("Down")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("Down");
 
-        upText
+        legend.append("text").attr("class", "caption")
             .attr("x", legendCenter + 32)
             .attr("y", 24 + 4 + 1 + margin)
             .attr("text-anchor", "start")
-            .text("Up")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("Up");
 
-        var hoverLegend = g.append("g").attr("class", "legend hover");
-        hoverLegend.style("display", "none");
-
-        background = hoverLegend.append("rect").attr("class", "main");
-        background
+        // Hover legend
+        hoverLegend.append("rect").attr("class", "background")
             .attr("x", width - legendWidth - 1 - margin)
             .attr("y", margin)
             .attr("width", legendWidth + 1)
-            .attr("height", 24 * 3 + 1)
-            .attr("stroke-width", 1)
-            .attr("stroke", "#ddd")
-            .attr("fill", "#f4f4f4");
+            .attr("height", 24 * 3 + 1);
 
-        var node2_1 = hoverLegend.append("circle"),
-            node2_2 = hoverLegend.append("circle"),
-            node2_3 = hoverLegend.append("circle");
-
-        node2_1
+        hoverLegend.append("circle").attr("class", "node")
             .attr("cx", legendCenter)
             .attr("cy", 12 + 1 + margin)
-            .attr("r", 6)
-            .attr("fill", "black");
+            .attr("r", 6);
 
-        node2_2
+        hoverLegend.append("circle").attr("class", "node")
             .attr("cx", legendCenter)
             .attr("cy", 24 + 12 + 1 + margin)
-            .attr("r", 8)
-            .attr("fill", "black");
+            .attr("r", 8);
 
-        node2_3
+        hoverLegend.append("circle").attr("class", "node")
             .attr("cx", legendCenter)
             .attr("cy", 48 + 12 + 1 + margin)
-            .attr("r", 4)
-            .attr("fill", "black");
+            .attr("r", 4);
 
-        var upIn = hoverLegend.append("path"),
-            downIn = hoverLegend.append("path"),
-            upOut = hoverLegend.append("path"),
-            downOut = hoverLegend.append("path");
-
-        downIn
+        hoverLegend.append("path").attr("class", "link incoming")
             .attr("d", this._getLinkPath(legendCenter, 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
-            .attr("fill", "none")
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#dd0000");
+            .attr("stroke-width", 2);
 
-        downOut
+        hoverLegend.append("path").attr("class", "link outgoing")
             .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 48 + 12 + 1 + margin, 60))
-            .attr("fill", "none")
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#0000dd");
+            .attr("stroke-width", 2);
 
-        upOut
+        hoverLegend.append("path").attr("class", "link outgoing")
             .attr("d", this._getLinkPath(legendCenter, 24 + 12 + 1 + margin, 12 + 1 + margin, 60))
-            .attr("fill", "none")
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#0000dd");
+            .attr("stroke-width", 2);
 
-        upIn
+        hoverLegend.append("path").attr("class", "link incoming")
             .attr("d", this._getLinkPath(legendCenter, 48 + 12 + 1 + margin, 24 + 12 + 1 + margin, 60))
-            .attr("fill", "none")
             .attr("marker-end", "url(#arrow)")
-            .attr("stroke-width", 2)
-            .attr("stroke-linecap", "round")
-            .attr("stroke", "#dd0000");
+            .attr("stroke-width", 2);
 
-        var upText1 = hoverLegend.append("text"),
-            downText1 = hoverLegend.append("text"),
-            upText2 = hoverLegend.append("text"),
-            downText2 = hoverLegend.append("text");
-
-        downText1
+        hoverLegend.append("text").attr("class", "caption")
             .attr("x", legendCenter - 32)
             .attr("y", 24 + 4 + 1 + margin)
             .attr("text-anchor", "end")
-            .text("In")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("In");
 
-        downText2
+        hoverLegend.append("text").attr("class", "caption")
             .attr("x", legendCenter - 32)
             .attr("y", 48 + 4 + 1 + margin)
             .attr("text-anchor", "end")
-            .text("Out")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("Out");
 
-        upText1
+        hoverLegend.append("text").attr("class", "caption")
             .attr("x", legendCenter + 32)
             .attr("y", 24 + 4 + 1 + margin)
             .attr("text-anchor", "start")
-            .text("Out")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("Out");
 
-        upText2
+        hoverLegend.append("text").attr("class", "caption")
             .attr("x", legendCenter + 32)
             .attr("y", 48 + 4 + 1 + margin)
             .attr("text-anchor", "start")
-            .text("In")
-            .attr("font-family", "sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", "black");
+            .text("In");
     }
 };
 
