@@ -1,5 +1,4 @@
-/* jshint bitwise: false */
-/* globals describe, beforeEach, it, expect */
+/* globals describe, it, expect */
 
 import Tokenizer from '../../../src/js/source/tokenizer.js';
 
@@ -25,7 +24,8 @@ describe("Source/Tokenizer", function() {
                 { type: 'operator', text: '(' },
                 { type: 'operator', text: ')' },
                 { type: 'whitespace', text: ' ' },
-                { type: 'uncaught', text: '{}' }
+                { type: 'operator', text: '{' },
+                { type: 'operator', text: '}' },
             ]);
     });
 
