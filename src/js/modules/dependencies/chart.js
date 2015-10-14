@@ -39,7 +39,7 @@ let Chart = {
     },
 
     update: function(element, state) {
-        this.svg.attr('height', (state.leaves.length * 24 + 10) + "px");
+        this.svg.attr('height', Math.max((state.leaves.length * 24 + 10), element.offsetHeight) + "px");
 
         var scales = this._scales(element, state.leaves, state.links);
 
@@ -89,10 +89,11 @@ let Chart = {
             callback = this.callback,
             chart = this;
 
-        var row = g.selectAll(".row").data(leaves, function(leave, count) {return "l" + leave.id + count + leave.hidden + leave.type;}),
-            rowEnter = row.enter(),
-            group = rowEnter.append("g");
+        var row = g.selectAll(".row").data(leaves, function(leave, count) {return "l_" + leave.id;}),
+            newRow = row.enter(),
+            group = newRow.append("g");
 
+        // New row
         group
             .attr("class", function(leave, count) {
                 return "row " +
@@ -139,6 +140,25 @@ let Chart = {
             .attr("cy", function(leave, count) { return count * 24 + 12; })
             .attr("r", function(leave) { return scales.size(leave.size); });
 
+        // Update existing row
+        row
+            .attr("class", function(leave, count) {
+                return "row " +
+                    leave.type + " " +
+                    ((count % 2) ? "uneven " : "") +
+                    (leave.hidden ? "unfolded " : "");
+            });
+
+        row.select("rect.bg").transition()
+            .attr("y", function(leave, count) { return count * 24; });
+
+        row.select("text.caption").transition()
+            .attr("y", function(leave, count) { return (count + 1) * 24 - 7; });
+
+        row.select("circle.node").transition()
+            .attr("cy", function(leave, count) { return count * 24 + 12; });
+
+        // Exiting row
         row.exit().remove();
     },
 
@@ -146,29 +166,39 @@ let Chart = {
         var g = d3.select(element).selectAll(".paths"),
             width = element.offsetWidth,
             leaveIndex = _.object(_.pluck(leaves, 'id'), _.range(leaves.length)),
-            chart = this;
+            chart = this,
+            link = g.selectAll(".link").data(links, function(link, count) {
+                return "l_" + link.source + "_" + link.target;
+            }),
+            linkPath = function(link, count) {
+                    var from = leaveIndex[link.source],
+                        to = leaveIndex[link.target],
+                        maxWidth = (width / 3 - 20);
 
-        var link = g.selectAll(".link").data(links, function(link, count) {
-            return "l" + link.source + link.target + count + leaveIndex[link.target];
-        });
+                    return chart._getLinkPath(
+                        (width * 2 / 3),
+                        ((from * 24) + 12),
+                        ((to * 24) + 12),
+                        maxWidth
+                    );
+                };
 
+        // New links
         link.enter().append("path")
-            .attr("d", function(link) {
-                var from = leaveIndex[link.source],
-                    to = leaveIndex[link.target],
-                    maxWidth = (width / 3 - 20);
-
-                return chart._getLinkPath(
-                    (width * 2 / 3),
-                    ((from * 24) + 12),
-                    ((to * 24) + 12),
-                    maxWidth
-                );
-            })
+            .attr("d", linkPath)
             .attr("class", function(link) { return "link source-" + link.source + " target-" + link.target; })
-            .attr("stroke-width", function(link) { return scales.link(link.count); });
+            .attr("stroke-width", function(link) { return scales.link(link.count); })
+            .attr("opacity", 0);
 
-        link.exit().remove();
+        // Update existing links
+        link.transition()
+            .attr("d", linkPath)
+            .attr("opacity", 1);
+
+        // Exiting links
+        link.exit().transition()
+            .attr("opacity", 0)
+            .remove();
     },
 
     _getLinkPath: function(x, yFrom, yTo, maxWidth) {
