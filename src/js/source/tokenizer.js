@@ -7,31 +7,46 @@ let Tokenizer = function() {
         {name: "string", regexp: /^('(\\'|[^'])*')/},
         {name: "string", regexp: /^("(\\"|[^"])*")/},
         {name: "number", regexp: /^([+-]?(\d+(\.\d+)?|\.\d+))/},
-        {name: "comment", regexp: /^((\/\/|#)[^\r\n]*)/},
+        {name: "comment", regexp: /^((\/\/|#)[^\n]*)/},
+        {name: "comment", regexp: /^(\/\*[^]*?\*\/)/},
         {name: "operator", regexp: /^(new|\[|\]|!|~|\+\+|--|\(int\)|\(float\)|\(string\)|\(array\)|\(object\)|<<|>>|<|<=|>|>=|==|!=|===|!==|&|\^|\|\||&&|\|\||\?|:|=|\+=|-=|\*=|\/=|\.=|%=|&=|\|=|\^=|<<=|>>=|print|and|xor|or|,|@|\*|\/|%|\+|-|\.|\||\(|\)|->)/},
         {name: "uncaught", regexp: /^\S+/}
     ]
 
     this.tokenizeString = function(string) {
-        var stream = [];
+        var lines = [[]],
+            line = 0;
 
+        string = string.replace(/\r\n|\r/g, "\n");
         while (string) {
             for (var i = 0; i < tokens.length; ++i) {
                 var match = null;
 
                 if (match = string.match(tokens[i].regexp)) {
-                    stream.push({
-                        type: tokens[i].name,
-                        text: match[0]
-                    });
-
                     string = string.substring(match[0].length);
+
+                    if (match[0] === "\n") {
+                        lines[++line] = [];
+                        break;
+                    }
+
+                    if (match[0].indexOf("\n") >= 0) {
+                        var lineContents = match[0].split("\n");
+
+                        for (var j = 0; j < lineContents.length; ++j) {
+                            lines[line].push({type: tokens[i].name, text: lineContents[j]});
+                            lines[++line] = [];
+                        }
+                    } else {
+                        lines[line].push({type: tokens[i].name, text: match[0]});
+                    }
+
                     break;
                 }
             }
         }
 
-        return stream;
+        return lines;
     }
 };
 

@@ -9,13 +9,13 @@ describe("Source/Tokenizer", function() {
         var tokenizer = new Tokenizer();
 
         expect(tokenizer.tokenizeString(""))
-            .toEqual([]);
+            .toEqual([[]]);
     });
 
     it("tokenizes common keywords", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString("public function test() {}"))
+        expect(tokenizer.tokenizeString("public function test() {}")[0])
             .toEqual([
                 { type: 'keyword', text: 'public' },
                 { type: 'whitespace', text: ' ' },
@@ -32,7 +32,7 @@ describe("Source/Tokenizer", function() {
     it("tokenizes single quoted string with escape sequence", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString("' Hello \\' world'"))
+        expect(tokenizer.tokenizeString("' Hello \\' world'")[0])
             .toEqual([
                 { type: 'string', text: "' Hello \\' world'"},
             ]);
@@ -41,7 +41,7 @@ describe("Source/Tokenizer", function() {
     it("tokenizes double quoted string with escape sequence", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString('" Hello \\" \\ \' world"'))
+        expect(tokenizer.tokenizeString('" Hello \\" \\ \' world"')[0])
             .toEqual([
                 { type: 'string', text: '" Hello \\" \\ \' world"'},
             ]);
@@ -50,7 +50,7 @@ describe("Source/Tokenizer", function() {
     it("tokenizes simple integer number", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString('12345'))
+        expect(tokenizer.tokenizeString('12345')[0])
             .toEqual([
                 { type: 'number', text: '12345'},
             ]);
@@ -59,7 +59,7 @@ describe("Source/Tokenizer", function() {
     it("tokenizes simple float number", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString('-1.345'))
+        expect(tokenizer.tokenizeString('-1.345')[0])
             .toEqual([
                 { type: 'number', text: '-1.345'},
             ]);
@@ -68,7 +68,7 @@ describe("Source/Tokenizer", function() {
     it("tokenizes dot prefixed float number", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString('+.345'))
+        expect(tokenizer.tokenizeString('+.345')[0])
             .toEqual([
                 { type: 'number', text: '+.345'},
             ]);
@@ -77,22 +77,52 @@ describe("Source/Tokenizer", function() {
     it("tokenizes // comment", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString("// foo\n'bar'"))
+        expect(tokenizer.tokenizeString("// foo\n'bar'")[0])
             .toEqual([
                 { type: 'comment', text: '// foo'},
-                { type: 'whitespace', text: "\n"},
-                { type: 'string', text: "'bar'"},
             ]);
     });
 
     it("tokenizes # comment", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString("# foo\n'bar'"))
+        expect(tokenizer.tokenizeString("# foo\n'bar'")[0])
             .toEqual([
                 { type: 'comment', text: '# foo'},
-                { type: 'whitespace', text: "\n"},
-                { type: 'string', text: "'bar'"},
+            ]);
+    });
+
+    it("tokenizes multiline string", function() {
+        var tokenizer = new Tokenizer();
+
+        expect(tokenizer.tokenizeString("'foo\nbar\r\nblubb\rfoobar'"))
+            .toEqual([
+                [{ type: 'string', text: '\'foo'}],
+                [{ type: 'string', text: 'bar'}],
+                [{ type: 'string', text: 'blubb'}],
+                [{ type: 'string', text: 'foobar\''}],
+                []
+            ]);
+    });
+
+    it("tokenizes multiline comment", function() {
+        var tokenizer = new Tokenizer();
+
+        expect(tokenizer.tokenizeString("/* foo\nbar */"))
+            .toEqual([
+                [{ type: 'comment', text: '/* foo'}],
+                [{ type: 'comment', text: 'bar */'}],
+                []
+            ]);
+    });
+
+    it("tokenizes two comments comment", function() {
+        var tokenizer = new Tokenizer();
+
+        expect(tokenizer.tokenizeString("/* foo *//* bar */")[0])
+            .toEqual([
+                { type: 'comment', text: '/* foo */'},
+                { type: 'comment', text: '/* bar */'},
             ]);
     });
 });
