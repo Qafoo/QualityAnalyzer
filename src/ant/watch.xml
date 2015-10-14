@@ -8,6 +8,7 @@
         <echo>Watching CSS &amp; JS files for compile</echo>
         <exec executable="${watch.basedir}/watch" failonerror="true" dir="${basedir}">
             <arg value="${basedir}/src" />
+            <arg value="${basedir}/test" />
 
             <env key="OFFLINE" value="${offline}" />
         </exec>
