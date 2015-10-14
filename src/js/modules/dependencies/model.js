@@ -174,16 +174,16 @@ let Model = function() {
     var collectChildrenIds = function(leave, tree, found) {
         var efferent = [];
 
+        if (tree.id === leave.id) {
+            found = true;
+        }
+
         if (tree.type === "type") {
             if (!found) {
                 return [];
             } else {
                 return tree.efferent;
             }
-        }
-
-        if (tree.id === leave.id) {
-            found = true;
         }
 
         for (var child in tree.children) {

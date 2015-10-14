@@ -68,15 +68,10 @@ describe("Module/Depenencies/Model", function() {
         model.calculateDependencyTree(dependencyExample);
         expect(model.getLeaves())
             .toEqual([
-                {
-                    id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true
-                }, {
-                    id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false
-                }, {
-                    id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false
-                }, {
-                    id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false
-                }
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
+                { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false },
+                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -87,17 +82,11 @@ describe("Module/Depenencies/Model", function() {
         model.findAndUnfold("zyq4vi");
         expect(model.getLeaves())
             .toEqual([
-                {
-                    id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true
-                }, {
-                    id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false
-                }, {
-                    id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: true
-                }, {
-                    id: 'tukvg7', name: '1', fullName: 'P_2\\1', type: 'package', size: 1, depth: 2, hidden: false
-                }, {
-                    id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false
-                }
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
+                { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: true },
+                { id: 'tukvg7', name: '1', fullName: 'P_2\\1', type: 'package', size: 1, depth: 2, hidden: false },
+                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -109,15 +98,10 @@ describe("Module/Depenencies/Model", function() {
         model.findAndUnfold("zyq4vi");
         expect(model.getLeaves())
             .toEqual([
-                {
-                    id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true
-                }, {
-                    id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false
-                }, {
-                    id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false
-                }, {
-                    id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false
-                }
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
+                { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false },
+                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -135,13 +119,9 @@ describe("Module/Depenencies/Model", function() {
 
         expect(model.getLeaves())
             .toEqual([
-                {
-                    id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true
-                }, {
-                    id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false
-                }, {
-                    id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false
-                }
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false },
+                { id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -162,13 +142,9 @@ describe("Module/Depenencies/Model", function() {
 
         expect(model.getLeaves())
             .toEqual([
-                {
-                    id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true
-                }, {
-                    id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false
-                }, {
-                    id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false
-                }
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false },
+                { id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -202,6 +178,23 @@ describe("Module/Depenencies/Model", function() {
                 {source: "zjimef", target: "tukvg7", count: 1},
                 {source: "zjimef", target: "tpubzs", count: 1},
                 {source: "tukvg7", target: "zjimef", count: 1}
+            ]);
+    });
+
+    it("analyzes entirely unfolded depencies", function() {
+        var model = new Model();
+
+        model.calculateDependencyTree(dependencyExample);
+        model.findAndUnfold('zjimef');
+        model.findAndUnfold('zyq4vi');
+        model.findAndUnfold('tukvg7');
+
+        expect(model.calculateDependencies(model.getLeaves()))
+            .toEqual([
+                { source: 'ck1rmf', target: 'k9wcky', count: 1 },
+                { source: 'k9wcky', target: '4rowb6', count: 1 },
+                { source: 'k9wcky', target: 'tpubzs', count: 1 },
+                { source: '4rowb6', target: 'ck1rmf', count: 1 }
             ]);
     });
 });
