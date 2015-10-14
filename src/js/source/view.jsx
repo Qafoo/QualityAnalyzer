@@ -1,14 +1,8 @@
 import React from "react";
 
+import Tokenizer from "./tokenizer.js";
+
 let SourceView = React.createClass({
-
-    markup: {
-        "keyword": /(\s+|^)(abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|final|finally|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|isset|list|namespace|new|or|print|private|protected|public|require|require_once|return|static|switch|throw|trait|try|unset|use|var|while|xor|yield)(\s+|$)/g
-    },
-
-    splitLines: function(fileContent) {
-        return fileContent.split(/\r\n|\r|\n/);
-    },
 
     escapeHtml: function(string) {
         var entityMap = {
@@ -25,17 +19,20 @@ let SourceView = React.createClass({
         });
     },
 
-    addMarkup: function(lines) {
-        for (var line = 0; line < lines.length; ++line) {
-            var content = this.escapeHtml(lines[line]);
+    addMarkup: function(string) {
+        var tokenizer = new Tokenizer(),
+            tokens = tokenizer.tokenizeString(string),
+            lines = [];
 
-            for (var type in this.markup) {
-                content = content.replace(this.markup[type], function(match) {
-                    return "<span class=\"" + type + "\">" + match + "</span>";
-                });
+        for (var line = 0; line < tokens.length; ++line) {
+            lines[line] = "";
+            for (var token = 0; token < tokens[line].length; ++token) {
+                lines[line] += '<span class="' + tokens[line][token].type + '">' +
+                        this.escapeHtml(tokens[line][token].text) +
+                    '</span>';
             }
 
-            lines[line] = content ? content : "&nbsp;";
+            lines[line] = lines[line] || "&nbsp;";
         }
 
         return lines;
@@ -59,7 +56,7 @@ let SourceView = React.createClass({
 
     render: function() {
         var file = this.props.file,
-            lines = this.addMarkup(this.splitLines(file.file.asText())),
+            lines = this.addMarkup(file.file.asText()),
             start = this.props.start || 0,
             end = this.props.end || 0;
 

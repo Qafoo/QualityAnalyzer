@@ -101,7 +101,6 @@ describe("Source/Tokenizer", function() {
                 [{ type: 'string', text: 'bar'}],
                 [{ type: 'string', text: 'blubb'}],
                 [{ type: 'string', text: 'foobar\''}],
-                []
             ]);
     });
 
@@ -112,7 +111,6 @@ describe("Source/Tokenizer", function() {
             .toEqual([
                 [{ type: 'comment', text: '/* foo'}],
                 [{ type: 'comment', text: 'bar */'}],
-                []
             ]);
     });
 

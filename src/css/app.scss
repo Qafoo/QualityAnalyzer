@@ -145,14 +145,23 @@ ol.code {
         background-color: $gray-verylight;
     }
 
+    .string, .number {
+        color: $green-dark;
+    }
     .keyword {
+        color: $yellow-dark;
         font-weight: bold;
     }
-
-    .string {
-        color: $primary;
+    .variable, .name {
+        color: $primary-dark;
     }
-    .number {
-        color: $red;
+    .comment {
+        color: $gray;
+    }
+    .operator {
+        color: $red-dark;
+    }
+    .uncought {
+        background-color: $red-light;
     }
 }
