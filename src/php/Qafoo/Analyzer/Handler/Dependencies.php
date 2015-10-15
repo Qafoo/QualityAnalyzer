@@ -18,6 +18,25 @@ class Dependencies extends Handler
      */
     public function handle($dir, array $excludes, $file = null)
     {
-        // @TODO: Implement
+        if ($file) {
+            // @TODO: Verify file is actually sensible?
+            return $file;
+        }
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'dependencies');
+        exec(
+            escapeshellcmd('vendor/bin/pdepend') . ' ' .
+                escapeshellarg('--dependency-xml=' . $tmpFile) . ' ' .
+                ($excludes ? escapeshellarg('--ignore=' . implode(',', $excludes)) . ' ' : '' ) .
+                escapeshellarg($dir),
+            $output,
+            $return
+        );
+
+        if ($return) {
+            throw new \RuntimeException("Program exited with non zero exit code $return: " . implode(PHP_EOL, $output));
+        }
+
+        return $tmpFile;
     }
 }
