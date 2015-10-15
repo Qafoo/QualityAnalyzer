@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+namespace Qafoo\Analyzer;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$application = new Application();
+$application->run();
+
