@@ -16,7 +16,17 @@ class Application extends Console\Application
         return array_merge(
             parent::getDefaultCommands(),
             array(
-                new Command\Analyze()
+                new Command\Analyze(
+                    array(
+                        'coverage' => new Handler\Coverage(),
+                        'pdepend' => new Handler\PDepend(),
+                        'dependencies' => new Handler\Dependencies(),
+                        'phpmd' => new Handler\PHPMD(),
+                        'checkstyle' => new Handler\Checkstyle(),
+                        'tests' => new Handler\Tests(),
+                        'cpd' => new Handler\CPD(),
+                    )
+                )
             )
         );
     }

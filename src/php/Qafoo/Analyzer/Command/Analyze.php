@@ -10,6 +10,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Analyze extends Command
 {
+    /**
+     * Handlers
+     *
+     * @var Handler[]
+     */
+    private $handlers = array();
+
+    public function __construct(array $handlers = array(), $targetDir = null)
+    {
+        parent::__construct();
+
+        $this->handlers = $handlers;
+        $this->targetDir = $targetDir || __DIR__ . '/../../data/';
+    }
+
     protected function configure()
     {
         $this
@@ -64,7 +79,50 @@ class Analyze extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump($input->getOption('exclude'));
-        $output->writeln('Analyze…');
+        $exclude = array_filter(array_map('trim', explode(',', $input->getOption('exclude'))));
+
+        if (!is_dir($path = realpath($this->getArgument('path')))) {
+            throw new \OutOfBoundsException("Could not find " . $this->getArgument('path'));
+        }
+        $output->writeln("Analyze source code in $path");
+
+        $project = array(
+            'baseDir' => $path,
+            'analyzers' => array(),
+        );
+        foreach ($this->handlers as $name => $handler) {
+            $output->writeln(" * Running $name");
+
+            try {
+                $result = $handler->handle($path, $exclude, $input->getOption($name));
+                $result = $this->copyResultFile($name, $result);
+            } catch (\Exception $e) {
+                $output->error($exception);
+                $result = null;
+            }
+
+            if ($result) {
+                $project['analyzers'][$name] = $result;
+            }
+        }
+
+        file_put_contents($this->targetDir . '/project.json', json_encode($project));
+        $output->writeln("Done");
+    }
+
+    /**
+     * Copy result file
+     *
+     * @param string $handler
+     * @param string $file
+     * @return string
+     */
+    protected function copyResultFile($handler, $file)
+    {
+        if (!is_file($file)) {
+            throw new \OutOfBoundsException("Result file $file is not readable");
+        }
+
+        copy($file, $this->targetDir . '/' . $name . '.xml');
     }
 }
