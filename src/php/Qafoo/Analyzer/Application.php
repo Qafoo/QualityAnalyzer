@@ -20,6 +20,7 @@ class Application extends Console\Application
             array(
                 new Command\Analyze(
                     array(
+                        'source' => new Handler\Source($shell),
                         'coverage' => new Handler\Coverage(),
                         'pdepend' => new Handler\PDepend($shell),
                         'dependencies' => new Handler\Dependencies($shell),

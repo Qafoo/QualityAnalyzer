@@ -94,7 +94,11 @@ class Analyze extends Command
             $output->writeln(" * Running $name");
 
             try {
-                if ($result = $handler->handle($path, $exclude, $input->getOption($name))) {
+                $file = null;
+                if ($input->hasOption($name)) {
+                    $file = $input->getOption($name);
+                }
+                if ($result = $handler->handle($path, $exclude, $file)) {
                     $project['analyzers'][$name] = $this->copyResultFile($name, $result);
                 }
             } catch (\Exception $exception) {
