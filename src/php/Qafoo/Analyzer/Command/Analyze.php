@@ -35,45 +35,45 @@ class Analyze extends Command
                 InputArgument::REQUIRED,
                 'Path to the source code which should be analyzed'
             )->addOption(
-               'coverage',
-               'c',
-               InputOption::VALUE_REQUIRED,
-               'Path to code coverage (clover) XML file'
+                'coverage',
+                'c',
+                InputOption::VALUE_REQUIRED,
+                'Path to code coverage (clover) XML file'
             )->addOption(
-               'pdepend',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Path to PDepend summary XML file'
+                'pdepend',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PDepend summary XML file'
             )->addOption(
-               'dependencies',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Path to PDepend dependencies XML file'
+                'dependencies',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PDepend dependencies XML file'
             )->addOption(
-               'phpmd',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Path to mess detector (PMD / PHPMD) XML file'
+                'phpmd',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to mess detector (PMD / PHPMD) XML file'
             )->addOption(
-               'checkstyle',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Path to checkstyle violations (PHP Code Sniffer) XML file'
+                'checkstyle',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to checkstyle violations (PHP Code Sniffer) XML file'
             )->addOption(
-               'tests',
-               't',
-               InputOption::VALUE_REQUIRED,
-               'Path to jUnit (PHPUnit) test result XML file'
+                'tests',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'Path to jUnit (PHPUnit) test result XML file'
             )->addOption(
-               'cpd',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Path to C&P violations (PHP Copy Paste Detector) XML file'
+                'cpd',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to C&P violations (PHP Copy Paste Detector) XML file'
             )->addOption(
-               'exclude',
-               'x',
-               InputOption::VALUE_REQUIRED,
-               'Directories to exclude from analyzing'
+                'exclude',
+                'x',
+                InputOption::VALUE_REQUIRED,
+                'Directories to exclude from analyzing'
             );
     }
 
