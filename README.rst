@@ -5,6 +5,46 @@ Qafoo Quality Analyzer
 This software is a tool to visualize metrics and source code. We use this
 software for Code Reviews together with our customers.
 
+Usage
+=====
+
+You start by analyzing a certain project or providing the too with the paths to
+existing analyze files, like code coverage reports::
+
+    bin/analyze /path/to/source
+
+With the default command the tool will analyze the source code itself. For
+tools like PHPMD or PDepend this makes a lot of sense since the tool already
+knows which options to use for each tool.
+
+There are some reports we cannot generate ourselves, like code coverage from
+tests. You can tell the tool where to find certain files to make sure they are
+available and ready to be used::
+
+    bin/analyze \
+        --coverage /path/to/clover.xml \
+        --pdepend /path/to/pdepend.xml \
+        --dependencies /path/to/dependencies.xml \
+        --phpmd /path/to/pmd.xml \
+        --checkstyle /path/to/checkstyle.xml \
+        --tests /path/to/junit.xml \
+        --cpd /path/to/cpd.xml \
+        /path/to/source
+
+You might also want to tell the tools which directories there are to ignore by
+the tools. This is *especially important* if you have (large) libraries in your
+source directory – you do not want to analyze those. For this you may use the
+``--exclude`` option::
+    
+    bin/analyze \
+        --coverage /path/to/clover.xml \
+        --tests /path/to/junit.xml \
+        --exclude libraries,vendor
+        /path/to/source
+
+After the analyzer has finished use ``ant serve`` or similar means to access
+the index.html with your browser and enjoy the results visualization.
+
 Building & Developing The Software
 ==================================
 

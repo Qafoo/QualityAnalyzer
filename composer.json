@@ -6,11 +6,12 @@
         "pdepend/pdepend": "@stable",
         "phploc/phploc": "@stable",
         "squizlabs/php_codesniffer": "@stable",
-        "sebastian/phpcpd": "@stable"
+        "sebastian/phpcpd": "@stable",
+        "symfony/console": "^2.7"
     },
     "autoload": {
         "psr-0": {
-            "Qafoo": ["src/php/", "tests/php/"]
+            "Qafoo": ["src/php", "test/php"]
         }
     }
 }

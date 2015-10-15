@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5677e836509cdef5ee223d1f61b3ff24",
-    "content-hash": "fd17cc7ade70f34171eaa57c0924bd76",
+    "hash": "0fdd6b60221fbbf9dfb888bb7e7d3e53",
+    "content-hash": "047b1d7f4a3fd0fa2467a92eab27d51b",
     "packages": [
         {
             "name": "pdepend/pdepend",
@@ -455,12 +455,12 @@
             "version": "v2.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Config.git",
+                "url": "https://github.com/symfony/config.git",
                 "reference": "5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8",
+                "url": "https://api.github.com/repos/symfony/config/zipball/5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8",
                 "reference": "5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8",
                 "shasum": ""
             },
@@ -502,16 +502,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console.git",
-                "reference": "9ff9032151186bd66ecee727d728f1319f52d1d8"
+                "url": "https://github.com/symfony/console.git",
+                "reference": "06cb17c013a82f94a3d840682b49425cd00a2161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/9ff9032151186bd66ecee727d728f1319f52d1d8",
-                "reference": "9ff9032151186bd66ecee727d728f1319f52d1d8",
+                "url": "https://api.github.com/repos/symfony/console/zipball/06cb17c013a82f94a3d840682b49425cd00a2161",
+                "reference": "06cb17c013a82f94a3d840682b49425cd00a2161",
                 "shasum": ""
             },
             "require": {
@@ -555,19 +555,19 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-09-03 11:40:38"
+            "time": "2015-09-25 08:32:23"
         },
         {
             "name": "symfony/dependency-injection",
             "version": "v2.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/DependencyInjection.git",
+                "url": "https://github.com/symfony/dependency-injection.git",
                 "reference": "c0a3a97b9450d77cd8eff81c5825efb3624c255b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/c0a3a97b9450d77cd8eff81c5825efb3624c255b",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c0a3a97b9450d77cd8eff81c5825efb3624c255b",
                 "reference": "c0a3a97b9450d77cd8eff81c5825efb3624c255b",
                 "shasum": ""
             },
@@ -622,12 +622,12 @@
             "version": "v2.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Filesystem.git",
+                "url": "https://github.com/symfony/filesystem.git",
                 "reference": "f079e9933799929584200b9a926f72f29e291654"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/f079e9933799929584200b9a926f72f29e291654",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/f079e9933799929584200b9a926f72f29e291654",
                 "reference": "f079e9933799929584200b9a926f72f29e291654",
                 "shasum": ""
             },
