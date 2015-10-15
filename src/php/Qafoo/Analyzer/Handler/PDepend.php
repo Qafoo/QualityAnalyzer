@@ -18,6 +18,19 @@ class PDepend extends Handler
      */
     public function handle($dir, array $excludes, $file = null)
     {
-        // @TODO: Implement
+        if ($file) {
+            // @TODO: Verify file is actually sensible?
+            return $file;
+        }
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'pdepend');
+        shell_exec(
+            escapeshellcmd('vendor/bin/pdepend') . ' ' .
+                escapeshellarg('--summary-xml=' . $tmpFile) . ' ' .
+                ($excludes ? escapeshellarg('--ignore=' . implode(',', $excludes)) . ' ' : '' ) .
+                escapeshellarg($dir)
+        );
+
+        return $tmpFile;
     }
 }

@@ -101,7 +101,6 @@ class Analyze extends Command
                 $output->writeln('<error>' . $exception . '</error>');
                 $result = null;
             }
-
         }
 
         file_put_contents($this->targetDir . '/project.json', json_encode($project));
@@ -121,6 +120,7 @@ class Analyze extends Command
             throw new \OutOfBoundsException("Result file $file is not readable");
         }
 
-        copy($file, $this->targetDir . '/' . $name . '.xml');
+        copy($file, $this->targetDir . '/' . $handler . '.xml');
+        return "$handler.xml";
     }
 }
