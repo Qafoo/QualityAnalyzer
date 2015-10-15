@@ -94,16 +94,14 @@ class Analyze extends Command
             $output->writeln(" * Running $name");
 
             try {
-                $result = $handler->handle($path, $exclude, $input->getOption($name));
-                $result = $this->copyResultFile($name, $result);
+                if ($result = $handler->handle($path, $exclude, $input->getOption($name))) {
+                    $project['analyzers'][$name] = $this->copyResultFile($name, $result);
+                }
             } catch (\Exception $exception) {
                 $output->writeln('<error>' . $exception . '</error>');
                 $result = null;
             }
 
-            if ($result) {
-                $project['analyzers'][$name] = $result;
-            }
         }
 
         file_put_contents($this->targetDir . '/project.json', json_encode($project));
