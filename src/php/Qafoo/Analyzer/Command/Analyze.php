@@ -22,7 +22,7 @@ class Analyze extends Command
         parent::__construct();
 
         $this->handlers = $handlers;
-        $this->targetDir = $targetDir || __DIR__ . '/../../data/';
+        $this->targetDir = $targetDir ?: __DIR__ . '/../../../../../data/';
     }
 
     protected function configure()
@@ -81,8 +81,8 @@ class Analyze extends Command
     {
         $exclude = array_filter(array_map('trim', explode(',', $input->getOption('exclude'))));
 
-        if (!is_dir($path = realpath($this->getArgument('path')))) {
-            throw new \OutOfBoundsException("Could not find " . $this->getArgument('path'));
+        if (!is_dir($path = realpath($input->getArgument('path')))) {
+            throw new \OutOfBoundsException("Could not find " . $input->getArgument('path'));
         }
         $output->writeln("Analyze source code in $path");
 
@@ -96,8 +96,8 @@ class Analyze extends Command
             try {
                 $result = $handler->handle($path, $exclude, $input->getOption($name));
                 $result = $this->copyResultFile($name, $result);
-            } catch (\Exception $e) {
-                $output->error($exception);
+            } catch (\Exception $exception) {
+                $output->writeln('<error>' . $exception . '</error>');
                 $result = null;
             }
 
