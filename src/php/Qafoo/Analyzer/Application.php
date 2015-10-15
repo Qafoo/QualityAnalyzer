@@ -13,14 +13,16 @@ class Application extends Console\Application
      */
     protected function getDefaultCommands()
     {
+        $shell = new Shell();
+
         return array_merge(
             parent::getDefaultCommands(),
             array(
                 new Command\Analyze(
                     array(
                         'coverage' => new Handler\Coverage(),
-                        'pdepend' => new Handler\PDepend(),
-                        'dependencies' => new Handler\Dependencies(),
+                        'pdepend' => new Handler\PDepend($shell),
+                        'dependencies' => new Handler\Dependencies($shell),
                         'phpmd' => new Handler\PHPMD(),
                         'checkstyle' => new Handler\Checkstyle(),
                         'tests' => new Handler\Tests(),

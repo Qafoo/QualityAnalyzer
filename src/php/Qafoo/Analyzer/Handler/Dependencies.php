@@ -3,9 +3,22 @@
 namespace Qafoo\Analyzer\Handler;
 
 use Qafoo\Analyzer\Handler;
+use Qafoo\Analyzer\Shell;
 
 class Dependencies extends Handler
 {
+    /**
+     * Shell
+     *
+     * @var Shell
+     */
+    private $shell;
+
+    public function __construct(Shell $shell)
+    {
+        $this->shell = $shell;
+    }
+
     /**
      * Handle provided directory
      *
@@ -23,20 +36,15 @@ class Dependencies extends Handler
             return $file;
         }
 
-        $tmpFile = tempnam(sys_get_temp_dir(), 'dependencies');
-        exec(
-            escapeshellcmd('vendor/bin/pdepend') . ' ' .
-                escapeshellarg('--dependency-xml=' . $tmpFile) . ' ' .
-                ($excludes ? escapeshellarg('--ignore=' . implode(',', $excludes)) . ' ' : '' ) .
-                escapeshellarg($dir),
-            $output,
-            $return
+        $options = array(
+            '--dependency-xml=' . ($tmpFile = $this->shell->getTempFile()),
         );
 
-        if ($return) {
-            throw new \RuntimeException("Program exited with non zero exit code $return: " . implode(PHP_EOL, $output));
+        if ($excludes) {
+            $options[] = '--ignore=' . implode(',', $excludes);
         }
 
+        $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($dir)));
         return $tmpFile;
     }
 }
