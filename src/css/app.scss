@@ -7,7 +7,7 @@ body {
         fill: $gray-base;
 
         &.active {
-            fill: $primary;
+            fill: $blue;
         }
     }
 
@@ -48,7 +48,7 @@ body {
             }
 
             .node {
-                fill: $primary;
+                fill: $blue;
             }
         }
     }
@@ -65,7 +65,7 @@ body {
         }
 
         .link.incoming {
-            stroke: $primary;
+            stroke: $blue;
         }
 
         .link.outgoing {
@@ -153,7 +153,7 @@ ol.code {
         font-weight: bold;
     }
     .variable, .name {
-        color: $primary-dark;
+        color: $blue-dark;
     }
     .comment {
         color: $gray;

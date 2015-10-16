@@ -1,26 +1,32 @@
-$primary-lighter: #85A0D8;
-$primary-light: #496BB6;
-$primary: #214BA5;
-$primary-dark: #0E317A;
-$primary-darker: #051C4D;
+$green-lighter: #ACD3AF;
+$green-light: #63A968;
+$green: #308336;
+$green-dark: #0C5911;
+$green-darker: #002F03;
 
-$red-lighter: #FF9492;
-$red-light: #FF5954;
-$red: #F6201B;
-$red-dark: #B70803;
-$red-darker: #730300;
+$blue-lighter: #9FA5BE;
+$blue-light: #5D6793;
+$blue: #333E71;
+$blue-dark: #131D4D;
+$blue-darker: #030A29;
 
-$yellow-lighter: #FFDA92;
-$yellow-light: #FFC554;
-$yellow: #F6AC1B;
-$yellow-dark: #B77A03;
-$yellow-darker: #734C00;
+$yellow-lighter: #FFF1D0;
+$yellow-light: #D7BD7E;
+$yellow: #A6883D;
+$yellow-dark: #715510;
+$yellow-darker: #3B2A00;
 
-$green-lighter: #83E68A;
-$green-light: #45D04E;
-$green: #15C220;
-$green-dark: #02900C;
-$green-darker: #005A06;
+$red-lighter: #FFD1D0;
+$red-light: #D7807E;
+$red: #A6403D;
+$red-dark: #711210;
+$red-darker: #3B0200;
+
+$primary-lighter: $green-lighter;
+$primary-light: $green-light;
+$primary: $green;
+$primary-dark: $green-dark;
+$primary-darker: $green-darker;
 
 $white: #ffffff;
 
@@ -37,7 +43,7 @@ $gray-verylight:         #f5f5f5;
 
 $brand-primary: $primary;
 $brand-success: $green;
-$brand-info: $primary;
+$brand-info: $blue;
 $brand-warning: $yellow;
 $brand-danger: $red;
 
@@ -301,8 +307,8 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5));
 $state-success-text:             $green-dark;
 $state-success-bg:               $green-lighter;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%);
-$state-info-text:                $primary-dark;
-$state-info-bg:                  $primary-lighter;
+$state-info-text:                $blue-dark;
+$state-info-bg:                  $blue-lighter;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
 $state-warning-text:             $yellow-dark;
 $state-warning-bg:               $yellow-lighter;
