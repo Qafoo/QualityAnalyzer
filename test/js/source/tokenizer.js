@@ -32,18 +32,18 @@ describe("Source/Tokenizer", function() {
     it("tokenizes single quoted string with escape sequence", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString("' Hello \\' world'")[0])
+        expect(tokenizer.tokenizeString("' Hello \\' \\ \" world \\\\'")[0])
             .toEqual([
-                { type: 'string', text: "' Hello \\' world'"},
+                { type: 'string', text: "' Hello \\' \\ \" world \\\\'"},
             ]);
     });
 
     it("tokenizes double quoted string with escape sequence", function() {
         var tokenizer = new Tokenizer();
 
-        expect(tokenizer.tokenizeString('" Hello \\" \\ \' world"')[0])
+        expect(tokenizer.tokenizeString('" Hello \\" \\ \' world \\\\"')[0])
             .toEqual([
-                { type: 'string', text: '" Hello \\" \\ \' world"'},
+                { type: 'string', text: '" Hello \\" \\ \' world \\\\"'},
             ]);
     });
 
