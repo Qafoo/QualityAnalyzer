@@ -49,6 +49,10 @@ let Model = function() {
         for (var i = 0; i < dependencies.package.length; ++i) {
             var namespace = dependencies.package[i];
 
+            if (!namespace.class) {
+                continue;
+            }
+
             for (var j = 0; j < namespace.class.length; ++j) {
                 var type = namespace.class[j];
 

@@ -105,6 +105,10 @@ let Metrics = React.createClass({
         for (var i = 0; i < pdependData.package.length; ++i) {
             var namespace = pdependData.package[i];
 
+            if (!namespace.class) {
+                continue;
+            }
+
             for (var j = 0; j < namespace.class.length; ++j) {
                 var artifact = namespace.class[j],
                     data = {
@@ -133,6 +137,10 @@ let Metrics = React.createClass({
 
         for (var i = 0; i < pdependData.package.length; ++i) {
             var namespace = pdependData.package[i];
+
+            if (!namespace.class) {
+                continue;
+            }
 
             for (var j = 0; j < namespace.class.length; ++j) {
                 var type = namespace.class[j];
