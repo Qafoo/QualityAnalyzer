@@ -18,8 +18,7 @@ module.exports = function(grunt) {
         webpack: {
             options: webpackConfig,
             build: {
-                devtool: "sourcemap",
-                debug: true
+                devtool: "sourcemap"
             },
             package: {
                 plugins: webpackConfig.plugins.concat(
@@ -31,8 +30,7 @@ module.exports = function(grunt) {
                     }),
                     new webpack.optimize.DedupePlugin(),
                     new webpack.optimize.UglifyJsPlugin({minimize: true})
-                ),
-                debug: true
+                )
             }
         },
 
