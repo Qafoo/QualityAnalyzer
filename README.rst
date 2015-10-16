@@ -5,6 +5,41 @@ Qafoo Quality Analyzer
 This software is a tool to visualize metrics and source code. We use this
 software for Code Reviews together with our customers.
 
+Setup
+=====
+
+To use the software there are very few steps involved. The requirements are the
+following packages:
+
+* PHP
+* ant >= 1.8
+* npm
+
+The run the following commands::
+
+    git clone git@bitbucket.org:qafoo/qa.git <folder>
+    cd <folder>
+    git submodule update --init
+    ant serve
+
+The last command prints the URL you can access the Qafoo Quality Analyzer at.
+If you want analyze some software run something like::
+
+    bin/analyze analyze src/php/
+
+See "Usage" for more details on the command.
+
+Common problems
+---------------
+
+Ubuntu
+^^^^^^
+
+On Ubuntu the ``node`` binary may not be available, because Ubuntu calls the
+binary ``nodejs``. You can either create a link (``ln -s /usr/bin/nodejs
+/usr/local/bin/node``) or (better) install nodejs from here:
+https://launchpad.net/~chris-lea/+archive/ubuntu/node.js/
+
 Usage
 =====
 
