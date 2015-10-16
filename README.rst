@@ -17,7 +17,7 @@ following packages:
 
 The run the following commands::
 
-    git clone git@bitbucket.org:qafoo/qa.git <folder>
+    git clone https://github.com/Qafoo/QualityAnalyzer.git <folder>
     cd <folder>
     git submodule update --init
     ant serve
