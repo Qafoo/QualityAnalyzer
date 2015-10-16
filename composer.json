@@ -1,6 +1,7 @@
 {
     "name":         "qafoo/quality-analyzer",
     "description":  "Helper for code reviews",
+    "license":      "AGPL-3.0",
     "require":      {
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "@stable",
