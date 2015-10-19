@@ -11,9 +11,10 @@ class Shell
      *
      * @param string $command
      * @param string[] $arguments
+     * @param int[] $okCodes
      * @return string
      */
-    public function exec($command, array $arguments = array())
+    public function exec($command, array $arguments = array(), array $okCodes = array(0))
     {
         exec(
             escapeshellcmd($command) . ' ' . implode(' ', array_map('escapeshellarg', $arguments)),
@@ -21,7 +22,7 @@ class Shell
             $return
         );
 
-        if ($return) {
+        if (!in_array($return, $okCodes)) {
             throw new \Exception("Program exited with non zero exit code $return: " . implode(PHP_EOL, $output));
         }
 
