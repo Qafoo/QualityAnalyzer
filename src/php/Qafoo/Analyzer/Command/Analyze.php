@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Qafoo\Analyzer\Handler\RequiresCoverage;
+
 class Analyze extends Command
 {
     /**
@@ -94,11 +96,12 @@ class Analyze extends Command
             $output->writeln(" * Running $name");
 
             try {
-                $file = null;
-                if ($input->hasOption($name)) {
-                    $file = $input->getOption($name);
-                }
-                if ($result = $handler->handle($path, $exclude, $file)) {
+                $file = $input->hasOption($name) ? $input->getOption($name) : null;
+                $coverage = (($handler instanceof RequiresCoverage) && ($input->hasOption('coverage'))) ?
+                    $input->getOption('coverage') :
+                    null;
+
+                if ($result = $handler->handle($path, $exclude, $file, $coverage)) {
                     $project['analyzers'][$name] = $this->copyResultFile($name, $result);
                 }
             } catch (\Exception $exception) {

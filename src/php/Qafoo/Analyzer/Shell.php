@@ -37,6 +37,6 @@ class Shell
      */
     public function getTempFile($prefix = 'qas')
     {
-        return tempnam(sys_get_temp_dir(), 'dependencies');
+        return tempnam(sys_get_temp_dir(), 'qa');
     }
 }

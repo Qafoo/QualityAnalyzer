@@ -5,7 +5,7 @@ namespace Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
 
-class PDepend extends Handler
+class PDepend extends Handler implements RequiresCoverage
 {
     /**
      * Shell
@@ -29,7 +29,7 @@ class PDepend extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $coverage = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -39,6 +39,10 @@ class PDepend extends Handler
         $options = array(
             '--summary-xml=' . ($tmpFile = $this->shell->getTempFile()),
         );
+
+        if ($coverage) {
+            $options[] = '--coverage-report=' . $coverage;
+        }
 
         if ($excludes) {
             $options[] = '--ignore=' . implode(',', $excludes);
