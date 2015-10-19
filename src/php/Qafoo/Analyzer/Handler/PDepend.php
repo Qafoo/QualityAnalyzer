@@ -46,6 +46,5 @@ class PDepend extends Handler
 
         $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($dir)));
         return $tmpFile;
-        return $tmpFile;
     }
 }

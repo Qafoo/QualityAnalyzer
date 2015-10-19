@@ -24,10 +24,10 @@ class Application extends Console\Application
                         'coverage' => new Handler\Coverage(),
                         'pdepend' => new Handler\PDepend($shell),
                         'dependencies' => new Handler\Dependencies($shell),
-                        'phpmd' => new Handler\PHPMD(),
-                        'checkstyle' => new Handler\Checkstyle(),
+                        'phpmd' => new Handler\PHPMD($shell),
+                        'checkstyle' => new Handler\Checkstyle($shell),
                         'tests' => new Handler\Tests(),
-                        'cpd' => new Handler\CPD(),
+                        'cpd' => new Handler\CPD($shell),
                     )
                 )
             )
