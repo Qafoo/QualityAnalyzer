@@ -18,6 +18,6 @@ class Coverage extends Handler
      */
     public function handle($dir, array $excludes, $file = null)
     {
-        // @TODO: Implement
+        return $file;
     }
 }
