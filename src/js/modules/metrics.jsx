@@ -46,6 +46,7 @@ let Metrics = React.createClass({
             ncloc: "Non-Comment Line of Code",
             eloc: "Executable Lines of Code",
             lloc: "Logical Lines Of Code",
+            crap: "CRAP Index",
             ccn: "Cyclomatic Complexity",
             ccn2: "Extended Cyclomatic Complexity",
             npath: "NPath Complexity",
