@@ -3,7 +3,7 @@
     <property name="executable.git" location="/usr/bin/git" />
 
     <target name="-deploy:assets:check">
-        <exec executable="${executable.git}" failonerror="true" dir="${basedir}" resultproperty="deploy:git:changed">
+        <exec executable="${executable.git}" failonerror="true" dir="${basedir}" outputproperty="-deploy:git:changed">
             <arg value="status" />
             <arg value="--short" />
             <arg value="assets/" />
