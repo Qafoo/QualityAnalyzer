@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Deploy">
+    <property name="executable.git" location="/usr/bin/git" />
+
+    <target name="deploy:git" depends="grunt:package" extensionOf="-deploy:main~hook">
+        <exec executable="${executable.git}" failonerror="true" dir="${basedir}">
+            <arg value="commit" />
+            <arg value="--message=Update bundle files for deployment" />
+            <arg value="assets/" />
+        </exec>
+
+        <exec executable="${executable.git}" failonerror="true" dir="${basedir}">
+            <arg value="push" />
+        </exec>
+    </target>
+</project>

@@ -33,5 +33,5 @@
     -->
     <import file="${basedir}/src/ant/${dev.module}watch.xml" optional="true" />
     <import file="${basedir}/src/ant/serve.xml" />
-    <import file="${basedir}/src/ant/deploy.xml" />
+    <import file="${basedir}/src/ant/${dev.module}deploy.xml" optional="true" />
 </project>
