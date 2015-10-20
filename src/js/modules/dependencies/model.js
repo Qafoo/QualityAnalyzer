@@ -16,14 +16,20 @@ let Model = function() {
             treeReference = dependencyTree;
 
         for (var i = 0; i < components.length; ++i) {
-            var component = components[i];
+            var component = components[i],
+                isType = false;
+
+            if (i === (components.length - 1)) {
+                isType = true;
+                component = "<" + component + ">";
+            }
 
             if (!treeReference.children[component]) {
                 treeReference.children[component] = {
                     id: Math.random().toString(36).substring(2, 8),
                     name: component,
                     fullName: components.slice(0, i + 1).join("\\"),
-                    type: "package",
+                    type: isType ? "type" : "package",
                     children: {},
                     size: 0,
                     folded: true
@@ -34,8 +40,6 @@ let Model = function() {
             treeReference = treeReference.children[component];
         }
 
-        treeReference.type = "type";
-        treeReference.folded = true;
         treeReference.efferent = _.map(dependencies, function(type) {
             if (type[0] === "\\") {
                 type = type.substring(1);

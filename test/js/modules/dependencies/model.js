@@ -71,7 +71,7 @@ describe("Module/Depenencies/Model", function() {
                 { id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true },
                 { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
                 { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false },
-                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+                { id: 'tpubzs', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -86,7 +86,7 @@ describe("Module/Depenencies/Model", function() {
                 { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
                 { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: true },
                 { id: 'tukvg7', name: '1', fullName: 'P_2\\1', type: 'package', size: 1, depth: 2, hidden: false },
-                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+                { id: 'tpubzs', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -101,7 +101,7 @@ describe("Module/Depenencies/Model", function() {
                 { id: '0', name: '/', fullName: '/', type: 'package', size: 3, depth: 0, hidden: true },
                 { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: false },
                 { id: 'zyq4vi', name: 'P_2', fullName: 'P_2', type: 'package', size: 1, depth: 1, hidden: false },
-                { id: 'tpubzs', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+                { id: 'tpubzs', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -121,7 +121,7 @@ describe("Module/Depenencies/Model", function() {
             .toEqual([
                 { id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true },
                 { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false },
-                { id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+                { id: 'k9wcky', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
@@ -144,7 +144,36 @@ describe("Module/Depenencies/Model", function() {
             .toEqual([
                 { id: '0', name: '/', fullName: '/', type: 'package', size: 1, depth: 0, hidden: true },
                 { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 1, depth: 1, hidden: false },
-                { id: 'k9wcky', name: '$external', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+                { id: 'k9wcky', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
+            ]);
+    });
+
+    it("analyzes type and package with same name", function() {
+        var model = new Model();
+
+        model.calculateDependencyTree({
+            "package": [{
+                "$": {"name": "P_1"},
+                "class": [{
+                    "$": {"name": "C_1_1"},
+                }]
+            }, {
+                "$": {"name": "P_1\\C_1_1"},
+                "class": [{
+                    "$": {"name": "C_1_1_1"},
+                }]
+            }]
+        });
+
+        model.findAndUnfold('zjimef');
+
+        expect(model.getLeaves())
+            .toEqual([
+                { id: '0', name: '/', fullName: '/', type: 'package', size: 2, depth: 0, hidden: true },
+                { id: 'zjimef', name: 'P_1', fullName: 'P_1', type: 'package', size: 2, depth: 1, hidden: true },
+                { id: 'ck1rmf', name: '<C_1_1>', fullName: 'P_1\\C_1_1', type: 'type', size: 0, depth: 2, hidden: false },
+                { id: 'k9wcky', name: 'C_1_1', fullName: 'P_1\\C_1_1', type: 'package', size: 1, depth: 2, hidden: false },
+                { id: 'tukvg7', name: '<$external>', fullName: '$external', type: 'type', size: 0, depth: 1, hidden: false }
             ]);
     });
 
