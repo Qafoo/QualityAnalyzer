@@ -15,9 +15,11 @@ let CPD = React.createClass({
         return (<div className="row">
             <div className="col-md-12">
                 <h2>Code Duplications</h2>
-                {$.map(this.props.data.analyzers.cpd["pmd-cpd"].duplication, function(duplication, key) {
-                    return (<Duplication key={key} baseDir={baseDir} duplication={duplication} />);
-                })}
+                <ul className="list-unstyled list-hover">
+                    {$.map(this.props.data.analyzers.cpd["pmd-cpd"].duplication, function(duplication, key) {
+                        return (<Duplication key={key} baseDir={baseDir} duplication={duplication} />);
+                    })}
+                </ul>
             </div>
         </div>);
     }

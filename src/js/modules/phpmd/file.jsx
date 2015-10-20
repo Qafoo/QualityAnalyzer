@@ -22,7 +22,7 @@ let File = React.createClass({
                 3: "danger"
             }
 
-        return (<div className="well well-sm">
+        return (<li>
             <div onClick={this.fold} style={{cursor: "pointer"}}>
                 <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span> <span className="name">{file}</span>
                 {_.map(_.countBy(_.pluck(_.pluck(this.props.violations, "$"), "priority"), function(priority) {
@@ -47,7 +47,7 @@ let File = React.createClass({
                     })}
                 </ul>
             }
-        </div>);
+        </li>);
     }
 });
 

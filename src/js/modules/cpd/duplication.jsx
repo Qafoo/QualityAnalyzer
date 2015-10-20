@@ -3,6 +3,8 @@ import Router from 'react-router';
 
 import _ from 'underscore';
 
+import SourceCode from '../../source/code.jsx';
+
 let Duplication = React.createClass({
     getInitialState: function() {
         return {
@@ -28,12 +30,12 @@ let Duplication = React.createClass({
             fileToStart = this.props.duplication.file[1].$.line * 1,
             lines = this.props.duplication.$.lines * 1;
 
-        return (<div className="well well-sm">
+        return (<li>
             <div onClick={this.fold} style={{cursor: "pointer"}}>
                 <span className="label pull-right label-warning">{this.props.duplication.$.lines} lines</span>
                 <span className="label pull-right label-info">{this.props.duplication.$.tokens} tokens</span>
                 <p>
-                    <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span>
+                    <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span>&nbsp;
                     <Router.Link to={"/source" + fileFrom} query={{start: fileFromStart, end: (fileFromStart + lines)}}>
                         {fileFrom}
                     </Router.Link>
@@ -43,10 +45,10 @@ let Duplication = React.createClass({
                     </Router.Link>
                 </p>
             </div>
-            {this.state.folded ? '' : 
-                <pre><code>{this.props.duplication.codefragment[0]}</code></pre>
+            {this.state.folded ? '' :
+                <SourceCode code={this.props.duplication.codefragment[0]} />
             }
-        </div>);
+        </li>);
     }
 });
 

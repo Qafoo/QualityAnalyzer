@@ -165,3 +165,7 @@ ol.code {
         background-color: $red-light;
     }
 }
+
+.list-hover li:hover {
+    background-color: $table-bg-hover;
+}
