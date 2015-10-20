@@ -44,7 +44,7 @@ class CPD extends Handler
             $options[] = '--exclude=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)));
+        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)), array(0, 1));
         return $tmpFile;
     }
 }
