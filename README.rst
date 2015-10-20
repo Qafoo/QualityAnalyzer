@@ -13,9 +13,11 @@ following packages:
 
 * PHP
 * ant >= 1.8
-* npm
 
-The run the following commands::
+``npm`` and ``node`` will only be required for developing the application, not
+for using it.
+
+Then run the following commands::
 
     git clone https://github.com/Qafoo/QualityAnalyzer.git <folder>
     cd <folder>
@@ -28,17 +30,6 @@ If you want analyze some software run something like::
     bin/analyze analyze src/php/
 
 See "Usage" for more details on the command.
-
-Common problems
----------------
-
-Ubuntu
-^^^^^^
-
-On Ubuntu the ``node`` binary may not be available, because Ubuntu calls the
-binary ``nodejs``. You can either create a link (``ln -s /usr/bin/nodejs
-/usr/local/bin/node``) or (better) install nodejs from here:
-https://launchpad.net/~chris-lea/+archive/ubuntu/node.js/
 
 Usage
 =====
@@ -83,12 +74,15 @@ the index.html with your browser and enjoy the results visualization.
 Building & Developing The Software
 ==================================
 
-Apache Ant is used as the primary build tool for this software stack and the
-ant build scripts ensure everything is there. You need at least **Ant 1.8** to
-use the build environment. And you should initilaize the build-commons
-submodule::
+To develop the Quality Analyzer we heavily depend on a JavaScript build stack.
+For this you must have `node` and `npm` installed. All other required tools
+will be installed by the build tool. To set the project into dev mode run::
 
-    git submodule update --init
+    echo env=dev > environment.local
+
+As long as you do not remove this line from the ``environment.local`` file any
+more or change it to ``prod`` all development tools will be installed and used.
+This also means JS and CSS will be compiled.
 
 Running The Tests
 -----------------
