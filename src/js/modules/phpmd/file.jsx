@@ -23,8 +23,8 @@ let File = React.createClass({
             }
 
         return (<div className="well well-sm">
-            <div onClick={this.fold}>
-                <span className="glyphicon glyphicon-file"></span> <span className="name">{file}</span>
+            <div onClick={this.fold} style={{cursor: "pointer"}}>
+                <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span> <span className="name">{file}</span>
                 {_.map(_.countBy(_.pluck(_.pluck(this.props.violations, "$"), "priority"), function(priority) {
                     return priorityMap[priority];
                 }), function(count, type) {
@@ -38,8 +38,7 @@ let File = React.createClass({
                             <h4>
                                 <span className={"label label-" + priorityMap[violation.$.priority]}>
                                     <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                </span>&nbsp;
-                                {violation.$.rule} ({violation.$.ruleset})
+                                </span> {violation.$.rule} ({violation.$.ruleset})
                             </h4>
                             <Router.Link to={"/source" + file} query={{start: violation.$.beginline, end: violation.$.endline}}>
                                 <p>{violation._}</p>
