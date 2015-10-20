@@ -2,13 +2,23 @@
 <project name="Deploy">
     <property name="executable.git" location="/usr/bin/git" />
 
-    <target name="deploy:git" depends="grunt:package" extensionOf="-deploy:main~hook">
+    <target name="-deploy:assets:check">
+        <exec executable="${executable.git}" failonerror="true" dir="${basedir}" resultproperty="deploy:git:changed">
+            <arg value="status" />
+            <arg value="--short" />
+            <arg value="assets/" />
+        </exec>
+    </target>
+
+    <target name="-deploy:assets:commit" depends="-deploy:assets:check" if="-deploy:git:changed">
         <exec executable="${executable.git}" failonerror="true" dir="${basedir}">
             <arg value="commit" />
             <arg value="--message=Update bundle files for deployment" />
             <arg value="assets/" />
         </exec>
+    </target>
 
+    <target name="deploy:git" depends="grunt:package, -deploy:assets:commit" extensionOf="-deploy:main~hook">
         <exec executable="${executable.git}" failonerror="true" dir="${basedir}">
             <arg value="push" />
         </exec>
