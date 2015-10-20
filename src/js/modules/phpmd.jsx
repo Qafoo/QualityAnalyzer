@@ -21,11 +21,14 @@ let PHPMD = React.createClass({
         return (<div className="row">
             <div className="col-md-12">
                 <h2>Violations</h2>
-                <ul className="list-unstyled list-hover">
-                    {$.map(this.props.data.analyzers.phpmd.pmd.file, function(file, key) {
-                        return (<File key={key} file={component.getFileName(file.$.name)} violations={file.violation} />);
-                    })}
-                </ul>
+                {!this.props.data.analyzers.phpmd.pmd.file ?
+                    <h3>No violations</h3> :
+                    <ul className="list-unstyled list-hover">
+                        {$.map(this.props.data.analyzers.phpmd.pmd.file, function(file, key) {
+                            return (<File key={key} file={component.getFileName(file.$.name)} violations={file.violation} />);
+                        })}
+                    </ul>
+                }
             </div>
         </div>);
     }
