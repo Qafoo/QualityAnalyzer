@@ -9,5 +9,3 @@ test-static-pmd.fail-on-violation = true
 test-static-pdepend.fail-on-violation = false
 
 coding.standard=PSR2
-
-secret="vdflsut9032tlsdfj0wq3rsdlgfkjq824rsyndfa"
