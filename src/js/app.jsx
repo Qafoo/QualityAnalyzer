@@ -9,6 +9,7 @@ import Metrics from "./modules/metrics.jsx";
 import Dependencies from "./modules/dependencies.jsx";
 import PHPMD from "./modules/phpmd.jsx";
 import CPD from "./modules/cpd.jsx";
+import Checkstyle from "./modules/checkstyle.jsx";
 import Dummy from "./modules/dummy.jsx";
 
 import Navigation from "./bootstrap/navigation.jsx";
@@ -40,9 +41,14 @@ let App = React.createClass({
             icon: "glyphicon glyphicon-thumbs-up",
             analyzer: true
         },
+        {   path: "checkstyle",
+            name: "Checkstyle",
+            icon: "glyphicon glyphicon-erase",
+            analyzer: true
+        },
         {   path: "cpd",
             name: "Copy & Paste",
-            icon: "glyphicon glyphicon-paste",
+            icon: "glyphicon glyphicon-duplicate",
             analyzer: true
         }
     ],
@@ -101,6 +107,7 @@ var routes = (
         <Router.Route name="dependencies" handler={Dependencies} />
         <Router.Route name="phpmd" handler={PHPMD} />
         <Router.Route name="tests" handler={Dummy} />
+        <Router.Route name="checkstyle" handler={Checkstyle} />
         <Router.Route name="cpd" handler={CPD} />
     </Router.Route>
 );
