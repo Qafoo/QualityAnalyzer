@@ -174,7 +174,8 @@ table.dataTable thead .sorting:after {
     font-size: 40px;
 
     .glyphicon {
-        font-size: 72px;
+        margin: $padding-base-vertical $padding-base-horizontal;
+        font-size: 60px;
     }
 }
 
