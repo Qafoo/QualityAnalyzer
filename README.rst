@@ -116,6 +116,20 @@ webserver. You can start it using::
 
     ant serve
 
+Generating The Bundle Files
+---------------------------
+
+The follwing task ensures the bundle files are generated, compressed and
+comitted::
+
+    ant deploy
+
+**Use this command to update the distributed files.**
+
+It will run the ``package`` task first (after running all tests, of course). If
+there are changes in the ``assets/`` folder those changes will be comitted and
+the current development state will then be pushed. 
+
 ..
    Local Variables:
    mode: rst
