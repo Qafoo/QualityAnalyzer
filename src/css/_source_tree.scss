@@ -1,0 +1,23 @@
+ul.source-tree {
+    &, & ul {
+        list-style-type: none;
+        padding-left: $padding-base-horizontal;
+    }
+
+    a {
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .glyphicon {
+        color: $gray-light;
+    }
+
+    .selected > a {
+        font-weight: bold;
+    }
+
+    .selected > a .glyphicon {
+        color: inherit;
+    }
+}

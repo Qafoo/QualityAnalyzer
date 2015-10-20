@@ -1,0 +1,99 @@
+#dependency-chart {
+    .node {
+        fill: $gray-base;
+
+        &.active {
+            fill: $blue;
+        }
+    }
+
+    .row {
+        .bg {
+            fill: $table-bg;
+        }
+
+        &.uneven .bg {
+            fill: $table-bg-accent;
+        }
+
+        .caption {
+            font-family: $font-family-sans-serif;
+            font-size: $font-size-base;
+            fill: $gray-base;
+        }
+
+        &.package {
+            .bg, text {
+                cursor: pointer;
+            }
+        }
+
+        &.unfolded {
+            .node {
+                fill: $gray-lighter;
+            }
+
+            .caption {
+                fill: $gray;
+            }
+        }
+
+        &.hover {
+            .bg {
+                fill: $table-bg-hover;
+            }
+
+            .node {
+                fill: $blue;
+            }
+        }
+    }
+
+    .link {
+        fill: none;
+        stroke: $green;
+        stroke-linecap: round;
+    }
+
+    .hover {
+        .link {
+            stroke: $gray-lighter;
+        }
+
+        .link.incoming {
+            stroke: $blue;
+        }
+
+        .link.outgoing {
+            stroke: $yellow;
+        }
+    }
+
+    .legends {
+        .hover {
+            display: none;
+        }
+
+        &.hover .hover {
+            display: block;
+        }
+    }
+
+    .legend {
+        .background {
+            stroke-width: 1px;
+            stroke: $table-border-color;
+            fill: $table-bg-accent;
+        }
+
+        .caption {
+            font-family: $font-family-sans-serif;
+            font-size:  $font-size-small;
+            fill: $gray-base;
+        }
+
+        .link {
+            stroke-width: 2px;
+        }
+    }
+}

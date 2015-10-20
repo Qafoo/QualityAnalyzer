@@ -1,0 +1,42 @@
+ol.code {
+    border: 1px solid $gray-lighter;
+    padding: $padding-small-vertical;
+
+    & > li {
+        white-space: pre-wrap;
+        font-family: monospace;
+    }
+
+    & > li.highlight:hover,
+    & > li:hover {
+        background-color: $gray-lighter;
+    }
+
+    & > li.highlight {
+        background-color: $gray-verylight;
+    }
+
+    .string, .number {
+        color: $green-dark;
+    }
+    .keyword {
+        color: $yellow-dark;
+        font-weight: bold;
+    }
+    .variable, .name {
+        color: $blue-dark;
+    }
+    .comment {
+        color: $gray;
+    }
+    .operator {
+        color: $red-dark;
+    }
+    .uncought {
+        background-color: $red-light;
+    }
+}
+
+.list-hover li:hover {
+    background-color: $table-bg-hover;
+}
