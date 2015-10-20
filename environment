@@ -1,5 +1,5 @@
 ; Properties determining, if the build should fail, if one of the tests fails
-env=dev
+env=prod
 
 test-unit.fail-on-violation = true
 test-feature.fail-on-violation = true
