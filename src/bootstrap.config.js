@@ -59,7 +59,7 @@ module.exports = {
         "list-group": true,
         "panels": true,
         "responsive-embed": true,
-        "wells": false,
+        "wells": true,
         "close": true,
 
         // Components w/ JavaScript
