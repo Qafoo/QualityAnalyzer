@@ -2,13 +2,13 @@ import React from "react";
 import Router from "react-router";
 import _ from "underscore";
 
-let PHPMD = React.createClass({
+let Checkstyle = React.createClass({
     render: function() {
         var violations = _.reduce(
                 _.map(
-                    this.props.data.pmd.file || [],
+                    this.props.data.checkstyle.file || [],
                     function (file) {
-                        return file.violation.length;
+                        return file.error.length;
                     }
                 ),
                 function (memo, num) {
@@ -20,17 +20,17 @@ let PHPMD = React.createClass({
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
-                        <span className="glyphicon glyphicon-trash"></span>
+                        <span className="glyphicon glyphicon-erase"></span>
                     </div>
                     <div className="col-xs-9 text-right">
                         <div className="huge">{violations}</div>
-                        <div>Mess Detector violations</div>
+                        <div>Checkstyle violations</div>
                     </div>
                 </div>
             </div>
             <Router.Link to="pdepend">
                 <div className="panel-footer">
-                    <span className="pull-left">Check out</span>
+                    <span className="pull-left">See more</span>
                     <span className="pull-right">
                         <span className="glyphicon glyphicon-circle-arrow-right"></span>
                     </span>
@@ -41,4 +41,4 @@ let PHPMD = React.createClass({
     }
 });
 
-export default PHPMD; 
+export default Checkstyle; 

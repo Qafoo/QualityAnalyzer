@@ -4,6 +4,7 @@ import _ from "underscore";
 import PDepend from "./overview/pdepend.jsx";
 import Dependencies from "./overview/dependencies.jsx";
 import PHPMD from "./overview/phpmd.jsx";
+import Checkstyle from "./overview/checkstyle.jsx";
 
 let Overview = React.createClass({
     render: function() {
@@ -12,6 +13,7 @@ let Overview = React.createClass({
                 {name: "pdepend", component: PDepend},
                 {name: "dependencies", component: Dependencies},
                 {name: "phpmd", component: PHPMD},
+                {name: "checkstyle", component: Checkstyle},
             ];
 
         return (<div className="row">
