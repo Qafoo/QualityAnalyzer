@@ -5,6 +5,13 @@ Qafoo Quality Analyzer
 This software is a tool to visualize metrics and source code. We use this
 software for Code Reviews together with our customers.
 
+Running the analyzers requires the respective PHP tools, which are installed
+using composer and can all be run using a convenience command. You may also run
+the tools in your common build process, though.
+
+To display the metrics a pure JavaScript / CSS stack is used so you could build
+and serve the results inside continuous integration tools like Jenkins.
+
 Setup
 =====
 
@@ -29,7 +36,8 @@ If you want analyze some software run something like::
 
     bin/analyze analyze src/php/
 
-See "Usage" for more details on the command.
+See "Usage" for more details on the command. The results of this command can be
+found in the ``data/`` folder.
 
 Usage
 =====
@@ -43,19 +51,18 @@ With the default command the tool will analyze the source code itself. For
 tools like PHPMD or PDepend this makes a lot of sense since the tool already
 knows which options to use for each tool.
 
-There are some reports we cannot generate ourselves, like code coverage from
-tests. You can tell the tool where to find certain files to make sure they are
-available and ready to be used::
+There are some reports we cannot generate ourselves like code coverage from
+your tests. You can tell the tool where to find certain files to make sure they
+are available and ready to be used::
 
     bin/analyzer \
         --coverage /path/to/clover.xml \
-        --pdepend /path/to/pdepend.xml \
-        --dependencies /path/to/dependencies.xml \
-        --phpmd /path/to/pmd.xml \
-        --checkstyle /path/to/checkstyle.xml \
         --tests /path/to/junit.xml \
-        --cpd /path/to/cpd.xml \
         analyze /path/to/source
+
+You can also specify already generated file for all the other tools. But the
+visualization might behave strangely if some reports are generated in the wrong
+formats or some options are missing. We do not verify this (yet) properly.
 
 You might also want to tell the tools which directories there are to ignore by
 the tools. This is *especially important* if you have (large) libraries in your
@@ -76,18 +83,19 @@ Building & Developing The Software
 
 To develop the Quality Analyzer we heavily depend on a JavaScript build stack.
 For this you must have `node` and `npm` installed. All other required tools
-will be installed by the build tool. To set the project into dev mode run::
+will be installed by the build tool. To set the project into development mode
+run::
 
     echo env=dev > environment.local
 
 As long as you do not remove this line from the ``environment.local`` file any
 more or change it to ``prod`` all development tools will be installed and used.
-This also means JS and CSS will be compiled.
+This also means JavaScript and CSS will be compiled.
 
 Running The Tests
 -----------------
 
-You can run the tests by executing `ant`.
+You can run the tests by executing ``ant``.
 
 It will run run tests through Karma & Jasmine for parts of the JavaScript stack
 and PHPUnit tests for the PHP stack.
@@ -108,10 +116,10 @@ Trying Out The Project
 ----------------------
 
 If you want to try out the project you can serve the root directory with
-basically any webserver. The webserver should rewrite all requests to onknown
+basically any webserver. The webserver should rewrite all requests to unknown
 resources to the index.html file which does the routing using JavaScript.
 
-For your convinience we included a working server setup using PHPs internal
+For your convenience we included a working server setup using PHPs internal
 webserver. You can start it using::
 
     ant serve
@@ -119,7 +127,7 @@ webserver. You can start it using::
 Generating The Bundle Files
 ---------------------------
 
-The follwing task ensures the bundle files are generated, compressed and
+The following task ensures the bundle files are generated, compressed and
 comitted::
 
     ant deploy
