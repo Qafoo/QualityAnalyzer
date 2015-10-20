@@ -45,7 +45,7 @@ class Checkstyle extends Handler
             $options[] = '--ignore=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/phpcs', array_merge($options, array($dir)));
+        $this->shell->exec('vendor/bin/phpcs', array_merge($options, array($dir)), array(0, 1));
         return $tmpFile;
     }
 }
