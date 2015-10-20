@@ -20,7 +20,7 @@ let PHPMD = React.createClass({
 
         return (<div className="row">
             <div className="col-md-12">
-                <h3>Violations</h3>
+                <h2>Violations</h2>
                 {$.map(this.props.data.analyzers.phpmd.pmd.file, function(file, key) {
                     return (<File key={key} file={component.getFileName(file.$.name)} violations={file.violation} />);
                 })}
