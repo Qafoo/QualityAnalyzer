@@ -2,13 +2,7 @@
 /vendor/
 /composer.phar
 /environment.local
-/bower_components
-/node_modules
-/assets/bundle.*
+/node_modules/
 /assets/tests.*
-/assets/*.woff2
-/assets/*.svg
-/assets/*.ttf
-/assets/*.eot
-/assets/*.woff
+/assets/*.map
 /data/*
