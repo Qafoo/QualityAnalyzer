@@ -28,7 +28,7 @@ let SourceView = React.createClass({
         return (<div>
             <h2>{file.name}</h2>
             <h3>{file.file.name}</h3>
-            <SourceCode code={file.file.asText()} start={start} end={end} />
+            <SourceCode code={file.file.asText()} coverage={file.lines} start={start} end={end} />
         </div>);
     }
 });

@@ -1,3 +1,5 @@
+import _ from "underscore";
+
 let Tree = function() {
     var sourceTree = {
         name: "/",
@@ -43,6 +45,9 @@ let Tree = function() {
 
         treeReference.type = "file";
         treeReference.file = file;
+        treeReference.lines = [];
+        treeReference.coverage = 0;
+        treeReference.file = file;
         hasFiles = true;
     };
 
@@ -50,6 +55,32 @@ let Tree = function() {
         for (var file in files) {
             addFile(files[file]);
         }
+    };
+
+    this.addCoverage = function(coverage) {
+        var tree = this,
+            files = [];
+
+        _.each(
+            _.pluck(coverage.coverage.project, "package"),
+            function(namespace) {
+                files = files.concat(_.pluck(namespace, "file"));
+            }
+        );
+        files = _.flatten(files, true);
+
+        _.map(files, function(file) {
+            var node = tree.getSelectedFile(tree.getFileName(file.$.name).split("/"));
+
+            if (!node) {
+                return;
+            }
+
+            node.coverage = file.metrics[0].$.coveredstatements / file.metrics[0].$.statements;
+            _.map(file.line, function(line) {
+                node.lines[line.$.num] = (line.$.count > 0);
+            });
+        });
     };
 
     this.setBaseDir = function(newBaseDir) {

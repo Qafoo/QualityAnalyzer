@@ -1,8 +1,9 @@
 ol.code {
-    border: 1px solid $gray-lighter;
-    padding: $padding-small-vertical;
+    $code-border-width: 2px;
 
     & > li {
+        border-left: $code-border-width solid $gray-lighter;
+        padding-left: $padding-xs-horizontal;
         white-space: pre-wrap;
         font-family: monospace;
     }
@@ -14,6 +15,22 @@ ol.code {
 
     & > li.highlight {
         background-color: $gray-verylight;
+    }
+
+    & > li.covered {
+        border-left-color: $green;
+
+        &:hover {
+            background-color: $green-lighter;
+        }
+    }
+
+    & > li.uncovered {
+        border-left-color: $red;
+
+        &:hover {
+            background-color: $red-lighter;
+        }
     }
 
     .string, .number {

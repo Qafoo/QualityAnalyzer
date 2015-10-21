@@ -34,6 +34,7 @@ let Source = React.createClass({
             var source = new zip(data);
 
             component.sourceTree.addFiles(source.files);
+            component.sourceTree.addCoverage(component.props.data.analyzers.coverage);
             component.setState({loaded: true});
         });
     },

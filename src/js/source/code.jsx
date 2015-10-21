@@ -40,6 +40,7 @@ let SourceCode = React.createClass({
 
     render: function() {
         var lines = this.addMarkup(this.props.code),
+            coverage = this.props.coverage || [],
             start = this.props.start || 0,
             end = this.props.end || 0;
 
@@ -48,7 +49,10 @@ let SourceCode = React.createClass({
                 var lineNumber = number + 1;
 
                 return <li key={number} id={"l" + lineNumber}
-                    className={((lineNumber >= start) && (lineNumber <= end)) ? "highlight" : ""}
+                    className={
+                        (((lineNumber >= start) && (lineNumber <= end)) ? "highlight " : "") +
+                        (coverage[lineNumber] === undefined ? "" : (coverage[lineNumber] ? "covered" : "uncovered"))
+                    }
                     dangerouslySetInnerHTML={{__html: line}}>
                 </li>
             })}
