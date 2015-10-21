@@ -28,7 +28,7 @@ let Checkstyle = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="pdepend">
+            <Router.Link to="checkstyle">
                 <div className="panel-footer">
                     <span className="pull-left">See more</span>
                     <span className="pull-right">

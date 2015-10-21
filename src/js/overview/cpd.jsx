@@ -19,7 +19,7 @@ let CPD = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="pdepend">
+            <Router.Link to="cpd">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">
