@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "underscore";
 
+import PhpLoc from "./overview/phploc.jsx";
 import PDepend from "./overview/pdepend.jsx";
 import Dependencies from "./overview/dependencies.jsx";
 import PHPMD from "./overview/phpmd.jsx";
@@ -13,6 +14,7 @@ let Overview = React.createClass({
     render: function() {
         var analyzers = this.props.data.analyzers,
             handler = [
+                {name: "phploc", component: PhpLoc},
                 {name: "pdepend", component: PDepend},
                 {name: "dependencies", component: Dependencies},
                 {name: "phpmd", component: PHPMD},

@@ -12,7 +12,7 @@ let PhpLoc = React.createClass({
                 {color: "#808080", label: "Comments", value: data.cloc[0]},
                 {color: "#308336", label: "Lines", value: data.ncloc[0]},
             ],
-            data.loc[0] * 1 + data.ncloc[0] * 1
+            data.cloc[0] * 1 + data.ncloc[0] * 1
         );
         PieChart.create(
             document.getElementById('chart-types'),
