@@ -28,6 +28,7 @@ class Application extends Console\Application
                         'checkstyle' => new Handler\Checkstyle($shell),
                         'tests' => new Handler\Tests(),
                         'cpd' => new Handler\CPD($shell),
+                        'phploc' => new Handler\Phploc($shell),
                     )
                 )
             )

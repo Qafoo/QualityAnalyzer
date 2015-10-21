@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c69557762a1ca8892fb7a0544d46a2a6",
-    "content-hash": "859d6b7b7a512d70595a26e71ec30b36",
+    "hash": "e4144072d6c796f866bf81892f914f8c",
+    "content-hash": "b4f3aacaf51bbfe50c840f76592c760a",
     "packages": [
         {
             "name": "pdepend/pdepend",
@@ -762,7 +762,6 @@
     "stability-flags": {
         "phpmd/phpmd": 0,
         "pdepend/pdepend": 0,
-        "phploc/phploc": 0,
         "squizlabs/php_codesniffer": 0,
         "sebastian/phpcpd": 0
     },
