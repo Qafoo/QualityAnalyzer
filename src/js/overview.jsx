@@ -6,6 +6,8 @@ import Dependencies from "./overview/dependencies.jsx";
 import PHPMD from "./overview/phpmd.jsx";
 import Checkstyle from "./overview/checkstyle.jsx";
 import CPD from "./overview/cpd.jsx";
+import Coverage from "./overview/coverage.jsx";
+import Tests from "./overview/tests.jsx";
 
 let Overview = React.createClass({
     render: function() {
@@ -16,6 +18,8 @@ let Overview = React.createClass({
                 {name: "phpmd", component: PHPMD},
                 {name: "checkstyle", component: Checkstyle},
                 {name: "cpd", component: CPD},
+                {name: "coverage", component: Coverage},
+                {name: "tests", component: Tests},
             ];
 
         return (<div className="row">
