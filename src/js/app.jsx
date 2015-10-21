@@ -11,6 +11,7 @@ import PHPMD from "./modules/phpmd.jsx";
 import Tests from "./modules/tests.jsx";
 import Checkstyle from "./modules/checkstyle.jsx";
 import CPD from "./modules/cpd.jsx";
+import PhpLoc from "./modules/phploc.jsx";
 
 import Navigation from "./bootstrap/navigation.jsx";
 
@@ -20,6 +21,11 @@ let App = React.createClass({
         {   path: "source",
             name: "Source",
             icon: "glyphicon glyphicon-folder-open"
+        },
+        {   path: "phploc",
+            name: "Size",
+            icon: "glyphicon glyphicon-scale",
+            analyzer: true
         },
         {   path: "pdepend",
             name: "Metrics",
@@ -103,6 +109,7 @@ var routes = (
 
         <Router.Route name="source" path="/source" handler={Source} />
         <Router.Route name="source_with_path" path="/source/*" handler={Source} />
+        <Router.Route name="phploc" handler={PhpLoc} />
         <Router.Route name="pdepend" handler={Metrics} />
         <Router.Route name="dependencies" handler={Dependencies} />
         <Router.Route name="phpmd" handler={PHPMD} />
