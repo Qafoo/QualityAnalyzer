@@ -40,6 +40,7 @@ let Loader = React.createClass({
                     var deferred = jQuery.Deferred(),
                         parser = new xml2js.Parser();
 
+                    component.advanceProgress(step / 2);
                     parser.parseString(analyzerData, function(error, result) {
                         if (error) {
                             deferred.reject(error);
@@ -50,7 +51,7 @@ let Loader = React.createClass({
                     return deferred.promise();
                 }).pipe(function(result) {
                     data.analyzers[analyzer] = result;
-                    component.advanceProgress(step);
+                    component.advanceProgress(step / 2);
                     return data;
                 });
             });
