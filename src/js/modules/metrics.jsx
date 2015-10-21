@@ -14,7 +14,7 @@ let Metrics = React.createClass({
             nom: "Number of Methods"
         },
         class: {
-            loc: "Line of Code",
+            loc: "Lines of Code",
             cloc: "Comment Lines of Code",
             ncloc: "Non-Comment Line of Code",
             eloc: "Executable Lines of Code",
@@ -41,7 +41,7 @@ let Metrics = React.createClass({
             nocc: "Number of Child Classes"
         },
         method: {
-            loc: "Line of Code",
+            loc: "Lines of Code",
             cloc: "Comment Lines of Code",
             ncloc: "Non-Comment Line of Code",
             eloc: "Executable Lines of Code",
