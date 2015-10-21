@@ -1,0 +1,8 @@
+ul.suite,
+ul.suite ul {
+    list-style-type: none;
+
+    .name:hover {
+        background-color: $table-bg-hover;
+    }
+}

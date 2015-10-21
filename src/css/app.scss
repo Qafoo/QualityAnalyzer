@@ -1,8 +1,17 @@
 @import "sb-admin-2";
 @import "code";
 @import "dependencies";
+@import "tests";
 @import "source_tree";
 
 body {
     margin-top: ($navbar-height + $navbar-margin-bottom);
+}
+
+.list-hover li:hover {
+    background-color: $table-bg-hover;
+}
+
+.label.pull-right {
+    margin-right: $padding-xs-horizontal;
 }
