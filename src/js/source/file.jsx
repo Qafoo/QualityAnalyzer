@@ -6,8 +6,6 @@ let SourceFile = React.createClass({
         var file = this.props.file,
             nodeSelected = file.name === this.props.selected[0];
 
-        console.log(file);
-
         return (<li className={nodeSelected ? "selected" : ""}>
             <Router.Link to={"/source/" + file.file.name}>
                 <span className={"glyphicon glyphicon-file " + (file.coverage > .8 ? "covered" : (file.coverage > .5 ? "semi-covered" : "uncovered"))} ></span>&nbsp;
