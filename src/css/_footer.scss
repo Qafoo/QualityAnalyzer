@@ -1,0 +1,21 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: ($navbar-height + $navbar-margin-bottom);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $navbar-height;
+    background-color: $navbar-default-bg;
+    color: $navbar-default-color;
+    text-align: right;
+    border-top: 1px solid $navbar-default-border;
+    padding: $padding-base-vertical $padding-base-horizontal;
+    font-size: $font-size-small;
+}
