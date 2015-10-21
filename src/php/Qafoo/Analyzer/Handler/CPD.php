@@ -40,8 +40,8 @@ class CPD extends Handler
             '--log-pmd=' . ($tmpFile = $this->shell->getTempFile()),
         );
 
-        if ($excludes) {
-            $options[] = '--exclude=' . implode(',', $excludes);
+        foreach ($excludes as $exclude) {
+            $options[] = '--exclude=' . $exclude;
         }
 
         $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)), array(0, 1));
