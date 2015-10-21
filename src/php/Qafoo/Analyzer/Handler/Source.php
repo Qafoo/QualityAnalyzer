@@ -2,6 +2,8 @@
 
 namespace Qafoo\Analyzer\Handler;
 
+use SebastianBergmann\FinderFacade\FinderFacade;
+
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
 
@@ -35,6 +37,14 @@ class Source extends Handler
         chdir($dir);
 
         if ($excludes) {
+            $finder = new FinderFacade(array($dir), array(), $excludes);
+            $excludes = array_map(
+                function ($path) use ($dir) {
+                    $path = substr($path, strlen($dir) + 1);
+                    return is_file($path) ? $path : $path . '/*';
+                },
+                $finder->findFiles()
+            );
             array_unshift($excludes, '-x');
         }
 

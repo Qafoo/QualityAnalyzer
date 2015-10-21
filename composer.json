@@ -8,7 +8,8 @@
         "phploc/phploc": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
-        "symfony/console": "^2.7"
+        "symfony/console": "^2.7",
+        "sebastian/finder-facade": "^1.2"
     },
     "autoload": {
         "psr-0": {
