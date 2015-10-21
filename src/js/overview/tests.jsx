@@ -5,7 +5,8 @@ import _ from "underscore";
 let Tests = React.createClass({
     render: function() {
         var testinfo = this.props.data.testsuites.testsuite[0].$,
-            failed = testinfo.failures > 0;
+            failures = testinfo.failures * 1 + testinfo.errors * 1,
+            failed = failures > 0;
 
         return ( <div className={"panel panel-" + (failed ? "red" : "green")}>
             <div className="panel-heading">
@@ -14,7 +15,7 @@ let Tests = React.createClass({
                         <span className={"glyphicon glyphicon-thumbs-" + (failed ? "down" : "up")}></span>
                     </div>
                     <div className="col-xs-9 text-right">
-                        <div className="huge">{testinfo.failures} / {testinfo.tests}</div>
+                        <div className="huge">{failures} / {testinfo.tests}</div>
                         <div>Failed tests</div>
                     </div>
                 </div>
