@@ -2,6 +2,11 @@
 Qafoo Quality Analyzer
 ======================
 
+.. image::  https://api.travis-ci.org/Qafoo/QualityAnalyzer.svg?branch=master
+   :alt:    Travis Status
+   :target: https://travis-ci.org/Qafoo/QualityAnalyzer
+   :align:  right
+
 This software is a tool to visualize metrics and source code. We use this
 software for Code Reviews together with our customers.
 
