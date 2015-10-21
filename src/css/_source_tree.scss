@@ -11,6 +11,18 @@ ul.source-tree {
 
     .glyphicon {
         color: $gray-light;
+
+        &.covered {
+            color: $green-light;
+        }
+
+        &.semi-covered {
+            color: $yellow-light;
+        }
+
+        &.uncovered {
+            color: $red-light;
+        }
     }
 
     .selected > a {
@@ -19,5 +31,17 @@ ul.source-tree {
 
     .selected > a .glyphicon {
         color: inherit;
+
+        &.covered {
+            color: $green;
+        }
+
+        &.semi-covered {
+            color: $yellow;
+        }
+
+        &.uncovered {
+            color: $red;
+        }
     }
 }
