@@ -1,4 +1,5 @@
 import React from "react";
+import jQuery from "jquery";
 
 import SourceCode from "./code.jsx";
 
@@ -8,7 +9,9 @@ let SourceView = React.createClass({
         var element = null;
 
         if (element = document.getElementById('l' + (this.props.start - 5))) {
-            element.scrollIntoView();
+            jQuery("html, body").animate({
+                scrollTop: jQuery(element).offset().top
+            }, 500);
         }
     },
 
