@@ -18,6 +18,7 @@ class Application extends Console\Application
         return array_merge(
             parent::getDefaultCommands(),
             array(
+                new Command\Serve(),
                 new Command\Analyze(
                     array(
                         'source' => new Handler\Source($shell),
@@ -30,7 +31,7 @@ class Application extends Console\Application
                         'cpd' => new Handler\CPD($shell),
                         'phploc' => new Handler\Phploc($shell),
                     )
-                )
+                ),
             )
         );
     }
