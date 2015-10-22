@@ -1,5 +1,6 @@
 import React from "react";
 import Router from 'react-router';
+import jQuery from 'jquery';
 
 import Table from '../table.jsx';
 
@@ -207,6 +208,7 @@ let Metrics = React.createClass({
 
         metricName = this.metrics[type][selected];
 
+        jQuery("html, body").animate({scrollTop: 0}, 500);
         return (<div className="row">
             <div className="col-md-3">
                 <h3>Package</h3>
