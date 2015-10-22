@@ -36,11 +36,11 @@ let Duplication = React.createClass({
                 <span className="label pull-right label-info">{this.props.duplication.$.tokens} tokens</span>
                 <p>
                     <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span>&nbsp;
-                    <Router.Link to={"/source" + fileFrom} query={{start: fileFromStart, end: (fileFromStart + lines)}}>
+                    <Router.Link to="source" query={{file: fileFrom, start: fileFromStart, end: (fileFromStart + lines)}}>
                         {fileFrom}
                     </Router.Link>
                     &nbsp;<span className="glyphicon glyphicon-resize-horizontal"></span>&nbsp;
-                    <Router.Link to={"/source" + fileTo} query={{start: fileToStart, end: (fileToStart + lines)}}>
+                    <Router.Link to="source" query={{file: fileTo, start: fileToStart, end: (fileToStart + lines)}}>
                         {fileTo}
                     </Router.Link>
                 </p>

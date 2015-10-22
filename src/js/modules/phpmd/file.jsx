@@ -40,7 +40,7 @@ let File = React.createClass({
                                     <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                 </span> {violation.$.rule} ({violation.$.ruleset})
                             </h4>
-                            <Router.Link to={"/source" + file} query={{start: violation.$.beginline, end: violation.$.endline}}>
+                            <Router.Link to="source" query={{file: file, start: violation.$.beginline, end: violation.$.endline}}>
                                 <p>{violation._}</p>
                             </Router.Link>
                         </li>);

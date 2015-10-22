@@ -255,7 +255,7 @@ let Metrics = React.createClass({
                     data={$.map(this.sortBySingleMetric(metrics, selected, 25), function(values) {
                         return [[
                             (values.file ?
-                                (<Router.Link to={"/source" + values.file} query={{start: values.start, end: values.end}}>{values.namespace} <strong>{values.name}</strong></Router.Link>) :
+                                (<Router.Link to="source" query={{file: values.file, start: values.start, end: values.end}}>{values.namespace} <strong>{values.name}</strong></Router.Link>) :
                                 (<span>{values.namespace} <strong>{values.name}</strong></span>)
                             ),
                             values.metric

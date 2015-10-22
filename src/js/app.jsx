@@ -108,7 +108,6 @@ var routes = (
         <Router.NotFoundRoute handler={Overview}/>
 
         <Router.Route name="source" path="/source" handler={Source} />
-        <Router.Route name="source_with_path" path="/source/*" handler={Source} />
         <Router.Route name="phploc" handler={PhpLoc} />
         <Router.Route name="pdepend" handler={Metrics} />
         <Router.Route name="dependencies" handler={Dependencies} />

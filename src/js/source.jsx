@@ -25,7 +25,7 @@ let Source = React.createClass({
         }
 
         component.sourceTree.setBaseDir(this.props.data.baseDir);
-        util.getBinaryContent("/data/source.zip", function(error, data) {
+        util.getBinaryContent("data/source.zip", function(error, data) {
             if (error) {
                 console.log("Error", error);
                 return;
@@ -42,7 +42,7 @@ let Source = React.createClass({
     },
 
     render: function() {
-        var file = this.sourceTree.getFileName(this.props.parameters.splat || "/"),
+        var file = this.sourceTree.getFileName(this.props.query.file || "/"),
             selected = file.split("/"),
             current = this.sourceTree.getSelectedFile(selected);
 

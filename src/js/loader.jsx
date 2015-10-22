@@ -32,7 +32,7 @@ let Loader = React.createClass({
             deferreds = jQuery.map(data.analyzers, function(file, analyzer) {
                 return jQuery.ajax(
                     jQuery.extend({
-                            url: "/data/" + file,
+                            url: "data/" + file,
                         },
                         defaults
                     )
@@ -74,7 +74,7 @@ let Loader = React.createClass({
 
         jQuery.ajax({
             dataType: "json",
-            url: "/data/project.json",
+            url: "data/project.json",
             success: this.loadProjectData,
             error: function(jqXHR, textStatus, errorThrown) {
                 component.setState({
