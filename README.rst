@@ -15,7 +15,9 @@ using composer and can all be run using a convenience command. You may also run
 the tools in your common build process, though.
 
 To display the metrics a pure JavaScript / CSS stack is used so you could build
-and serve the results inside continuous integration tools like Jenkins.
+and serve the results inside continuous integration tools like Jenkins. This
+might seem strange but it works really well even with software spanning 800,000
+lines of PHP code.
 
 If you want to improve, enhance the software or just fix some annoying bugs,
 you are very welcome to do so. The technology stack involved sadly is not that
