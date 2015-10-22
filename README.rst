@@ -20,29 +20,25 @@ and serve the results inside continuous integration tools like Jenkins.
 Setup
 =====
 
-To use the software there are very few steps involved. The requirements are the
-following packages:
+To use the software there are very few steps involved. The only requirement is
+a current version of PHP.
 
-* PHP
-* ant >= 1.8
-
-``npm`` and ``node`` will only be required for developing the application, not
-for using it.
-
-Then run the following commands::
+Then run the following commands to install the software::
 
     git clone https://github.com/Qafoo/QualityAnalyzer.git <folder>
     cd <folder>
-    git submodule update --init
-    ant serve
+    composer install
 
-The last command prints the URL you can access the Qafoo Quality Analyzer at.
-If you want analyze some software run something like::
+In the next step you should analyze some software using something like this::
 
     bin/analyze analyze src/php/
 
 See "Usage" for more details on the command. The results of this command can be
 found in the ``data/`` folder.
+
+Finally you can start the webserver to view the results::
+
+    bin/analyze serve
 
 Usage
 =====
@@ -85,6 +81,12 @@ the index.html with your browser and enjoy the results visualization.
 
 Building & Developing The Software
 ==================================
+
+The build system of the Quality Analyzer is based on ant. You must have **ant
+>= 1.8** installed. To be able to use it you must first initilaize the
+submodule with the build commons::
+
+    git submodule update --init
 
 To develop the Quality Analyzer we heavily depend on a JavaScript build stack.
 For this you must have `node` and `npm` installed. All other required tools
