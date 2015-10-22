@@ -1,66 +1,80 @@
 import React from "react";
 import Router from 'react-router';
 import jQuery from 'jquery';
+import _ from 'underscore';
 
 import Table from '../table.jsx';
+
+let FloatFormatter = function(value) {
+    return parseFloat(value).toFixed(2);
+};
+
+let IntFormatter = function(value) {
+    return parseInt(value);
+};
+
+let CodeRankFormatter = function(value, values) {
+    var max = _.max(values);
+    return (value / max * 10).toFixed(0);
+};
 
 let Metrics = React.createClass({
     metrics: {
         package: {
-            cr: "Code Rank",
-            rcr: "Reverse Code Rank",
-            noc: "Number of Classes",
-            nof: "Number of Functions",
-            noi: "Number of Interfaces",
-            nom: "Number of Methods"
+            cr: {name: "Code Rank", asc: false, formatter: CodeRankFormatter},
+            rcr: {name: "Reverse Code Rank", asc: false, formatter: CodeRankFormatter},
+            noc: {name: "Number of Classes", asc: false, formatter: IntFormatter},
+            nof: {name: "Number of Functions", asc: false, formatter: IntFormatter},
+            noi: {name: "Number of Interfaces", asc: false, formatter: IntFormatter},
+            nom: {name: "Number of Methods", asc: false, formatter: IntFormatter},
         },
         class: {
-            loc: "Lines of Code",
-            cloc: "Comment Lines of Code",
-            ncloc: "Non-Comment Line of Code",
-            eloc: "Executable Lines of Code",
-            lloc: "Logical Lines Of Code",
-            cr: "Code Rank",
-            rcr: "Reverse Code Rank",
-            ca: "Afferent Coupling",
-            ce: "Efferent Coupling",
-            cbo: "Coupling Between Objects",
-            csz: "Class Size",
-            cis: "Class Interface Size",
-            impl: "Implemented Interfaces",
-            nom: "Number of Methods",
-            noom: "Number of Overwritten Methods",
-            npm: "Number of Public Methods",
-            noam: "Number of Added Methods",
-            vars: "Class Properties",
-            varsi: "Inherited Properties",
-            varsnp: "Non Private Properties",
-            wmc: "Weighted Method Count",
-            wmci: "Inherited Weighted Method Count",
-            wmcnp: "Non Private Weighted Method Count",
-            dit: "Depth of Inheritance Tree",
-            nocc: "Number of Child Classes"
+            loc: {name: "Lines of Code", asc: false, formatter: IntFormatter},
+            cloc: {name: "Comment Lines of Code", asc: false, formatter: IntFormatter},
+            ncloc: {name: "Non-Comment Line of Code", asc: false, formatter: IntFormatter},
+            eloc: {name: "Executable Lines of Code", asc: false, formatter: IntFormatter},
+            lloc: {name: "Logical Lines Of Code", asc: false, formatter: IntFormatter},
+            cr: {name: "Code Rank", asc: false, formatter: CodeRankFormatter},
+            rcr: {name: "Reverse Code Rank", asc: false, formatter: CodeRankFormatter},
+            ca: {name: "Afferent Coupling", asc: false, formatter: IntFormatter},
+            ce: {name: "Efferent Coupling", asc: false, formatter: IntFormatter},
+            cbo: {name: "Coupling Between Objects", asc: false, formatter: IntFormatter},
+            csz: {name: "Class Size", asc: false, formatter: IntFormatter},
+            cis: {name: "Class Interface Size", asc: false, formatter: IntFormatter},
+            impl: {name: "Implemented Interfaces", asc: false, formatter: IntFormatter},
+            nom: {name: "Number of Methods", asc: false, formatter: IntFormatter},
+            noom: {name: "Number of Overwritten Methods", asc: false, formatter: IntFormatter},
+            npm: {name: "Number of Public Methods", asc: false, formatter: IntFormatter},
+            noam: {name: "Number of Added Methods", asc: false, formatter: IntFormatter},
+            vars: {name: "Class Properties", asc: false, formatter: IntFormatter},
+            varsi: {name: "Inherited Properties", asc: false, formatter: IntFormatter},
+            varsnp: {name: "Non Private Properties", asc: false, formatter: IntFormatter},
+            wmc: {name: "Weighted Method Count", asc: false, formatter: IntFormatter},
+            wmci: {name: "Inherited Weighted Method Count", asc: false, formatter: IntFormatter},
+            wmcnp: {name: "Non Private Weighted Method Count", asc: false, formatter: IntFormatter},
+            dit: {name: "Depth of Inheritance Tree", asc: false, formatter: IntFormatter},
+            nocc: {name: "Number of Child Classes", asc: false, formatter: IntFormatter},
         },
         method: {
-            loc: "Lines of Code",
-            cloc: "Comment Lines of Code",
-            ncloc: "Non-Comment Line of Code",
-            eloc: "Executable Lines of Code",
-            lloc: "Logical Lines Of Code",
-            crap: "CRAP Index",
-            ccn: "Cyclomatic Complexity",
-            ccn2: "Extended Cyclomatic Complexity",
-            npath: "NPath Complexity",
-            mi: "Maintainability Index",
-            hb: "Halstead Bugs",
-            hd: "Halstead Difficulty",
-            he: "Halstead Effort",
-            hi: "Halstead Content",
-            hl: "Halstead Level",
-            hnd: "Halstead Vocabulary",
-            hnt: "Halstead Length",
-            ht: "Halstead Time",
-            hv: "Halstead Volumne"
+            loc: {name: "Lines of Code", asc: false, formatter: IntFormatter},
+            cloc: {name: "Comment Lines of Code", asc: false, formatter: IntFormatter},
+            ncloc: {name: "Non-Comment Line of Code", asc: false, formatter: IntFormatter},
+            eloc: {name: "Executable Lines of Code", asc: false, formatter: IntFormatter},
+            lloc: {name: "Logical Lines Of Code", asc: false, formatter: IntFormatter},
+            crap: {name: "CRAP Index", asc: false, formatter: IntFormatter},
+            ccn: {name: "Cyclomatic Complexity", asc: false, formatter: IntFormatter},
+            ccn2: {name: "Extended Cyclomatic Complexity", asc: false, formatter: IntFormatter},
+            npath: {name: "NPath Complexity", asc: false, formatter: IntFormatter},
+            mi: {name: "Maintainability Index", asc: true, formatter: FloatFormatter},
+            hb: {name: "Halstead Bugs", asc: false, formatter: FloatFormatter},
+            hd: {name: "Halstead Difficulty", asc: false, formatter: FloatFormatter},
+            he: {name: "Halstead Effort", asc: false, formatter: FloatFormatter},
+            hi: {name: "Halstead Content", asc: false, formatter: FloatFormatter},
+            hl: {name: "Halstead Level", asc: false, formatter: FloatFormatter},
+            hnd: {name: "Halstead Vocabulary", asc: false, formatter: FloatFormatter},
+            hnt: {name: "Halstead Length", asc: false, formatter: FloatFormatter},
+            ht: {name: "Halstead Time", asc: false, formatter: FloatFormatter},
+            hv: {name: "Halstead Volumne", asc: false, formatter: FloatFormatter},
         }
     },
 
@@ -91,7 +105,7 @@ let Metrics = React.createClass({
                 };
 
             for (var metric in this.metrics.package) {
-                data.metrics[metric] = Number(artifact.$[metric]) || 0;
+                data.metrics[metric] = Number(artifact.$[metric]);
             }
 
             metrics.push(data);
@@ -173,19 +187,19 @@ let Metrics = React.createClass({
         return metrics;
     },
 
-    sortBySingleMetric: function(metrics, metric, count) {
+    sortBySingleMetric: function(metrics, metric, asc, count) {
         return $.map(metrics, function(data) {
             data.metric = data.metrics[metric];
             delete data.metrics;
             return data;
         }).sort(function(a, b) {
-            return (a.metric < b.metric ? 1 : (a.metric > b.metric) ? -1 : 0);
+            return (asc ? 1 : -1) * (a.metric < b.metric ? -1 : (a.metric > b.metric) ? 1 : 0);
         }).slice(0, count);
     },
 
     render: function() {
         var metrics = {},
-            metricName = "Undefined",
+            metric = {name: "Undefined", asc: false, formatter: IntFormatter},
             type = this.props.query.type || "class",
             selected = this.props.query.metric || "loc";
 
@@ -206,7 +220,8 @@ let Metrics = React.createClass({
                 throw "Unknow metric type " + type;
         }
 
-        metricName = this.metrics[type][selected];
+        metric = this.metrics[type][selected];
+        metrics = this.sortBySingleMetric(metrics, selected, metric.asc, 25);
 
         jQuery("html, body").animate({scrollTop: 0}, 500);
         return (<div className="row">
@@ -253,14 +268,14 @@ let Metrics = React.createClass({
             </div>
             <div className="col-md-9">
                 <Table
-                    captions={["Artifact", metricName]}
-                    data={$.map(this.sortBySingleMetric(metrics, selected, 25), function(values) {
+                    captions={["Artifact", metric.name]}
+                    data={$.map(metrics, function(value) {
                         return [[
-                            (values.file ?
-                                (<Router.Link to="source" query={{file: values.file, start: values.start, end: values.end}}>{values.namespace} <strong>{values.name}</strong></Router.Link>) :
-                                (<span>{values.namespace} <strong>{values.name}</strong></span>)
+                            (value.file ?
+                                (<Router.Link to="source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Router.Link>) :
+                                (<span>{value.namespace} <strong>{value.name}</strong></span>)
                             ),
-                            values.metric
+                            <div className="text-right">{metric.formatter(value.metric, _.pluck(metrics, "metric"))}</div>
                         ]];
                     })}
                 />
