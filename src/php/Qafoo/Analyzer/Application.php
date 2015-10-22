@@ -4,6 +4,9 @@ namespace Qafoo\Analyzer;
 
 use Symfony\Component\Console;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Application extends Console\Application
 {
     /**
