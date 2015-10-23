@@ -1,41 +1,59 @@
 import React from "react";
 
-import PieChart from '../pie-chart.jsx';
+import d3 from "d3";
+import PieChart from "react-d3-components/lib/PieChart.js";
 
 let PhpLoc = React.createClass({
+    getInitialState: function() {
+        return {
+            loc: [],
+            types: [],
+        };
+    },
+
     componentDidMount: function() {
         var data = this.props.data.analyzers.phploc.phploc;
 
-        PieChart.create(
-            document.getElementById('chart-loc'),
-            [
-                {color: "#808080", label: "Comments", value: data.cloc[0]},
-                {color: "#308336", label: "Lines", value: data.ncloc[0]},
-            ],
-            data.cloc[0] * 1 + data.ncloc[0] * 1
-        );
-        PieChart.create(
-            document.getElementById('chart-types'),
-            [
-                {color: "#A6403D", label: "Traits", value: data.traits[0]},
-                {color: "#333E71", label: "Abstract", value: data.abstractClasses[0]},
-                {color: "#A6883D", label: "Interface", value: data.interfaces[0]},
-                {color: "#308336", label: "Concrete", value: data.concreteClasses[0]},
-            ],
-            data.classes[0] * 1 + data.traits[0] * 1 + data.interfaces[0] * 1
-        );
+        this.setState({
+            loc: [
+                {x: "Comments", y: data.cloc[0]},
+                {x: "Lines", y: data.ncloc[0]},
+            ]
+        });
+
+        this.setState({
+            types: [
+                {x: "Traits", y: data.traits[0]},
+                {x: "Abstract", y: data.abstractClasses[0]},
+                {x: "Interface", y: data.interfaces[0]},
+                {x: "Concrete", y: data.concreteClasses[0]},
+            ]
+        });
     },
 
     render: function() {
+        var files = (this.statistics ? this.statistics.files : "calculating…"),
+            lineCoverage = (this.statistics ? this.statistics.coverage.lines : null),
+            fileCoverage = (this.statistics ? this.statistics.coverage.files : null),
+            colors = d3.scale.ordinal().range(["#A6403D", "#333E71", "#A6883D", "#308336"]);
+
         return (<div className="row">
             <h2>Project Size</h2>
             <div className="col-md-6">
                 <h3>Lines of Code</h3>
-                <div className="pie-chart" id="chart-loc"></div>
+                <PieChart height={300} width={300} colorScale={colors}
+                    data={{values: this.state.loc}}
+                    tooltipHtml={function(x, y) {
+                        return x + ": " + y;
+                    }} />
             </div>
             <div className="col-md-6">
                 <h3>Types</h3>
-                <div className="pie-chart" id="chart-types"></div>
+                <PieChart height={300} width={300} colorScale={colors}
+                    data={{values: this.state.types}}
+                    tooltipHtml={function(x, y) {
+                        return x + ": " + y;
+                    }} />
             </div>
         </div>);
     }
