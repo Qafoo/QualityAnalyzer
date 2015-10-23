@@ -71,8 +71,8 @@ your tests. You can tell the tool where to find certain files to make sure they
 are available and ready to be used::
 
     bin/analyzer \
-        --coverage /path/to/clover.xml \
-        --tests /path/to/junit.xml \
+        --coverage=/path/to/clover.xml \
+        --tests=/path/to/junit.xml \
         analyze /path/to/source
 
 You can also specify already generated files for all the other tools. But the
@@ -85,9 +85,9 @@ source directory – you do not want to analyze those. For this you may use the
 ``--exclude`` option::
     
     bin/analyzer \
-        --coverage /path/to/clover.xml \
-        --tests /path/to/junit.xml \
-        --exclude libraries,vendor \
+        --coverage=/path/to/clover.xml \
+        --tests=/path/to/junit.xml \
+        --exclude=libraries,vendor \
         analyze /path/to/source
 
 After the analyzer has finished use ``bin/analyze serve`` or similar means to
