@@ -46,7 +46,7 @@ let Tree = function() {
         treeReference.type = "file";
         treeReference.file = file;
         treeReference.lines = [];
-        treeReference.coverage = 0;
+        treeReference.coverage = null;
         treeReference.file = file;
         hasFiles = true;
     };
