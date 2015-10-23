@@ -7,7 +7,6 @@ let SourceFile = React.createClass({
             nodeSelected = file.name === this.props.selected[0],
             coverage = "";
 
-        console.log(file.coverage);
         if (file.coverage !== null) {
             coverage = file.coverage > .8 ? "covered" : (file.coverage > .5 ? "semi-covered" : "uncovered");
         }
