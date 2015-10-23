@@ -1,17 +1,19 @@
+$footer-height: 30;
+
 html {
     position: relative;
     min-height: 100%;
 }
 
 body {
-    margin-bottom: ($navbar-height + $navbar-margin-bottom);
+    margin-bottom: ($footer-height + $navbar-margin-bottom);
 }
 
 footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: $navbar-height;
+    height: $footer-height;
     background-color: $navbar-default-bg;
     color: $navbar-default-color;
     text-align: right;
