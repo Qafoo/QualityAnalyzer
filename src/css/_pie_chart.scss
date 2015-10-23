@@ -1,0 +1,10 @@
+.tooltip {
+    @extend .label;
+    @extend .label-default;
+}
+
+g.arc{
+    polyline, text {
+        display: none;
+    }
+}

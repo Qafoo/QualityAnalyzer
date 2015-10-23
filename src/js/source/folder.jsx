@@ -1,6 +1,6 @@
 import React from "react";
+import Router from "react-router";
 
-import Folder from "./folder.jsx";
 import File from "./file.jsx";
 
 let SourceFolder = React.createClass({
@@ -29,13 +29,16 @@ let SourceFolder = React.createClass({
 
         return (<li className={nodeSelected ? "selected" : ""}>
             <a onClick={this.unfold}>
-                <span className={icon}></span> <span className="name">{this.props.folder.name}</span>
-            </a>
+                <span className={icon} ></span>
+            </a>&nbsp;
+            <Router.Link to="source" query={{"file": folder.path}}>
+                <span className="name">{this.props.folder.name}</span>
+            </Router.Link>
             {!(folder.children && opened) ? "" :
             (<ul>
                 {$.map(folder.children, function(child) {
                     return child.type === 'folder' ?
-                        <Folder key={child.name} folder={child} selected={selected.slice(1)} /> :
+                        <SourceFolder key={child.name} folder={child} selected={selected.slice(1)} /> :
                         <File key={child.name} file={child} selected={selected.slice(1)} />
                 })}
             </ul>)

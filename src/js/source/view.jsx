@@ -2,6 +2,7 @@ import React from "react";
 import jQuery from "jquery";
 
 import SourceCode from "./code.jsx";
+import Coverage from "./coverage.jsx";
 
 let SourceView = React.createClass({
 
@@ -24,14 +25,18 @@ let SourceView = React.createClass({
     },
 
     render: function() {
-        var file = this.props.file,
+        var node = this.props.node,
+            file = node.file || null,
             start = this.props.start || 0,
             end = this.props.end || 0;
 
         return (<div>
-            <h2>{file.name}</h2>
-            <h3>{file.file.name}</h3>
-            <SourceCode code={file.file.asText()} coverage={file.lines} start={start} end={end} />
+            <h2>{node.name}</h2>
+            <h3>{node.path}</h3>
+            {file ?
+                <SourceCode code={node.file.asText()} coverage={node.lines} start={start} end={end} /> :
+                <Coverage node={node} />
+            }
         </div>);
     }
 });
