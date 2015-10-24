@@ -16,12 +16,13 @@ class Application extends Console\Application
      */
     protected function getDefaultCommands()
     {
-        $shell = new Shell(__DIR__ . '/../../../../');
+        $baseDir = __DIR__ . '/../../../../';
+        $shell = new Shell($baseDir);
 
         return array_merge(
             parent::getDefaultCommands(),
             array(
-                new Command\Serve(),
+                new Command\Serve($baseDir),
                 new Command\Analyze(
                     array(
                         'source' => new Handler\Source($shell),
@@ -33,9 +34,24 @@ class Application extends Console\Application
                         'tests' => new Handler\Tests(),
                         'cpd' => new Handler\CPD($shell),
                         'phploc' => new Handler\Phploc($shell),
-                    )
+                    ),
+                    $baseDir
                 ),
             )
         );
+    }
+
+    /**
+     * Returns true if script is executed on Windows.     
+     * 
+     * @return bool
+     */
+    public function isWindowsOS()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			return true;
+		}
+
+        return false;
     }
 }
