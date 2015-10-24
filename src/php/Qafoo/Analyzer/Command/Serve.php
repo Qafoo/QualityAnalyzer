@@ -55,7 +55,7 @@ class Serve extends Command
 
         $output->writeln("Starting webserver on http://{$hostname}:{$port}/");
 
-        if (!$this->getApplication()->isWindows())
+        if (!$this->getApplication()->isWindowsOS())
         {
             $phpCmd = '/usr/bin/env ' . $phpCmd;
         }
