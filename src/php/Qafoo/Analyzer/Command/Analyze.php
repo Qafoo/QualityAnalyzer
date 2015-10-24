@@ -18,12 +18,19 @@ class Analyze extends Command
      * @var Handler[]
      */
     private $handlers = array();
+    /**
+     * Base directory path
+     * 
+     * @var string
+     */
+    private $baseDir = '';
 
-    public function __construct(array $handlers = array(), $targetDir = null)
+    public function __construct(array $handlers = array(), $baseDir = null, $targetDir = null)
     {
         parent::__construct();
 
         $this->handlers = $handlers;
+        $this->baseDir = $baseDir ?: __DIR__ . '/../../../../';
         $this->targetDir = $targetDir ?: __DIR__ . '/../../../../../data/';
     }
 
