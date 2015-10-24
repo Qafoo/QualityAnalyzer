@@ -43,13 +43,15 @@ class Serve extends Command
         $port = (int) $input->getOption('port');
         $phpCmd = 'php';
 
+        chdir($this->baseDir);
+
         $output->writeln("Starting webserver on http://localhost:{$port}/");
 
-        if (!$this->getApplication()->isWindows())
+        if (!$this->getApplication()->isWindowsOS())
         {
             $phpCmd = '/usr/bin/env ' . $phpCmd;
         }
 
-        passthru("{$phpCmd} -S localhost:{$port} -t {$this->baseDir} {$this->baseDir}/bin/serve.php");
+        passthru("{$phpCmd} -S localhost:{$port} /bin/serve.php");
     }
 }
