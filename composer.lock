@@ -4,9 +4,149 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e4144072d6c796f866bf81892f914f8c",
-    "content-hash": "b4f3aacaf51bbfe50c840f76592c760a",
+    "hash": "258b56769cade7f69f5377d8490c14ba",
+    "content-hash": "8eec939b6e8329ce8c7074834695bbf0",
     "packages": [
+        {
+            "name": "grandt/binstring",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Grandt/PHPBinString.git",
+                "reference": "825fe2ac8a68190f651fc2dbc07b6edde18bc431"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Grandt/PHPBinString/zipball/825fe2ac8a68190f651fc2dbc07b6edde18bc431",
+                "reference": "825fe2ac8a68190f651fc2dbc07b6edde18bc431",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "BinString.php",
+                    "BinStringStatic.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "A. Grandt",
+                    "email": "php@grandt.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A class for working around the use of mbstring.func_override",
+            "homepage": "https://github.com/Grandt/PHPBinString",
+            "keywords": [
+                "binary strings",
+                "mbstring"
+            ],
+            "time": "2015-08-13 06:14:41"
+        },
+        {
+            "name": "grandt/phpzipmerge",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Grandt/PHPZipMerge.git",
+                "reference": "0b1273d3c2dbfe244904158b1dbd65a663264fb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Grandt/PHPZipMerge/zipball/0b1273d3c2dbfe244904158b1dbd65a663264fb9",
+                "reference": "0b1273d3c2dbfe244904158b1dbd65a663264fb9",
+                "shasum": ""
+            },
+            "require": {
+                "grandt/binstring": ">=1.0.0",
+                "grandt/relativepath": ">=1.0.1",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZipMerge\\": "src/ZipMerge"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "A. Grandt",
+                    "email": "php@grandt.com",
+                    "homepage": "http://grandt.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Greg Kappatos",
+                    "homepage": "http://websiteconnect.com.au",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Merge and stream multiple Zip files on the fly.",
+            "homepage": "https://github.com/Grandt/PHPZipMerge",
+            "keywords": [
+                "archive",
+                "compressed",
+                "compression",
+                "merge",
+                "phpzip",
+                "pkzip",
+                "stream",
+                "zip"
+            ],
+            "time": "2015-08-18 13:49:33"
+        },
+        {
+            "name": "grandt/relativepath",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Grandt/PHPRelativePath.git",
+                "reference": "19541133c24143b6295688472c54dd6ed15a5462"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Grandt/PHPRelativePath/zipball/19541133c24143b6295688472c54dd6ed15a5462",
+                "reference": "19541133c24143b6295688472c54dd6ed15a5462",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "RelativePath.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "A. Grandt",
+                    "email": "php@grandt.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A class for cleaning up/collapsing relative paths. Like real_path, but without the need for the path to exist on the filesystem.",
+            "homepage": "https://github.com/Grandt/PHPRelativePath",
+            "keywords": [
+                "file path"
+            ],
+            "time": "2015-05-14 08:18:23"
+        },
         {
             "name": "pdepend/pdepend",
             "version": "2.2.2",
@@ -49,16 +189,16 @@
         },
         {
             "name": "phploc/phploc",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phploc.git",
-                "reference": "6cdf01336c06d20825831fe8cee70764fe373585"
+                "reference": "50e063abd41833b3a5d29a2e8fbef5859ac28bdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/6cdf01336c06d20825831fe8cee70764fe373585",
-                "reference": "6cdf01336c06d20825831fe8cee70764fe373585",
+                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/50e063abd41833b3a5d29a2e8fbef5859ac28bdc",
+                "reference": "50e063abd41833b3a5d29a2e8fbef5859ac28bdc",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +238,7 @@
             ],
             "description": "A tool for quickly measuring the size of a PHP project.",
             "homepage": "https://github.com/sebastianbergmann/phploc",
-            "time": "2015-08-04 07:41:00"
+            "time": "2015-10-22 13:44:19"
         },
         {
             "name": "phpmd/phpmd",
@@ -205,6 +345,67 @@
                 "timer"
             ],
             "time": "2015-06-21 08:01:12"
+        },
+        {
+            "name": "phpzip/phpzip",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Grandt/PHPZip.git",
+                "reference": "a43a7ce8b2f21050f8b143876c5c1661b0d65306"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Grandt/PHPZip/zipball/a43a7ce8b2f21050f8b143876c5c1661b0d65306",
+                "reference": "a43a7ce8b2f21050f8b143876c5c1661b0d65306",
+                "shasum": ""
+            },
+            "require": {
+                "grandt/binstring": ">=0.2.0",
+                "grandt/phpzipmerge": ">=1.0.3",
+                "grandt/relativepath": ">=1.0.1",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPZip\\Zip\\": "src/Zip"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Schmalhofer",
+                    "email": "Adam.Schmalhofer@gmx.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "A. Grandt",
+                    "email": "php@grandt.com",
+                    "homepage": "http://grandt.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Greg Kappatos",
+                    "homepage": "http://websiteconnect.com.au",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Package to create and stream archives of compressed files in ZIP format with PHP 5.3+",
+            "homepage": "https://github.com/Grandt/PHPZip",
+            "keywords": [
+                "archive",
+                "compressed",
+                "compression",
+                "phpzip",
+                "pkzip",
+                "stream",
+                "zip"
+            ],
+            "time": "2015-04-30 06:45:53"
         },
         {
             "name": "sebastian/finder-facade",
@@ -452,16 +653,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8"
+                "reference": "9698fdf0a750d6887d5e7729d5cf099765b20e61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8",
-                "reference": "5ab9ff48b3cb5b40951a607f77fc1cbfd29edba8",
+                "url": "https://api.github.com/repos/symfony/config/zipball/9698fdf0a750d6887d5e7729d5cf099765b20e61",
+                "reference": "9698fdf0a750d6887d5e7729d5cf099765b20e61",
                 "shasum": ""
             },
             "require": {
@@ -498,7 +699,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-27 06:45:45"
+            "time": "2015-09-21 15:02:29"
         },
         {
             "name": "symfony/console",
@@ -559,16 +760,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c0a3a97b9450d77cd8eff81c5825efb3624c255b"
+                "reference": "422c3819b110f610d79c6f1dc38af23787dc790e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c0a3a97b9450d77cd8eff81c5825efb3624c255b",
-                "reference": "c0a3a97b9450d77cd8eff81c5825efb3624c255b",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/422c3819b110f610d79c6f1dc38af23787dc790e",
+                "reference": "422c3819b110f610d79c6f1dc38af23787dc790e",
                 "shasum": ""
             },
             "require": {
@@ -615,20 +816,20 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-24 07:16:32"
+            "time": "2015-09-15 08:30:42"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "f079e9933799929584200b9a926f72f29e291654"
+                "reference": "a17f8a17c20e8614c15b8e116e2f4bcde102cfab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/f079e9933799929584200b9a926f72f29e291654",
-                "reference": "f079e9933799929584200b9a926f72f29e291654",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/a17f8a17c20e8614c15b8e116e2f4bcde102cfab",
+                "reference": "a17f8a17c20e8614c15b8e116e2f4bcde102cfab",
                 "shasum": ""
             },
             "require": {
@@ -664,20 +865,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-27 07:03:44"
+            "time": "2015-09-09 17:42:36"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
-                "reference": "fff4b0c362640a0ab7355e2647b3d461608e9065"
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "8262ab605973afbb3ef74b945daabf086f58366f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/fff4b0c362640a0ab7355e2647b3d461608e9065",
-                "reference": "fff4b0c362640a0ab7355e2647b3d461608e9065",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8262ab605973afbb3ef74b945daabf086f58366f",
+                "reference": "8262ab605973afbb3ef74b945daabf086f58366f",
                 "shasum": ""
             },
             "require": {
@@ -713,7 +914,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-26 17:56:37"
+            "time": "2015-09-19 19:59:23"
         },
         {
             "name": "theseer/fdomdocument",
