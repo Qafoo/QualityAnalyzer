@@ -9,7 +9,8 @@
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
         "symfony/console": "^2.7",
-        "sebastian/finder-facade": "^1.2"
+        "sebastian/finder-facade": "^1.2",
+        "phpzip/phpzip": ">=2.0.7"
     },
     "autoload": {
         "psr-0": {
