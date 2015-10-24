@@ -10,8 +10,8 @@
         "sebastian/phpcpd": "@stable",
         "symfony/console": "^2.7",
         "sebastian/finder-facade": "^1.2",
-        "phpzip/phpzip": ">=2.0.7"
-    },
+        "pclzip/pclzip": ">=2.8"
+		},
     "autoload": {
         "psr-0": {
             "Qafoo": ["src/php", "test/php"]

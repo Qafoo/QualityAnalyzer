@@ -25,7 +25,7 @@ class Application extends Console\Application
                 new Command\Serve($baseDir),
                 new Command\Analyze(
                     array(
-                        'source' => new Handler\Source($shell),
+                        'source' => new Handler\Source($shell, $this->isWindowsOS()),
                         'coverage' => new Handler\Coverage(),
                         'pdepend' => new Handler\PDepend($shell),
                         'dependencies' => new Handler\Dependencies($shell),
