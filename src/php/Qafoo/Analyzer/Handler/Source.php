@@ -33,34 +33,13 @@ class Source extends Handler
      */
     public function handle($dir, array $excludes, $file = null)
     {
-        $currentDir = getcwd();
-        chdir($dir);
-
-        if ($excludes) {
-            $finder = new FinderFacade(array($dir), array(), $excludes);
-            $excludes = array_map(
-                function ($path) use ($dir) {
-                    $path = substr($path, strlen($dir) + 1);
-                    return is_file($path) ? $path : $path . '/*';
-                },
-                $finder->findFiles()
-            );
-            array_unshift($excludes, '-x');
-        }
-
         $zipFile = __DIR__ . '/../../../../../data/source.zip';
-        if (file_exists($zipFile)) {
-            unlink($zipFile);
+        $archive = new \ZipArchive();
+        $archive->open($zipFile, \ZipArchive::OVERWRITE | \ZipArchive::CREATE);
+        $finder = new FinderFacade(array($dir), $excludes, array('*.php'));
+        foreach ($finder->findFiles() as $file) {
+            $archive->addFile($file, ltrim(str_replace($dir, '', $file), '/'));
         }
-
-        $this->shell->exec(
-            'zip',
-            array_merge(
-                array('-r', $zipFile, './', '-i', '*.php'),
-                $excludes
-            )
-        );
-
-        chdir($currentDir);
+        $archive->close();
     }
 }
