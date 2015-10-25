@@ -38,13 +38,27 @@ let PhpLoc = React.createClass({
 
         return (<div className="row">
             <h2>Project Size</h2>
-            <div className="col-md-6">
+            <div className="col-md-2 col-sm-4">
+                <ul className="list-unstyled legend">
+                    <li className="comment"><span className="glyphicon glyphicon-record"></span> Comment</li>
+                    <li className="non-comment"><span className="glyphicon glyphicon-record"></span> Non-Comment</li>
+                </ul>
+            </div>
+            <div className="col-md-4 col-sm-8">
                 <PieChart
                     title="Lines of Code"
                     classes={["comment", "non-comment"]}
                     values={this.state.loc} />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-2 col-sm-4">
+                <ul className="list-unstyled legend">
+                    <li className="trait"><span className="glyphicon glyphicon-record"></span> Trait</li>
+                    <li className="abstract"><span className="glyphicon glyphicon-record"></span> Abstract</li>
+                    <li className="interface"><span className="glyphicon glyphicon-record"></span> Interface</li>
+                    <li className="class"><span className="glyphicon glyphicon-record"></span> Class</li>
+                </ul>
+            </div>
+            <div className="col-md-4 col-sm-8">
                 <PieChart
                     title="Types"
                     classes={["traint", "abstract", "interface", "class"]}

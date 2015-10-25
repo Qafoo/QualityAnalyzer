@@ -33,3 +33,25 @@
         fill: $yellow;
     }
 }
+
+.legend {
+    .covered, .class, .non-comment {
+        color: $green;
+    }
+
+    .comment {
+        color: $gray;
+    }
+
+    .uncovered, .trait {
+        color: $red;
+    }
+
+    .abstract {
+        color: $blue;
+    }
+
+    .interface {
+        color: $yellow;
+    }
+}
