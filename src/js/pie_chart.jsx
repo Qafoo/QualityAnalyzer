@@ -49,7 +49,8 @@ let PieChart = React.createClass({
         group
             .append("path")
             .attr("class", function(slice, count) {return classes(count);})
-            .attr("d", arc);
+            .attr("d", arc)
+            .each(function(slice) { this._current = slice; });
 
         group
             .append("text")
@@ -59,8 +60,14 @@ let PieChart = React.createClass({
             .attr("class", "label");
 
         // Update existing slice
-        slice.select("path")
-            .attr("d", arc);
+        slice.select("path").transition().duration(500)
+            .attrTween("d", function(slice) {
+                var interpolator = d3.interpolate(this._current, slice);
+                this._current = interpolator(0);
+                return function(t) {
+                    return arc(interpolator(t));
+                };
+            });
 
         slice.select("text")
             .attr("transform", function(slice, count) { return "translate(" + arc.centroid(slice, count) + ")"; })
