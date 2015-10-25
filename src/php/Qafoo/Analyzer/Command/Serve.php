@@ -37,6 +37,6 @@ class Serve extends Command
         $hostname = $input->getOption('hostname');
         $baseDir = realpath(__DIR__ . '/../../../../../');
         $output->writeln("Starting webserver on http://$hostname:$port/");
-        passthru("/usr/bin/env php -S $hostname:$port -t $baseDir $baseDir/bin/serve.php");
+        passthru("php -S $hostname:$port -t $baseDir $baseDir/bin/serve.php");
     }
 }
