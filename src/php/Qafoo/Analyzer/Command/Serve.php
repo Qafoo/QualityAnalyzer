@@ -10,6 +10,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Serve extends Command
 {
+    /**
+     * Base directory path
+     *
+     * @var string
+     */
+    private $baseDir = '';
+
+    public function __construct($baseDir = null)
+    {
+        parent::__construct();
+
+        $this->baseDir = $baseDir ?: __DIR__ . '/../../../../';
+    }
+
     protected function configure()
     {
         $this
@@ -35,8 +49,19 @@ class Serve extends Command
     {
         $port = (int) $input->getOption('port');
         $hostname = $input->getOption('hostname');
-        $baseDir = realpath(__DIR__ . '/../../../../../');
-        $output->writeln("Starting webserver on http://$hostname:$port/");
-        passthru("/usr/bin/env php -S $hostname:$port -t $baseDir $baseDir/bin/serve.php");
+        $phpCmd = 'php';
+
+        chdir($this->baseDir);
+
+        $output->writeln("Starting webserver on http://{$hostname}:{$port}/");
+
+        $app = $this->getApplication();
+
+        if (!$app->isWindowsOS())
+        {
+            $phpCmd = '/usr/bin/env ' . $phpCmd;
+        }
+
+        passthru("{$phpCmd} -S {$hostname}:{$port} bin/serve.php");
     }
 }
