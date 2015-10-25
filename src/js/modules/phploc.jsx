@@ -1,7 +1,6 @@
 import React from "react";
 
-import d3 from "d3";
-import PieChart from "react-d3-components/lib/PieChart.js";
+import PieChart from "../pie_chart.jsx";
 
 let PhpLoc = React.createClass({
     getInitialState: function() {
@@ -16,17 +15,17 @@ let PhpLoc = React.createClass({
 
         this.setState({
             loc: [
-                {x: "Comments", y: data.cloc[0]},
-                {x: "Lines", y: data.ncloc[0]},
+                {label: "Comments", value: data.cloc[0]},
+                {label: "Lines", value: data.ncloc[0]},
             ]
         });
 
         this.setState({
             types: [
-                {x: "Traits", y: data.traits[0]},
-                {x: "Abstract", y: data.abstractClasses[0]},
-                {x: "Interface", y: data.interfaces[0]},
-                {x: "Concrete", y: data.concreteClasses[0]},
+                {label: "Traits", value: data.traits[0]},
+                {label: "Abstract", value: data.abstractClasses[0]},
+                {label: "Interface", value: data.interfaces[0]},
+                {label: "Concrete", value: data.concreteClasses[0]},
             ]
         });
     },
@@ -40,20 +39,16 @@ let PhpLoc = React.createClass({
         return (<div className="row">
             <h2>Project Size</h2>
             <div className="col-md-6">
-                <h3>Lines of Code</h3>
-                <PieChart height={300} width={300} colorScale={colors}
-                    data={{values: this.state.loc}}
-                    tooltipHtml={function(x, y) {
-                        return x + ": " + y;
-                    }} />
+                <PieChart
+                    title="Lines of Code"
+                    classes={["comment", "non-comment"]}
+                    values={this.state.loc} />
             </div>
             <div className="col-md-6">
-                <h3>Types</h3>
-                <PieChart height={300} width={300} colorScale={colors}
-                    data={{values: this.state.types}}
-                    tooltipHtml={function(x, y) {
-                        return x + ": " + y;
-                    }} />
+                <PieChart
+                    title="Types"
+                    classes={["traint", "abstract", "interface", "class"]}
+                    values={this.state.types} />
             </div>
         </div>);
     }

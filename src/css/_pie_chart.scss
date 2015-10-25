@@ -1,10 +1,35 @@
-.tooltip {
-    @extend .label;
-    @extend .label-default;
-}
+.pie-chart {
+    min-height: 250px;
 
-g.arc{
-    polyline, text {
-        display: none;
+    .label {
+        font-family: $font-family-sans-serif;
+        font-size: $font-size-small;
+        fill: $white;
+    }
+
+    .title {
+        font-family: $font-family-sans-serif;
+        font-size: $font-size-base;
+        fill: $gray-base;
+    }
+
+    .covered, .class, .non-comment {
+        fill: $green;
+    }
+
+    .comment {
+        fill: $gray;
+    }
+
+    .uncovered, .trait {
+        fill: $red;
+    }
+
+    .abstract {
+        fill: $blue;
+    }
+
+    .interface {
+        fill: $yellow;
     }
 }

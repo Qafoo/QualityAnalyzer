@@ -1,8 +1,7 @@
 import React from "react";
 
 import Model from "./model.js";
-import d3 from "d3";
-import PieChart from "react-d3-components/lib/PieChart.js";
+import PieChart from "../pie_chart.jsx";
 
 let Coverage = React.createClass({
     chartLines: null,
@@ -34,8 +33,7 @@ let Coverage = React.createClass({
     render: function() {
         var files = (this.statistics ? this.statistics.files : "calculating…"),
             lineCoverage = (this.statistics ? this.statistics.coverage.lines : null),
-            fileCoverage = (this.statistics ? this.statistics.coverage.files : null),
-            colors = d3.scale.ordinal().range(["#A6403D", "#308336"]);
+            fileCoverage = (this.statistics ? this.statistics.coverage.files : null);
 
         return <div className="row">
             <dl className="dl-horizontal">
@@ -47,34 +45,26 @@ let Coverage = React.createClass({
             {!lineCoverage ? '' :
             <div className="col-md-6">
                 <h4>Lines of Code</h4>
-                <PieChart height={300} width={300} colorScale={colors}
-                    data={{
-                        // label: (lineCoverage.covered / lineCoverage.count * 100).toFixed(2) + "%",
-                        label: "covered",
-                        values: [
-                            {x: "uncovered", y: lineCoverage.count - lineCoverage.covered},
-                            {x: "covered", y: lineCoverage.covered},
-                        ]
-                    }}
-                    tooltipHtml={function(x, y) {
-                        return y + " lines (" + (y / lineCoverage.count * 100).toFixed(2) + "%)";
-                    }} />
+                <PieChart
+                    id="chart-loc"
+                    title={(lineCoverage.covered / lineCoverage.count * 100).toFixed(2) + "%"}
+                    classes={["uncovered", "covered"]}
+                    values={[
+                        {label: "uncovered", value: lineCoverage.count - lineCoverage.covered},
+                        {label: "covered", value: lineCoverage.covered},
+                    ]} />
             </div>}
             {!fileCoverage ? '' :
             <div className="col-md-6">
                 <h4>Files</h4>
-                <PieChart height={300} width={300} colorScale={colors}
-                    data={{
-                        // label: (fileCoverage.covered / fileCoverage.count * 100).toFixed(2) + "%",
-                        label: "uncovered",
-                        values: [
-                            {x: "uncovered", y: fileCoverage.count - fileCoverage.covered},
-                            {x: "covered", y: fileCoverage.covered},
-                        ]
-                    }}
-                    tooltipHtml={function(x, y) {
-                        return y + " files (" + (y / fileCoverage.count * 100).toFixed(2) + "%)";
-                    }} />
+                <PieChart
+                    id="chart-file"
+                    title={(fileCoverage.covered / fileCoverage.count * 100).toFixed(2) + "%"}
+                    classes={["uncovered", "covered"]}
+                    values={[
+                        {label: "uncovered", value: fileCoverage.count - fileCoverage.covered},
+                        {label: "covered", value: fileCoverage.covered},
+                    ]} />
             </div>}
         </div>;
     }
