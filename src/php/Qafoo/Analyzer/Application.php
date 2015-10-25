@@ -42,15 +42,15 @@ class Application extends Console\Application
     }
 
     /**
-     * Returns true if script is executed on Windows.     
-     * 
+     * Returns true if script is executed on Windows.
+     *
      * @return bool
      */
     public function isWindowsOS()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			return true;
-		}
+            return true;
+        }
 
         return false;
     }

@@ -20,7 +20,7 @@ class Analyze extends Command
     private $handlers = array();
     /**
      * Base directory path
-     * 
+     *
      * @var string
      */
     private $baseDir = '';

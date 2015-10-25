@@ -17,7 +17,7 @@ class Source extends Handler
     private $shell;
     /**
      * If executing on Windows
-     * 
+     *
      * @var bool
      */
     private $isWindows;
@@ -70,9 +70,7 @@ class Source extends Handler
                     $excludes
                 )
             );
-        }
-        else
-        {
+        } else {
             $filesToZip = $this->getPhpFiles($origExcludes);
             $Zip = new \PclZip($zipFile);
             $Zip->create(array_keys($filesToZip));
