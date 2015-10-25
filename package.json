@@ -31,7 +31,6 @@
     "phantomjs": "^1.9.18",
     "react": "^0.13",
     "react-router": "^0.13",
-    "react-d3-components": "^0.5",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.12.4",
     "underscore": "^1.8.3",
