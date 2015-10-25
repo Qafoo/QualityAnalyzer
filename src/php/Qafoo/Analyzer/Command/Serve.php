@@ -55,7 +55,7 @@ class Serve extends Command
 
         $output->writeln("Starting webserver on http://{$hostname}:{$port}/");
 
-				$app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!$app->isWindowsOS())
         {
