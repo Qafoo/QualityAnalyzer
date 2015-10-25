@@ -3,6 +3,8 @@
     "description":  "Helper for code reviews",
     "license":      "AGPL-3.0",
     "require":      {
+        "php": ">=5.3.0",
+        "ext-zip": "*",
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "@stable",
         "phploc/phploc": "^2.1",
