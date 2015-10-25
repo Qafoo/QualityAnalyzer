@@ -12,7 +12,7 @@ class Serve extends Command
 {
     /**
      * Base directory path
-     * 
+     *
      * @var string
      */
     private $baseDir = '';
@@ -47,7 +47,9 @@ class Serve extends Command
 
         $output->writeln("Starting webserver on http://localhost:{$port}/");
 
-        if (!$this->getApplication()->isWindowsOS())
+				$app = $this->getApplication();
+
+        if (!$app->isWindowsOS())
         {
             $phpCmd = '/usr/bin/env ' . $phpCmd;
         }
