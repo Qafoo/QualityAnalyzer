@@ -1,5 +1,5 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 
 import _ from 'underscore';
 
@@ -36,13 +36,13 @@ let Duplication = React.createClass({
                 <span className="label pull-right label-info">{this.props.duplication.$.tokens} tokens</span>
                 <p>
                     <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span>&nbsp;
-                    <Router.Link to="source" query={{file: fileFrom, start: fileFromStart, end: (fileFromStart + lines)}}>
+                    <Link to="source" query={{file: fileFrom, start: fileFromStart, end: (fileFromStart + lines)}}>
                         {fileFrom}
-                    </Router.Link>
+                    </Link>
                     &nbsp;<span className="glyphicon glyphicon-resize-horizontal"></span>&nbsp;
-                    <Router.Link to="source" query={{file: fileTo, start: fileToStart, end: (fileToStart + lines)}}>
+                    <Link to="source" query={{file: fileTo, start: fileToStart, end: (fileToStart + lines)}}>
                         {fileTo}
-                    </Router.Link>
+                    </Link>
                 </p>
             </div>
             {this.state.folded ? '' :

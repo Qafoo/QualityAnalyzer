@@ -1,5 +1,5 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 import jQuery from 'jquery';
 import _ from 'underscore';
 
@@ -230,12 +230,12 @@ let Metrics = React.createClass({
                 <ul>
                 {$.map(this.metrics.package, function(name, metric) {
                     return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "package", metric: metric}}>
+                        <Link to="pdepend" query={{type: "package", metric: metric}}>
                             {type == "package" && metric == selected ?
                                 <strong>{name}</strong> :
                                 {name}
                             }
-                        </Router.Link>
+                        </Link>
                     </li>);
                 })}
                 </ul>
@@ -243,12 +243,12 @@ let Metrics = React.createClass({
                 <ul>
                 {$.map(this.metrics.class, function(name, metric) {
                     return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "class", metric: metric}}>
+                        <Link to="pdepend" query={{type: "class", metric: metric}}>
                             {type == "class" && metric == selected ?
                                 <strong>{name}</strong> :
                                 {name}
                             }
-                        </Router.Link>
+                        </Link>
                     </li>);
                 })}
                 </ul>
@@ -256,12 +256,12 @@ let Metrics = React.createClass({
                 <ul>
                 {$.map(this.metrics.method, function(name, metric) {
                     return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "method", metric: metric}}>
+                        <Link to="pdepend" query={{type: "method", metric: metric}}>
                             {type == "method" && metric == selected ?
                                 <strong>{name}</strong> :
                                 {name}
                             }
-                        </Router.Link>
+                        </Link>
                     </li>);
                 })}
                 </ul>
@@ -272,7 +272,7 @@ let Metrics = React.createClass({
                     data={$.map(metrics, function(value) {
                         return [[
                             (value.file ?
-                                (<Router.Link to="source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Router.Link>) :
+                                (<Link to="source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Link>) :
                                 (<span>{value.namespace} <strong>{value.name}</strong></span>)
                             ),
                             <div className="text-right">{metric.formatter(value.metric, _.pluck(metrics, "metric"))}</div>

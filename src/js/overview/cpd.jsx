@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 import _ from "underscore";
 
 let CPD = React.createClass({
@@ -19,7 +19,7 @@ let CPD = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="cpd">
+            <Link to="cpd">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">
@@ -27,7 +27,7 @@ let CPD = React.createClass({
                     </span>
                     <div className="clearfix"></div>
                 </div>
-            </Router.Link>
+            </Link>
         </div>);
     }
 });

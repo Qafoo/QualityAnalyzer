@@ -1,5 +1,5 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 
 import _ from 'underscore';
 
@@ -40,9 +40,9 @@ let File = React.createClass({
                                     <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                 </span> {violation.$.rule} ({violation.$.ruleset})
                             </h4>
-                            <Router.Link to="source" query={{file: file, start: violation.$.beginline, end: violation.$.endline}}>
+                            <Link to="source" query={{file: file, start: violation.$.beginline, end: violation.$.endline}}>
                                 <p>{violation._}</p>
-                            </Router.Link>
+                            </Link>
                         </li>);
                     })}
                 </ul>

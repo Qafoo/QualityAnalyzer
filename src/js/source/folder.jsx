@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 
 import File from "./file.jsx";
 
@@ -31,9 +31,9 @@ let SourceFolder = React.createClass({
             <a onClick={this.unfold}>
                 <span className={icon} ></span>
             </a>&nbsp;
-            <Router.Link to="source" query={{"file": folder.path}}>
+            <Link to="source" query={{"file": folder.path}}>
                 <span className="name">{this.props.folder.name}</span>
-            </Router.Link>
+            </Link>
             {!(folder.children && opened) ? "" :
             (<ul>
                 {$.map(folder.children, function(child) {

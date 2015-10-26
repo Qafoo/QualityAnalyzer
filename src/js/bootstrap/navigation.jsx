@@ -1,5 +1,5 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 
 import NavLink from "./navlink.jsx";
 
@@ -22,14 +22,14 @@ let Navigation = React.createClass({
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <Router.Link className="navbar-brand" to={this.props.brandLink}>
+                    <Link className="navbar-brand" to={this.props.brandLink}>
                         {this.props.brand}
-                    </Router.Link>
+                    </Link>
                 </div>
                 <div id="navbar" className="collapse navbar-collapse">
                     <ul className="nav navbar-nav">
                         {$.map(this.props.items, function(item, i) {
-                            return (<NavLink key={i} to={item.path}>
+                            return (<NavLink key={i} to={"/" + item.path}>
                                 {!item.icon ? '' :
                                     <span className={item.icon}></span>
                                 } {item.name}

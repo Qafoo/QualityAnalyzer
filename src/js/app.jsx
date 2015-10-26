@@ -1,5 +1,7 @@
 import React from 'react';
-import Router from 'react-router';
+import {render} from 'react-dom';
+import {Router, Route, RouteHandler} from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 
 import Loader from "./loader.jsx";
 import Overview from "./overview.jsx";
@@ -95,32 +97,28 @@ let App = React.createClass({
         return (<div className="loaded">
             <Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
 
+            {!this.props.children ? '' :
             <div className="container">
-                <Router.RouteHandler parameters={this.props.parameters} query={this.props.query} data={data} />
-            </div>
+                {React.cloneElement(this.props.children, {data: data, query: {}, params: {}})}
+            </div>}
         </div>);
     }
 });
 
-var routes = (
-    <Router.Route name="overview" handler={App} path="/">
-        <Router.DefaultRoute handler={Overview} />
-        <Router.NotFoundRoute handler={Overview}/>
-
-        <Router.Route name="source" path="/source" handler={Source} />
-        <Router.Route name="phploc" handler={PhpLoc} />
-        <Router.Route name="pdepend" handler={Metrics} />
-        <Router.Route name="dependencies" handler={Dependencies} />
-        <Router.Route name="phpmd" handler={PHPMD} />
-        <Router.Route name="tests" handler={Tests} />
-        <Router.Route name="checkstyle" handler={Checkstyle} />
-        <Router.Route name="cpd" handler={CPD} />
-    </Router.Route>
+let history = createBrowserHistory();
+render(
+    (<Router history={history}>
+        <Route name="overview" path="/" component={App}>
+            <Route name="source" path="source" component={Source} />
+            <Route name="phploc" path="phploc" component={PhpLoc} />
+            <Route name="pdepend" path="pdepend" component={Metrics} />
+            <Route name="dependencies" path="dependencies" component={Dependencies} />
+            <Route name="phpmd" path="phpmd" component={PHPMD} />
+            <Route name="tests" path="tests" component={Tests} />
+            <Route name="checkstyle" path="checkstyle" component={Checkstyle} />
+            <Route name="cpd" path="cpd" component={CPD} />
+        </Route>
+        <Route path="*" component={Overview} />
+    </Router>),
+    document.getElementById('content')
 );
-
-Router.run(routes, Router.HistoryLocation, function (Router, state) {
-    React.render(
-        <Router parameters={state.params} query={state.query} />,
-        document.getElementById('content')
-    )
-});
