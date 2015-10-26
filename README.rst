@@ -10,6 +10,10 @@ Qafoo Quality Analyzer
 This software is a tool to visualize metrics and source code. We use this
 software for Code Reviews together with our customers.
 
+.. image:: //raw.githubusercontent.com/Qafoo/QualityAnalyzer/master/src/images/screen.png
+   :alt:   Screeenshot
+   :target: //raw.githubusercontent.com/Qafoo/QualityAnalyzer/master/src/images/screen.png
+
 Running the analyzers requires the respective PHP tools, which are installed
 using composer and can all be run using a convenience command. You may also run
 the tools in your common build process, though.
