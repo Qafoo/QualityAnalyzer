@@ -23,6 +23,7 @@ class Application extends Console\Application
             parent::getDefaultCommands(),
             array(
                 new Command\Serve(),
+                new Command\Bundle(),
                 new Command\Analyze(
                     array(
                         'source' => new Handler\Source($shell),

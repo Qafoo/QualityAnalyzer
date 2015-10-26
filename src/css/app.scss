@@ -4,9 +4,11 @@
 @import "tests";
 @import "source_tree";
 @import "footer";
+@import "pie_chart";
 
 body {
     margin-top: ($navbar-height + $navbar-margin-bottom);
+    overflow-y: scroll;
 }
 
 .list-hover li:hover {
@@ -15,8 +17,4 @@ body {
 
 .label.pull-right {
     margin-right: $padding-xs-horizontal;
-}
-
-.pie-chart {
-    min-height: 400px;
 }

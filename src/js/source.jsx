@@ -56,7 +56,7 @@ let Source = React.createClass({
             }</div>
             <div className="col-md-8">
                 {current ?
-                    <View file={current} data={this.props.data} start={this.props.query.start} end={this.props.query.end} /> :
+                    <View node={current} data={this.props.data} start={this.props.query.start} end={this.props.query.end} /> :
                     <h4>Select a file in the source tree on the left.</h4>
                 }
             </div>

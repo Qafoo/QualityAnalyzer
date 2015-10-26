@@ -3,6 +3,7 @@ import _ from "underscore";
 let Tree = function() {
     var sourceTree = {
         name: "/",
+        path: "/",
         type: "folder",
         children: {}
     };
@@ -27,15 +28,18 @@ let Tree = function() {
 
     var addFile = function(file) {
         var components = file.name.split("/"),
-            treeReference = sourceTree;
+            treeReference = sourceTree,
+            path = [];
 
         for (var i = 0; i < components.length; ++i) {
             var component = components[i];
+            path.push(component);
 
             if (!treeReference.children[component]) {
                 treeReference.children[component] = {
                     name: component,
                     type: "folder",
+                    path: path.join("/"),
                     children: {}
                 };
             }
@@ -46,7 +50,10 @@ let Tree = function() {
         treeReference.type = "file";
         treeReference.file = file;
         treeReference.lines = [];
-        treeReference.coverage = 0;
+        treeReference.coverage = {
+            count: 0,
+            covered: 0,
+        };
         treeReference.file = file;
         hasFiles = true;
     };
@@ -76,11 +83,48 @@ let Tree = function() {
                 return;
             }
 
-            node.coverage = file.metrics[0].$.coveredstatements / file.metrics[0].$.statements;
+            node.coverage.count = file.metrics[0].$.statements * 1;
+            node.coverage.covered = file.metrics[0].$.coveredstatements * 1;
             _.map(file.line, function(line) {
                 node.lines[line.$.num] = (line.$.count > 0);
             });
         });
+    };
+
+    this.calculateNodeStatistics = function(node) {
+        var statistics = {
+                files: 0,
+                coverage: {
+                    files: {
+                        count: 0,
+                        covered: 0,
+                    },
+                    lines: {
+                        count: 0,
+                        covered: 0,
+                    },
+                },
+            };
+
+        if (node.type === "file") {
+            statistics.files = 1;
+            statistics.coverage.files.count = 1;
+            statistics.coverage.files.covered = (node.coverage.covered >= node.coverage.count ? 1 : 0);
+            statistics.coverage.lines = node.coverage;
+            return statistics;
+        }
+
+        for (var child in node.children) {
+            var childStatistics = this.calculateNodeStatistics(node.children[child]);
+
+            statistics.files += childStatistics.files;
+            statistics.coverage.files.count += childStatistics.coverage.files.count;
+            statistics.coverage.files.covered += childStatistics.coverage.files.covered;
+            statistics.coverage.lines.count += childStatistics.coverage.lines.count;
+            statistics.coverage.lines.covered += childStatistics.coverage.lines.covered;
+        }
+
+        return statistics;
     };
 
     this.setBaseDir = function(newBaseDir) {
