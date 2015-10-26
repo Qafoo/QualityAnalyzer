@@ -16,7 +16,8 @@ class Application extends Console\Application
      */
     protected function getDefaultCommands()
     {
-        $shell = new Shell(__DIR__ . '/../../../../');
+
+        $shell = new Shell(dirname(VENDOR_PATH));
 
         return array_merge(
             parent::getDefaultCommands(),

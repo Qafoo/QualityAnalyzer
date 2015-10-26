@@ -3,7 +3,13 @@
 
 namespace Qafoo\Analyzer;
 
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists(__DIR__.'/../vendor/autoload.php')) {
+    define('VENDOR_PATH', realpath(__DIR__.'/../vendor'));
+} elseif (file_exists(__DIR__.'/../../../autoload.php')) {
+    define('VENDOR_PATH', realpath(__DIR__.'/../../..'));
+}
+
+require VENDOR_PATH . '/autoload.php';
 
 $application = new Application();
 $application->run();

@@ -17,5 +17,6 @@
         "psr-0": {
             "Qafoo": ["src/php", "test/php"]
         }
-    }
+    },
+    "bin": ["bin/analyze"]
 }
