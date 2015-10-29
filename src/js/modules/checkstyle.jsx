@@ -4,10 +4,6 @@ import {Link} from 'react-router';
 import File from './checkstyle/file.jsx';
 
 let Checkstyle = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-
     getFileName: function(file) {
         var basedir = this.props.data.baseDir,
             file = file || "";

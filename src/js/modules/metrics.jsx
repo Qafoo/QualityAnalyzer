@@ -79,10 +79,6 @@ let Metrics = React.createClass({
         }
     },
 
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-
     getFileName: function(file) {
         var basedir = this.props.data.baseDir,
             file = file || "";

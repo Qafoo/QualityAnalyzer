@@ -4,10 +4,6 @@ import {Link} from 'react-router';
 import Suite from './tests/suite.jsx';
 
 let Tests = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-
     render: function() {
         return (<div className="row">
             <div className="col-md-12">
