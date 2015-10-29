@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from 'react-router';
+import _ from "underscore";
 
 import NavLink from "./navlink.jsx";
 
@@ -8,11 +9,14 @@ let Navigation = React.createClass({
         return {
             brand: "Your Brand",
             brandLink: null,
-            items: {}
+            items: {},
+            matched: null,
         };
     },
 
     render: function() {
+        var matched = this.props.matched;
+
         return (<nav className="navbar navbar-default navbar-fixed-top">
             <div className="container">
                 <div className="navbar-header">
@@ -28,8 +32,8 @@ let Navigation = React.createClass({
                 </div>
                 <div id="navbar" className="collapse navbar-collapse">
                     <ul className="nav navbar-nav">
-                        {$.map(this.props.items, function(item, i) {
-                            return (<NavLink key={i} to={"/" + item.path}>
+                        {_.map(this.props.items, function(item, i) {
+                            return (<NavLink key={i} to={"/" + item.path} active={item.path == matched.path}>
                                 {!item.icon ? '' :
                                     <span className={item.icon}></span>
                                 } {item.name}

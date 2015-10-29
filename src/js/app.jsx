@@ -96,7 +96,7 @@ let App = React.createClass({
         }
 
         return (<div className="loaded">
-            <Navigation brand="Quality Analyzer" brandLink="/" items={modules} />
+            <Navigation brand="Quality Analyzer" brandLink="/" items={modules} matched={this.props.routes[1] || null} />
 
             {!this.props.children ? '' :
             <div className="container">
