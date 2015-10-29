@@ -2,6 +2,9 @@
 
 namespace Qafoo\Analyzer;
 
+/**
+ * @covers \Qafoo\Analyzer\Shell
+ */
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     public function testProjectDir()
