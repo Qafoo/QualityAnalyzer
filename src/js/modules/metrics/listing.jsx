@@ -13,7 +13,7 @@ let Listing = React.createClass({
                 _.map(this.props.metrics, function(data, id) {return {key: id, name: data.name};}),
                 function (item, index) {
                     return (<li key={index}>
-                        <Link to="pdepend" query={{type: "package", metric: item.key}}>
+                        <Link to="/pdepend" query={{type: "package", metric: item.key}}>
                             {selected == item.key ?
                                 <strong>{item.name}</strong> :
                                 item.name

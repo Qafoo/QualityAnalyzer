@@ -20,7 +20,7 @@ let Tests = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="tests">
+            <Link to="/tests">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">

@@ -15,7 +15,7 @@ let PDepend = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="pdepend">
+            <Link to="/pdepend">
                 <div className="panel-footer">
                     <span className="pull-left">Analyze Metrics</span>
                     <span className="pull-right">

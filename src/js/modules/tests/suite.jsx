@@ -1,6 +1,4 @@
 import React from "react";
-import {Link} from 'react-router';
-
 import _ from 'underscore';
 
 import TestCase from './testcase.jsx';

@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {Router, Route, RouteHandler} from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import {Router, Route, RouteHandler, IndexRoute} from 'react-router';
+import createHistory from 'history/lib/createBrowserHistory';
+import useQueries from 'history/lib/useQueries';
 
 import Loader from "./loader.jsx";
 import Overview from "./overview.jsx";
@@ -95,20 +96,23 @@ let App = React.createClass({
         }
 
         return (<div className="loaded">
-            <Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
+            <Navigation brand="Quality Analyzer" brandLink="/" items={modules} />
 
             {!this.props.children ? '' :
             <div className="container">
-                {React.cloneElement(this.props.children, {data: data, query: {}, params: {}})}
+                {React.cloneElement(this.props.children, {data: data, query: this.props.location.query, params: this.props.params})}
             </div>}
         </div>);
     }
 });
 
-let history = createBrowserHistory();
+let history = useQueries(createHistory)();
+
 render(
     (<Router history={history}>
-        <Route name="overview" path="/" component={App}>
+        <Route path="/" component={App}>
+            <IndexRoute component={Overview} />
+
             <Route name="source" path="source" component={Source} />
             <Route name="phploc" path="phploc" component={PhpLoc} />
             <Route name="pdepend" path="pdepend" component={Metrics} />
@@ -117,8 +121,9 @@ render(
             <Route name="tests" path="tests" component={Tests} />
             <Route name="checkstyle" path="checkstyle" component={Checkstyle} />
             <Route name="cpd" path="cpd" component={CPD} />
+
+            <Route path="*" component={Overview} />
         </Route>
-        <Route path="*" component={Overview} />
     </Router>),
     document.getElementById('content')
 );

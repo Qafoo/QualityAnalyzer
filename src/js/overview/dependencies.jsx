@@ -15,7 +15,7 @@ let Dependencies = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="dependencies">
+            <Link to="/dependencies">
                 <div className="panel-footer">
                     <span className="pull-left">Analyze Dependencies</span>
                     <span className="pull-right">

@@ -28,7 +28,7 @@ let PHPMD = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="phpmd">
+            <Link to="/phpmd">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">

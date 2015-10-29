@@ -233,7 +233,7 @@ let Metrics = React.createClass({
                     data={_.map(metrics, function(value) {
                         return [
                             (value.file ?
-                                (<Link to="source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Link>) :
+                                (<Link to="/source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Link>) :
                                 (<span>{value.namespace} <strong>{value.name}</strong></span>)
                             ),
                             <div className="text-right">{metric.formatter(value.metric, _.pluck(metrics, "metric"))}</div>

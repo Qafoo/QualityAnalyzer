@@ -18,7 +18,7 @@ let Coverage = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="source">
+            <Link to="/source">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">

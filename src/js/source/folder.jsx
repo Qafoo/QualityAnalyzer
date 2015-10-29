@@ -31,7 +31,7 @@ let SourceFolder = React.createClass({
             <a onClick={this.unfold}>
                 <span className={icon} ></span>
             </a>&nbsp;
-            <Link to="source" query={{"file": folder.path}}>
+            <Link to="/source" query={{"file": folder.path}}>
                 <span className="name">{this.props.folder.name}</span>
             </Link>
             {!(folder.children && opened) ? "" :

@@ -17,7 +17,7 @@ let PhpLoc = React.createClass({
                     </div>
                 </div>
             </div>
-            <Link to="phploc">
+            <Link to="/phploc">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">
