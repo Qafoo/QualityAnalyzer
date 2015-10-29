@@ -1,9 +1,10 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 import jQuery from 'jquery';
 import _ from 'underscore';
 
 import Table from '../table.jsx';
+import Listing from './metrics/listing.jsx';
 
 let FloatFormatter = function(value) {
     return parseFloat(value).toFixed(2);
@@ -76,10 +77,6 @@ let Metrics = React.createClass({
             ht: {name: "Halstead Time", asc: false, formatter: FloatFormatter},
             hv: {name: "Halstead Volumne", asc: false, formatter: FloatFormatter},
         }
-    },
-
-    propTypes: {
-        data: React.PropTypes.object.isRequired
     },
 
     getFileName: function(file) {
@@ -200,10 +197,9 @@ let Metrics = React.createClass({
     render: function() {
         var metrics = {},
             metric = {name: "Undefined", asc: false, formatter: IntFormatter},
-            type = this.props.query.type || "class",
-            selected = this.props.query.metric || "loc";
+            selection = {type: this.props.query.type || "class", metric: this.props.query.metric || "loc"};
 
-        switch (type) {
+        switch (selection.type) {
             case "package":
                 metrics = this.getPackageMetrics();
                 break;
@@ -217,66 +213,30 @@ let Metrics = React.createClass({
                 break;
 
             default:
-                throw "Unknow metric type " + type;
+                throw "Unknow metric type " + selection.type;
         }
 
-        metric = this.metrics[type][selected];
-        metrics = this.sortBySingleMetric(metrics, selected, metric.asc, 25);
+        metric = this.metrics[selection.type][selection.metric];
+        metrics = this.sortBySingleMetric(metrics, selection.metric, metric.asc, 25);
 
         jQuery("html, body").animate({scrollTop: 0}, 500);
         return (<div className="row">
             <div className="col-md-3">
-                <h3>Package</h3>
-                <ul>
-                {$.map(this.metrics.package, function(name, metric) {
-                    return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "package", metric: metric}}>
-                            {type == "package" && metric == selected ?
-                                <strong>{name}</strong> :
-                                {name}
-                            }
-                        </Router.Link>
-                    </li>);
-                })}
-                </ul>
-                <h3>Type</h3>
-                <ul>
-                {$.map(this.metrics.class, function(name, metric) {
-                    return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "class", metric: metric}}>
-                            {type == "class" && metric == selected ?
-                                <strong>{name}</strong> :
-                                {name}
-                            }
-                        </Router.Link>
-                    </li>);
-                })}
-                </ul>
-                <h3>Method</h3>
-                <ul>
-                {$.map(this.metrics.method, function(name, metric) {
-                    return (<li key={metric}>
-                        <Router.Link to="pdepend" query={{type: "method", metric: metric}}>
-                            {type == "method" && metric == selected ?
-                                <strong>{name}</strong> :
-                                {name}
-                            }
-                        </Router.Link>
-                    </li>);
-                })}
-                </ul>
+                <Listing title="Package" metrics={this.metrics} type="package" selection={selection} />
+                <Listing title="Class" metrics={this.metrics} type="class" selection={selection} />
+                <Listing title="Method" metrics={this.metrics} type="method" selection={selection} />
             </div>
             <div className="col-md-9">
                 <Table
                     captions={["Artifact", metric.name]}
-                    data={$.map(metrics, function(value) {
-                        return [[
+                    data={_.map(metrics, function(value) {
+                        return [
                             (value.file ?
-                                (<Router.Link to="source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Router.Link>) :
+                                (<Link to="/source" query={{file: value.file, start: value.start, end: value.end}}>{value.namespace} <strong>{value.name}</strong></Link>) :
                                 (<span>{value.namespace} <strong>{value.name}</strong></span>)
                             ),
                             <div className="text-right">{metric.formatter(value.metric, _.pluck(metrics, "metric"))}</div>
-                        ]];
+                        ];
                     })}
                 />
             </div>

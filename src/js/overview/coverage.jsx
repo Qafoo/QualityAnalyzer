@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 
 let Coverage = React.createClass({
     render: function() {
@@ -18,7 +18,7 @@ let Coverage = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="source">
+            <Link to="/source">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">
@@ -26,7 +26,7 @@ let Coverage = React.createClass({
                     </span>
                     <div className="clearfix"></div>
                 </div>
-            </Router.Link>
+            </Link>
         </div>);
     }
 });

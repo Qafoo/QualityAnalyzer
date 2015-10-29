@@ -1,5 +1,4 @@
 import React from "react";
-import Router from 'react-router';
 
 let TestCase = React.createClass({
     getInitialState: function() {

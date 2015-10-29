@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 
 let PhpLoc = React.createClass({
     render: function() {
@@ -17,7 +17,7 @@ let PhpLoc = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="phploc">
+            <Link to="/phploc">
                 <div className="panel-footer">
                     <span className="pull-left">Check out</span>
                     <span className="pull-right">
@@ -25,7 +25,7 @@ let PhpLoc = React.createClass({
                     </span>
                     <div className="clearfix"></div>
                 </div>
-            </Router.Link>
+            </Link>
         </div>);
     }
 });

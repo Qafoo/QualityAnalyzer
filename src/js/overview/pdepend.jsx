@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 
 let PDepend = React.createClass({
     render: function() {
@@ -15,7 +15,7 @@ let PDepend = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="pdepend">
+            <Link to="/pdepend">
                 <div className="panel-footer">
                     <span className="pull-left">Analyze Metrics</span>
                     <span className="pull-right">
@@ -23,7 +23,7 @@ let PDepend = React.createClass({
                     </span>
                     <div className="clearfix"></div>
                 </div>
-            </Router.Link>
+            </Link>
         </div>);
     }
 });

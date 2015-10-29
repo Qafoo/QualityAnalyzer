@@ -1,13 +1,8 @@
 import React from "react";
-import Router from 'react-router';
 
 import Duplication from './cpd/duplication.jsx';
 
 let CPD = React.createClass({
-    propTypes: {
-        data: React.PropTypes.object.isRequired
-    },
-
     render: function() {
         var component = this,
             baseDir = this.props.data.baseDir;

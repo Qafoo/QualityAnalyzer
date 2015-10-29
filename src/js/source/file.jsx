@@ -1,5 +1,5 @@
 import React from "react";
-import Router from 'react-router';
+import {Link} from 'react-router';
 
 let SourceFile = React.createClass({
     render: function() {
@@ -13,10 +13,10 @@ let SourceFile = React.createClass({
         }
 
         return (<li className={nodeSelected ? "selected" : ""}>
-            <Router.Link to="source" query={{"file": file.path}}>
+            <Link to="/source" query={{"file": file.path}}>
                 <span className={"glyphicon glyphicon-file " + coverageClass} ></span>&nbsp;
                 <span className="name">{this.props.file.name}</span>
-            </Router.Link>
+            </Link>
         </li>);
     }
 });

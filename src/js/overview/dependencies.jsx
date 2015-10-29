@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "react-router";
+import {Link} from "react-router";
 
 let Dependencies = React.createClass({
     render: function() {
@@ -15,7 +15,7 @@ let Dependencies = React.createClass({
                     </div>
                 </div>
             </div>
-            <Router.Link to="dependencies">
+            <Link to="/dependencies">
                 <div className="panel-footer">
                     <span className="pull-left">Analyze Dependencies</span>
                     <span className="pull-right">
@@ -23,7 +23,7 @@ let Dependencies = React.createClass({
                     </span>
                     <div className="clearfix"></div>
                 </div>
-            </Router.Link>
+            </Link>
         </div>);
     }
 });

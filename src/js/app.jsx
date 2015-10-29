@@ -1,5 +1,8 @@
 import React from 'react';
-import Router from 'react-router';
+import {render} from 'react-dom';
+import {Router, Route, RouteHandler, IndexRoute} from 'react-router';
+import createHistory from 'history/lib/createBrowserHistory';
+import useQueries from 'history/lib/useQueries';
 
 import Loader from "./loader.jsx";
 import Overview from "./overview.jsx";
@@ -93,34 +96,34 @@ let App = React.createClass({
         }
 
         return (<div className="loaded">
-            <Navigation brand="Quality Analyzer" brandLink="overview" items={modules} />
+            <Navigation brand="Quality Analyzer" brandLink="/" items={modules} matched={this.props.routes[1] || null} />
 
+            {!this.props.children ? '' :
             <div className="container">
-                <Router.RouteHandler parameters={this.props.parameters} query={this.props.query} data={data} />
-            </div>
+                {React.cloneElement(this.props.children, {data: data, query: this.props.location.query, params: this.props.params})}
+            </div>}
         </div>);
     }
 });
 
-var routes = (
-    <Router.Route name="overview" handler={App} path="/">
-        <Router.DefaultRoute handler={Overview} />
-        <Router.NotFoundRoute handler={Overview}/>
+let history = useQueries(createHistory)();
 
-        <Router.Route name="source" path="/source" handler={Source} />
-        <Router.Route name="phploc" handler={PhpLoc} />
-        <Router.Route name="pdepend" handler={Metrics} />
-        <Router.Route name="dependencies" handler={Dependencies} />
-        <Router.Route name="phpmd" handler={PHPMD} />
-        <Router.Route name="tests" handler={Tests} />
-        <Router.Route name="checkstyle" handler={Checkstyle} />
-        <Router.Route name="cpd" handler={CPD} />
-    </Router.Route>
+render(
+    (<Router history={history}>
+        <Route path="/" component={App}>
+            <IndexRoute component={Overview} />
+
+            <Route name="source" path="source" component={Source} />
+            <Route name="phploc" path="phploc" component={PhpLoc} />
+            <Route name="pdepend" path="pdepend" component={Metrics} />
+            <Route name="dependencies" path="dependencies" component={Dependencies} />
+            <Route name="phpmd" path="phpmd" component={PHPMD} />
+            <Route name="tests" path="tests" component={Tests} />
+            <Route name="checkstyle" path="checkstyle" component={Checkstyle} />
+            <Route name="cpd" path="cpd" component={CPD} />
+
+            <Route path="*" component={Overview} />
+        </Route>
+    </Router>),
+    document.getElementById('content')
 );
-
-Router.run(routes, Router.HistoryLocation, function (Router, state) {
-    React.render(
-        <Router parameters={state.params} query={state.query} />,
-        document.getElementById('content')
-    )
-});
