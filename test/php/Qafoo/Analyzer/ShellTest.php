@@ -10,7 +10,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 {
     public function testProjectDir()
     {
-        $projectDir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+        $projectDir = __DIR__ . '/../../../../';
         $shell = new Shell($projectDir);
 
         $testCommand = 'vendor/bin/phpunit';

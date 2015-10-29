@@ -9,10 +9,12 @@
         "pdepend/pdepend": "@stable",
         "phploc/phploc": "^2.1",
         "squizlabs/php_codesniffer": "@stable",
-        "phpunit/phpunit": "@stable",
         "sebastian/phpcpd": "@stable",
         "symfony/console": "^2.7",
         "sebastian/finder-facade": "^1.2"
+    },
+    "require-dev":  {
+        "phpunit/phpunit": "@stable"
     },
     "autoload": {
         "psr-0": {
