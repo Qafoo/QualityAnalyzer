@@ -197,10 +197,9 @@ let Metrics = React.createClass({
     render: function() {
         var metrics = {},
             metric = {name: "Undefined", asc: false, formatter: IntFormatter},
-            type = this.props.query.type || "class",
-            selected = this.props.query.metric || "loc";
+            selection = {type: this.props.query.type || "class", metric: this.props.query.metric || "loc"};
 
-        switch (type) {
+        switch (selection.type) {
             case "package":
                 metrics = this.getPackageMetrics();
                 break;
@@ -214,18 +213,18 @@ let Metrics = React.createClass({
                 break;
 
             default:
-                throw "Unknow metric type " + type;
+                throw "Unknow metric type " + selection.type;
         }
 
-        metric = this.metrics[type][selected];
-        metrics = this.sortBySingleMetric(metrics, selected, metric.asc, 25);
+        metric = this.metrics[selection.type][selection.metric];
+        metrics = this.sortBySingleMetric(metrics, selection.metric, metric.asc, 25);
 
         jQuery("html, body").animate({scrollTop: 0}, 500);
         return (<div className="row">
             <div className="col-md-3">
-                <Listing title="Package" metrics={this.metrics.package} selected={type == "package" ? selected : null} />
-                <Listing title="Class" metrics={this.metrics.class} selected={type == "class" ? selected : null} />
-                <Listing title="Method" metrics={this.metrics.method} selected={type == "method" ? selected : null} />
+                <Listing title="Package" metrics={this.metrics} type="package" selection={selection} />
+                <Listing title="Class" metrics={this.metrics} type="class" selection={selection} />
+                <Listing title="Method" metrics={this.metrics} type="method" selection={selection} />
             </div>
             <div className="col-md-9">
                 <Table
