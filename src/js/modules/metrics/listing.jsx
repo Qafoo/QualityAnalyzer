@@ -14,7 +14,7 @@ let Listing = React.createClass({
                 function (item, index) {
                     return (<li key={index}>
                         <Link to="pdepend" query={{type: "package", metric: item.key}}>
-                            {selected.type == "package" && selected.metric == item.key ?
+                            {selected == item.key ?
                                 <strong>{item.name}</strong> :
                                 item.name
                             }

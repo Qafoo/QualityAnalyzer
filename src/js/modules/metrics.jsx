@@ -227,9 +227,9 @@ let Metrics = React.createClass({
         jQuery("html, body").animate({scrollTop: 0}, 500);
         return (<div className="row">
             <div className="col-md-3">
-                <Listing title="Package" metrics={this.metrics.package} selected={{type: type, metric: selected}} />
-                <Listing title="Class" metrics={this.metrics.class} selected={{type: type, metric: selected}} />
-                <Listing title="Method" metrics={this.metrics.method} selected={{type: type, metric: selected}} />
+                <Listing title="Package" metrics={this.metrics.package} selected={type == "package" ? selected : null} />
+                <Listing title="Class" metrics={this.metrics.class} selected={type == "class" ? selected : null} />
+                <Listing title="Method" metrics={this.metrics.method} selected={type == "method" ? selected : null} />
             </div>
             <div className="col-md-9">
                 <Table
