@@ -28,4 +28,4 @@ let Dependencies = React.createClass({
     }
 });
 
-export default Dependencies; 
+export default Dependencies;

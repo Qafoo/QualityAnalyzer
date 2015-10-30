@@ -56,4 +56,4 @@ let Tokenizer = function() {
     };
 };
 
-export default Tokenizer; 
+export default Tokenizer;

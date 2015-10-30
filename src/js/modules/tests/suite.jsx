@@ -57,4 +57,4 @@ let Suite = React.createClass({
     }
 });
 
-export default Suite; 
+export default Suite;

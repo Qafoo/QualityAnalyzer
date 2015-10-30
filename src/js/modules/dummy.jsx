@@ -6,4 +6,4 @@ let Dummy = React.createClass({
     }
 });
 
-export default Dummy; 
+export default Dummy;

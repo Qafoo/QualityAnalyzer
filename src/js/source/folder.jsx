@@ -47,4 +47,4 @@ let SourceFolder = React.createClass({
     }
 });
 
-export default SourceFolder; 
+export default SourceFolder;

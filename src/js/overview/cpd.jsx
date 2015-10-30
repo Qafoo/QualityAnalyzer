@@ -32,4 +32,4 @@ let CPD = React.createClass({
     }
 });
 
-export default CPD; 
+export default CPD;

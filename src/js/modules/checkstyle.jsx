@@ -29,4 +29,4 @@ let Checkstyle = React.createClass({
     }
 });
 
-export default Checkstyle; 
+export default Checkstyle;

@@ -29,4 +29,4 @@ let PHPMD = React.createClass({
     }
 });
 
-export default PHPMD; 
+export default PHPMD;

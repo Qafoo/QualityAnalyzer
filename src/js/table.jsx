@@ -22,4 +22,4 @@ let Table = React.createClass({
     }
 });
 
-export default Table; 
+export default Table;

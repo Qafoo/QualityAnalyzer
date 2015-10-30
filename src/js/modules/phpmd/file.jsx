@@ -31,7 +31,7 @@ let File = React.createClass({
                     return <span key={type} className={"label pull-right label-" + type}>{count}</span>;
                 })}
             </div>
-            {this.state.folded ? '' : 
+            {this.state.folded ? '' :
                 <ul className="violations">
                     {_.map(this.props.violations, function(violation, key) {
                         return (<li key={key} className={"text-" + priorityMap[violation.$.priority]}>
@@ -51,4 +51,4 @@ let File = React.createClass({
     }
 });
 
-export default File; 
+export default File;
