@@ -16,17 +16,6 @@ class Application extends Console\Application
     const CPD_MEMORY_LIMIT_OPTION          = 'cpd_mem';
     const PHPLOC_MEMORY_LIMIT_OPTION       = 'phploc_mem';
 
-    public function __construct() {
-        parent::__construct();
-        set_error_handler(array(&$this, 'errorHandler'));
-    }
-
-    public function errorHandler($number, $string, $file = 'Unknown', $line = 0, $context = array())
-    {
-        echo "ERROR: $number - $string:\nFile: $file\nLine: $line\n";
-        return true;
-    }
-
     /**
      * Get default commands
      *
