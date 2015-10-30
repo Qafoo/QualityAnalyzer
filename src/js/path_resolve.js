@@ -12,7 +12,7 @@ let PathResolve = function() {
             fragment: parser.hash
         };
 
-    }
+    };
 
     this.getBasePath = function(location) {
         var urlData = parseUrl(location),
