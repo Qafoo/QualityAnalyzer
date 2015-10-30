@@ -18,9 +18,8 @@ let PathResolve = function() {
         var urlData = parseUrl(location),
             path = urlData.path.replace(/[^\/]*$/, "");
 
-        if (urlData.protocol === "file:" ||
-            urlData.protocol === "file") {
-            path = "file://" + path;
+        if (path[path.length - 1] === "/") {
+            path = path.substring(0, path.length - 1);
         }
 
         return path;

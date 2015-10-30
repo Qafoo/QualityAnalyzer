@@ -8,27 +8,27 @@ describe("PathResolve", function() {
         var resolve = new PathResolve();
 
         expect(resolve.getBasePath("http://localhost:8080/"))
-            .toEqual("/");
+            .toEqual("");
     });
 
     it("resolves subdir", function() {
         var resolve = new PathResolve();
 
         expect(resolve.getBasePath("http://localhost:8080/subdir/"))
-            .toEqual("/subdir/");
+            .toEqual("/subdir");
     });
 
     it("resolves subdir with file", function() {
         var resolve = new PathResolve();
 
         expect(resolve.getBasePath("http://localhost:8080/subdir/index.html"))
-            .toEqual("/subdir/");
+            .toEqual("/subdir");
     });
 
     it("resolves root file URL", function() {
         var resolve = new PathResolve();
 
         expect(resolve.getBasePath("file:///path/to/index.html"))
-            .toEqual("file:///path/to/");
+            .toEqual("/path/to");
     });
 });
