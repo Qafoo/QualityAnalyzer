@@ -45,7 +45,10 @@ class Application extends Console\Application
                         'source' => new Handler\Source($shell),
                         'coverage' => new Handler\Coverage(),
                         'pdepend' => new Handler\PDepend($shell, $opts[self::PDEPEND_MEMORY_LIMIT_OPTION]),
-                        'dependencies' => new Handler\Dependencies($shell, $opts[self::DEPENDENCIES_MEMORY_LIMIT_OPTION]),
+                        'dependencies' => new Handler\Dependencies(
+                            $shell,
+                            $opts[self::DEPENDENCIES_MEMORY_LIMIT_OPTION]
+                        ),
                         'phpmd' => new Handler\PHPMD($shell, $opts[self::PHPMD_MEMORY_LIMIT_OPTION]),
                         'checkstyle' => new Handler\Checkstyle($shell, $opts[self::CHECKSTYLE_MEMORY_LIMIT_OPTION]),
                         'tests' => new Handler\Tests(),
