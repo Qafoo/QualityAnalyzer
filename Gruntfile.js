@@ -37,7 +37,7 @@ module.exports = function(grunt) {
             options: {
                 configFile: 'src/eslint.config.json'
             },
-            target: ['src/js/**.js', 'src/js/**.jsx', 'test/js']
+            target: ['src/**/*.js', 'src/**/*.jsx', 'test/**/*.js']
         },
 
         watch: {
