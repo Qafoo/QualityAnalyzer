@@ -13,10 +13,12 @@ class PDepend extends Handler implements RequiresCoverage
      * @var Shell
      */
     private $shell;
+    private $memory_limit;
 
-    public function __construct(Shell $shell)
+    public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
+        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -48,7 +50,12 @@ class PDepend extends Handler implements RequiresCoverage
             $options[] = '--ignore=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($dir)));
+        $this->shell->exec(
+            'vendor/bin/pdepend',
+            array_merge($options, array($dir)),
+            array(0),
+            $this->memory_limit
+        );
         return $tmpFile;
     }
 }

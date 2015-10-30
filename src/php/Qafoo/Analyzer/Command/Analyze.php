@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Qafoo\Analyzer\Handler\RequiresCoverage;
+use Qafoo\Analyzer\Application;
 
 class Analyze extends Command
 {
@@ -76,6 +77,36 @@ class Analyze extends Command
                 'x',
                 InputOption::VALUE_REQUIRED,
                 'Directories to exclude from analyzing'
+            )->addOption(
+                Application::PDEPEND_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for PDepend analyzer'
+            )->addOption(
+                Application::DEPENDENCIES_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for Dependencies analyzer'
+            )->addOption(
+                Application::PHPMD_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for PHPMD analyzer'
+            )->addOption(
+                Application::CHECKSTYLE_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for Checkstyle analyzer'
+            )->addOption(
+                Application::CPD_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for CPD analyzer'
+            )->addOption(
+                Application::PHPLOC_MEMORY_LIMIT_OPTION,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Memory limit (MB) override for Phploc analyzer'
             );
     }
 

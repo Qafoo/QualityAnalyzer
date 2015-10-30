@@ -13,10 +13,12 @@ class PHPMD extends Handler
      * @var Shell
      */
     private $shell;
+    private $memory_limit;
 
-    public function __construct(Shell $shell)
+    public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
+        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -48,7 +50,8 @@ class PHPMD extends Handler
         $this->shell->exec(
             'vendor/bin/phpmd',
             array_merge($options, array($dir, 'xml', 'cleancode,codesize,design')),
-            array(0, 2)
+            array(0, 2),
+            $this->memory_limit
         );
         return $tmpFile;
     }

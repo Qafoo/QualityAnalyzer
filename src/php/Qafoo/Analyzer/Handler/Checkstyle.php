@@ -13,10 +13,12 @@ class Checkstyle extends Handler
      * @var Shell
      */
     private $shell;
+    private $memory_limit;
 
-    public function __construct(Shell $shell)
+    public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
+        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -46,7 +48,12 @@ class Checkstyle extends Handler
             $options[] = '--ignore=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/phpcs', array_merge($options, array($dir)), array(0, 1));
+        $this->shell->exec(
+            'vendor/bin/phpcs',
+            array_merge($options, array($dir)),
+            array(0, 1),
+            $this->memory_limit
+        );
         return $tmpFile;
     }
 }

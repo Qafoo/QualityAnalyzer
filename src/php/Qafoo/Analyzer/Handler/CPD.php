@@ -13,10 +13,12 @@ class CPD extends Handler
      * @var Shell
      */
     private $shell;
+    private $memory_limit;
 
-    public function __construct(Shell $shell)
+    public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
+        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -44,7 +46,12 @@ class CPD extends Handler
             $options[] = '--exclude=' . $exclude;
         }
 
-        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)), array(0, 1));
+        $this->shell->exec(
+            'vendor/bin/phpcpd',
+            array_merge($options, array($dir)),
+            array(0, 1),
+            $this->memory_limit
+        );
         return $tmpFile;
     }
 }
