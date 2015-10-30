@@ -42,29 +42,35 @@ let Coverage = React.createClass({
                 {!lineCoverage ? '' : <dt>Executable Lines</dt>}
                 {!lineCoverage ? '' : <dd>{lineCoverage.count}</dd>}
             </dl>
-            {!lineCoverage ? '' :
-            <div className="col-md-6">
-                <h4>Lines of Code</h4>
-                <PieChart
-                    id="chart-loc"
-                    title={(lineCoverage.covered / lineCoverage.count * 100).toFixed(2) + "%"}
-                    classes={["uncovered", "covered"]}
-                    values={[
-                        {label: "uncovered", value: lineCoverage.count - lineCoverage.covered},
-                        {label: "covered", value: lineCoverage.covered},
-                    ]} />
-            </div>}
-            {!fileCoverage ? '' :
-            <div className="col-md-6">
-                <h4>Files</h4>
-                <PieChart
-                    id="chart-file"
-                    title={(fileCoverage.covered / fileCoverage.count * 100).toFixed(2) + "%"}
-                    classes={["uncovered", "covered"]}
-                    values={[
-                        {label: "uncovered", value: fileCoverage.count - fileCoverage.covered},
-                        {label: "covered", value: fileCoverage.covered},
-                    ]} />
+            {!lineCoverage && !fileCoverage ? '' :
+            <div>
+                <div className="col-md-12">
+                    <h3>Code Coverage</h3>
+                </div>
+                {!lineCoverage ? '' :
+                <div className="col-md-6">
+                    <h4>Lines of Code</h4>
+                    <PieChart
+                        id="chart-loc"
+                        title={(lineCoverage.covered / lineCoverage.count * 100).toFixed(2) + "%"}
+                        classes={["uncovered", "covered"]}
+                        values={[
+                            {label: "uncovered", value: lineCoverage.count - lineCoverage.covered},
+                            {label: "covered", value: lineCoverage.covered},
+                        ]} />
+                </div>}
+                {!fileCoverage ? '' :
+                <div className="col-md-6">
+                    <h4>Files</h4>
+                    <PieChart
+                        id="chart-file"
+                        title={(fileCoverage.covered / fileCoverage.count * 100).toFixed(2) + "%"}
+                        classes={["uncovered", "covered"]}
+                        values={[
+                            {label: "uncovered", value: fileCoverage.count - fileCoverage.covered},
+                            {label: "covered", value: fileCoverage.covered},
+                        ]} />
+                </div>}
             </div>}
         </div>;
     }
