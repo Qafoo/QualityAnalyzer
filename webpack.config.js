@@ -8,6 +8,7 @@ module.exports = {
             "./src/js/app.jsx"
         ],
         tests: [
+            "./test/js/path_resolve.js",
             "./test/js/source/tokenizer.js",
             "./test/js/modules/dependencies/model.js"
         ]
