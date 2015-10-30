@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router';
 
 import _ from 'underscore';
 
@@ -20,7 +21,7 @@ let File = React.createClass({
                 "warning": "warning",
                 "notice": "info"
             };
-            
+
         return (<li>
             <div onClick={this.fold} style={{cursor: "pointer"}}>
                 <span className={"glyphicon glyphicon-" + (this.state.folded ? "plus" : "minus")}></span> <span className="name">{file}</span>
@@ -30,7 +31,7 @@ let File = React.createClass({
                     return <span key={type} className={"label pull-right label-" + type}>{count}</span>;
                 })}
             </div>
-            {this.state.folded ? '' : 
+            {this.state.folded ? '' :
                 <ul className="errors">
                     {_.map(this.props.errors, function(error, key) {
                         return (<li key={key} className={"text-" + priorityMap[error.$.severity]}>
@@ -50,4 +51,4 @@ let File = React.createClass({
     }
 });
 
-export default File; 
+export default File;
