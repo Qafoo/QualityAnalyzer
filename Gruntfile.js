@@ -24,7 +24,6 @@ module.exports = function(grunt) {
                 plugins: webpackConfig.plugins.concat(
                     new webpack.DefinePlugin({
                         "process.env": {
-                            // This has effect on the react lib size
                             "NODE_ENV": JSON.stringify("production")
                         }
                     }),
@@ -32,6 +31,13 @@ module.exports = function(grunt) {
                     new webpack.optimize.UglifyJsPlugin({minimize: true})
                 )
             }
+        },
+
+        eslint: {
+            options: {
+                configFile: 'src/eslint.config.json'
+            },
+            target: ['src/js/**.js', 'src/js/**.jsx', 'test/js']
         },
 
         watch: {
@@ -63,6 +69,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-webpack');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-eslint');
 
     grunt.registerTask("watcher", ["webpack:build", "watch:app"]);
 
@@ -72,6 +79,6 @@ module.exports = function(grunt) {
     grunt.registerTask("test-unit", ["karma"]);
     grunt.registerTask("test-spec", []);
     grunt.registerTask("test-feature", []);
-    grunt.registerTask("test-static", ["jshint"]);
+    grunt.registerTask("test-static", ["eslint"]);
     grunt.registerTask('package', ["webpack:package"]);
 };

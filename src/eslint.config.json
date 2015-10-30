@@ -1,0 +1,14 @@
+{
+    "extends": ["standard", "react"],
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    },
+    "env": {
+        "es6": true
+    },
+    "rules": {
+        "indent": [2, 4]
+    }
+}
+
