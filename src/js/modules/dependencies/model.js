@@ -1,6 +1,6 @@
-import _ from 'underscore';
+import _ from 'underscore'
 
-let Model = function() {
+let Model = function () {
     var dependencyTree = {
         id: "0",
         name: "/",
@@ -9,19 +9,19 @@ let Model = function() {
         children: {},
         size: -1, // Cope for external
         folded: false
-    };
+    }
 
-    var addTypeWithDependencies = function(type, dependencies) {
+    var addTypeWithDependencies = function (type, dependencies) {
         var components = type.split("\\"),
-            treeReference = dependencyTree;
+            treeReference = dependencyTree
 
         for (var i = 0; i < components.length; ++i) {
             var component = components[i],
-                isType = false;
+                isType = false
 
             if (i === (components.length - 1)) {
-                isType = true;
-                component = "<" + component + ">";
+                isType = true
+                component = "<" + component + ">"
             }
 
             if (!treeReference.children[component]) {
@@ -33,173 +33,173 @@ let Model = function() {
                     children: {},
                     size: 0,
                     folded: true
-                };
+                }
             }
 
-            treeReference.size++;
-            treeReference = treeReference.children[component];
+            treeReference.size++
+            treeReference = treeReference.children[component]
         }
 
-        treeReference.efferent = _.map(dependencies, function(type) {
+        treeReference.efferent = _.map(dependencies, function (type) {
             if (type[0] === "\\") {
-                type = type.substring(1);
+                type = type.substring(1)
             }
 
-            return type;
-        });
-    };
+            return type
+        })
+    }
 
-    this.calculateDependencyTree = function(dependencies) {
+    this.calculateDependencyTree = function (dependencies) {
         for (var i = 0; i < dependencies.package.length; ++i) {
-            var namespace = dependencies.package[i];
+            var namespace = dependencies.package[i]
 
             if (!namespace.class) {
-                continue;
+                continue
             }
 
             for (var j = 0; j < namespace.class.length; ++j) {
-                var type = namespace.class[j];
+                var type = namespace.class[j]
 
                 if (!type.efferent) {
-                    addTypeWithDependencies(namespace.$.name + "\\" + type.$.name, []);
+                    addTypeWithDependencies(namespace.$.name + "\\" + type.$.name, [])
                 } else {
                     addTypeWithDependencies(
                         namespace.$.name + "\\" + type.$.name,
-                        _.map(type.efferent[0].type, function(target) {
-                            return target.$.namespace + "\\" + target.$.name;
+                        _.map(type.efferent[0].type, function (target) {
+                            return target.$.namespace + "\\" + target.$.name
                         })
-                    );
+                    )
                 }
             }
         }
 
-        addTypeWithDependencies('$external', []);
-    };
+        addTypeWithDependencies('$external', [])
+    }
 
-    this.getLeaves =  function(tree, depth) {
-        tree = tree || dependencyTree;
-        depth = depth || 0;
+    this.getLeaves =  function (tree, depth) {
+        tree = tree || dependencyTree
+        depth = depth || 0
 
-        var leave = _.clone(tree);
-        var leaves = [leave];
+        var leave = _.clone(tree)
+        var leaves = [leave]
 
-        leave.depth = depth;
-        leave.hidden = !leave.folded;
+        leave.depth = depth
+        leave.hidden = !leave.folded
 
-        delete leave.children;
-        delete leave.folded;
-        delete leave.efferent;
+        delete leave.children
+        delete leave.folded
+        delete leave.efferent
 
         if (tree.folded) {
-            return leaves;
+            return leaves
         }
 
         for (var child in tree.children) {
-            leaves = leaves.concat(this.getLeaves(tree.children[child], depth + 1));
+            leaves = leaves.concat(this.getLeaves(tree.children[child], depth + 1))
         }
 
-        return leaves;
-    };
+        return leaves
+    }
 
-    this.findAndUnfold = function(leaveId, tree) {
-        tree = tree || dependencyTree;
+    this.findAndUnfold = function (leaveId, tree) {
+        tree = tree || dependencyTree
 
         if (tree.id === leaveId) {
-            tree.folded = !tree.folded;
-            return true;
+            tree.folded = !tree.folded
+            return true
         }
 
         for (var child in tree.children) {
             if (this.findAndUnfold(leaveId, tree.children[child])) {
-                return true;
+                return true
             }
         }
 
-        return false;
-    };
+        return false
+    }
 
-    this.calculateDependencies = function(leaves) {
+    this.calculateDependencies = function (leaves) {
         var fallbackLeaveId = null,
-            activeLeaves = _.filter(leaves, function(leave) {
-                return !leave.hidden;
+            activeLeaves = _.filter(leaves, function (leave) {
+                return !leave.hidden
             }),
-            links = [];
+            links = []
 
         if (activeLeaves.length <= 1) {
-            return [];
+            return []
         }
 
         // This is always supposed to be the "externals" node
-        fallbackLeaveId = activeLeaves[activeLeaves.length - 1].id;
+        fallbackLeaveId = activeLeaves[activeLeaves.length - 1].id
 
         for (var i = 0; i < (activeLeaves.length - 1); ++i) {
             var leaveDependencies = {
                     source: activeLeaves[i].id,
                     dependencies: []
                 },
-                nodes = collectChildrenIds(activeLeaves[i], dependencyTree, false);
+                nodes = collectChildrenIds(activeLeaves[i], dependencyTree, false)
 
             for (var j = 0; j < nodes.length; ++j) {
-                var found = false;
+                var found = false
 
                 for (var k = 0; k < (activeLeaves.length - 1); ++k) {
                     if (nodes[j].indexOf(activeLeaves[k].fullName) === 0) {
-                        leaveDependencies.dependencies.push(activeLeaves[k].id);
-                        found = true;
-                        break;
+                        leaveDependencies.dependencies.push(activeLeaves[k].id)
+                        found = true
+                        break
                     }
                 }
 
                 if (!found) {
-                    leaveDependencies.dependencies.push(fallbackLeaveId);
+                    leaveDependencies.dependencies.push(fallbackLeaveId)
                 }
             }
 
             leaveDependencies.dependencies = leaveDependencies.dependencies.reduce(
-                function(countMap, word) {
-                    countMap[word] = ++countMap[word] || 1;
-                    return countMap;
+                function (countMap, word) {
+                    countMap[word] = ++countMap[word] || 1
+                    return countMap
                 },
                 {}
-            );
+            )
 
             for (var target in leaveDependencies.dependencies) {
                 if (leaveDependencies.source === target) {
-                    continue;
+                    continue
                 }
 
                 links.push({
                     source: leaveDependencies.source,
                     target: target,
                     count: leaveDependencies.dependencies[target]
-                });
+                })
             }
         }
 
-        return links;
-    };
+        return links
+    }
 
-    var collectChildrenIds = function(leave, tree, found) {
-        var efferent = [];
+    var collectChildrenIds = function (leave, tree, found) {
+        var efferent = []
 
         if (tree.id === leave.id) {
-            found = true;
+            found = true
         }
 
         if (tree.type === "type") {
             if (!found) {
-                return [];
+                return []
             } else {
-                return tree.efferent;
+                return tree.efferent
             }
         }
 
         for (var child in tree.children) {
-            efferent = efferent.concat(collectChildrenIds(leave, tree.children[child], found));
+            efferent = efferent.concat(collectChildrenIds(leave, tree.children[child], found))
         }
 
-        return efferent;
-    };
-};
+        return efferent
+    }
+}
 
-export default Model;
+export default Model
