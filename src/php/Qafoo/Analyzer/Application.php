@@ -9,7 +9,6 @@ use Symfony\Component\Console;
  */
 class Application extends Console\Application
 {
-
     /**
      * Get default commands
      *
@@ -17,6 +16,7 @@ class Application extends Console\Application
      */
     protected function getDefaultCommands()
     {
+
         $shell = new Shell(dirname(VENDOR_PATH));
 
         return array_merge(
