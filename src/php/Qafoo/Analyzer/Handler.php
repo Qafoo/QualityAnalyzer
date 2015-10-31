@@ -15,7 +15,13 @@ abstract class Handler
      * @param string $dir
      * @param array $excludes
      * @param string $file
+     * @param string $memory_limit
      * @return string
      */
-    abstract public function handle($dir, array $excludes, $file = null);
+    abstract public function handle(
+        $dir,
+        array $excludes,
+        $file = null,
+        $memory_limit = null
+    );
 }

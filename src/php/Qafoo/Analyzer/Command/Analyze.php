@@ -78,35 +78,10 @@ class Analyze extends Command
                 InputOption::VALUE_REQUIRED,
                 'Directories to exclude from analyzing'
             )->addOption(
-                Application::PDEPEND_MEMORY_LIMIT_OPTION,
-                null,
+                'memory_limits',
+                'm',
                 InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for PDepend analyzer'
-            )->addOption(
-                Application::DEPENDENCIES_MEMORY_LIMIT_OPTION,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for Dependencies analyzer'
-            )->addOption(
-                Application::PHPMD_MEMORY_LIMIT_OPTION,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for PHPMD analyzer'
-            )->addOption(
-                Application::CHECKSTYLE_MEMORY_LIMIT_OPTION,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for Checkstyle analyzer'
-            )->addOption(
-                Application::CPD_MEMORY_LIMIT_OPTION,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for CPD analyzer'
-            )->addOption(
-                Application::PHPLOC_MEMORY_LIMIT_OPTION,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Memory limit (MB) override for Phploc analyzer'
+                'A comma-separated list of custom memory limits for each analyzer'
             );
     }
 
@@ -118,6 +93,14 @@ class Analyze extends Command
             throw new \OutOfBoundsException("Could not find " . $input->getArgument('path'));
         }
         $output->writeln("Analyze source code in $path");
+
+        $memory_limits = array();
+        foreach (explode(',', $input->getOption('memory_limits')) as $param) {
+            $kvp = explode('=', $param);
+            if (count($kvp) === 2) {
+                $memory_limits[$kvp[0]] = $kvp[1];
+            }
+        }
 
         $project = array(
             'baseDir' => $path,
@@ -132,7 +115,7 @@ class Analyze extends Command
                     $input->getOption('coverage') :
                     null;
 
-                if ($result = $handler->handle($path, $exclude, $file, $coverage)) {
+                if ($result = $handler->handle($path, $exclude, $file, $memory_limits[$name], $coverage)) {
                     $project['analyzers'][$name] = $this->copyResultFile($name, $result);
                 }
             } catch (\Exception $exception) {

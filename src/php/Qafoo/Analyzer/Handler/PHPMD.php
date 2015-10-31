@@ -13,12 +13,10 @@ class PHPMD extends Handler
      * @var Shell
      */
     private $shell;
-    private $memory_limit;
 
     public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
-        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -31,7 +29,7 @@ class PHPMD extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -51,7 +49,7 @@ class PHPMD extends Handler
             'vendor/bin/phpmd',
             array_merge($options, array($dir, 'xml', 'cleancode,codesize,design')),
             array(0, 2),
-            $this->memory_limit
+            $memory_limit
         );
         return $tmpFile;
     }

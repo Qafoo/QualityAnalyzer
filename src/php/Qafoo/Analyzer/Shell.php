@@ -33,12 +33,12 @@ class Shell
     public function exec($command, array $arguments = array(), array $okCodes = array(0), $memory_limit = null)
     {
         $command = $this->makeAbsolute($command);
-        if ($memory_limit !== null && preg_match('/^\d+[M]$/i', $memory_limit)) {
+
+        if (preg_match('/^\d+[M]$/i', $memory_limit)) {
             $command = "php -d memory_limit=$memory_limit " . $command;
         }
 
         $escapedCommand = escapeshellcmd($command) . ' ' . implode(' ', array_map('escapeshellarg', $arguments));
-
         exec($escapedCommand, $output, $return);
 
         if (!in_array($return, $okCodes)) {

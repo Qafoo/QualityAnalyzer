@@ -13,12 +13,10 @@ class CPD extends Handler
      * @var Shell
      */
     private $shell;
-    private $memory_limit;
 
-    public function __construct(Shell $shell, $memory_limit = null)
+    public function __construct(Shell $shell)
     {
         $this->shell = $shell;
-        $this->memory_limit = $memory_limit;
     }
 
     /**
@@ -31,7 +29,7 @@ class CPD extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -50,7 +48,7 @@ class CPD extends Handler
             'vendor/bin/phpcpd',
             array_merge($options, array($dir)),
             array(0, 1),
-            $this->memory_limit
+            $memory_limit
         );
         return $tmpFile;
     }

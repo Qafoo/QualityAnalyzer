@@ -31,7 +31,7 @@ class Source extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         $zipFile = __DIR__ . '/../../../../../data/source.zip';
         $archive = new \ZipArchive();
