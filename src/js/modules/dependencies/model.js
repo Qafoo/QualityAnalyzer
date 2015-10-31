@@ -93,7 +93,7 @@ let Model = function() {
         if (tree.folded) {
             return leaves;
         }
-        
+
         for (var child in tree.children) {
             leaves = leaves.concat(this.getLeaves(tree.children[child], depth + 1));
         }
@@ -202,4 +202,4 @@ let Model = function() {
     };
 };
 
-export default Model; 
+export default Model;

@@ -141,4 +141,4 @@ let PieChart = React.createClass({
     }
 });
 
-export default PieChart; 
+export default PieChart;

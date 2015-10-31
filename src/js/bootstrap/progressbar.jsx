@@ -19,4 +19,4 @@ let ProgressBar = React.createClass({
     }
 });
 
-export default ProgressBar; 
+export default ProgressBar;

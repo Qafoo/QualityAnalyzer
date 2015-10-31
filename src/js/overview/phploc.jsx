@@ -30,4 +30,4 @@ let PhpLoc = React.createClass({
     }
 });
 
-export default PhpLoc; 
+export default PhpLoc;

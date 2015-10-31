@@ -52,4 +52,4 @@ let Duplication = React.createClass({
     }
 });
 
-export default Duplication; 
+export default Duplication;

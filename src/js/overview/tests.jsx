@@ -33,4 +33,4 @@ let Tests = React.createClass({
     }
 });
 
-export default Tests; 
+export default Tests;

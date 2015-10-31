@@ -3,6 +3,9 @@ import {render} from 'react-dom';
 import {Router, Route, RouteHandler, IndexRoute} from 'react-router';
 import createHistory from 'history/lib/createBrowserHistory';
 import useQueries from 'history/lib/useQueries';
+import useBasename from 'history/lib/useBasename';
+
+import PathResolve from "./path_resolve.js";
 
 import Loader from "./loader.jsx";
 import Overview from "./overview.jsx";
@@ -106,7 +109,11 @@ let App = React.createClass({
     }
 });
 
-let history = useQueries(createHistory)();
+
+let resolver = new PathResolve(),
+    history = useBasename(useQueries(createHistory))({
+        basename: resolver.getBasePath(window.location),
+    });
 
 render(
     (<Router history={history}>
@@ -122,6 +129,7 @@ render(
             <Route name="checkstyle" path="checkstyle" component={Checkstyle} />
             <Route name="cpd" path="cpd" component={CPD} />
 
+            <Route path="index.html" component={Overview} />
             <Route path="*" component={Overview} />
         </Route>
     </Router>),

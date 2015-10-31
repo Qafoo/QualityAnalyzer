@@ -19,7 +19,7 @@ let Loader = React.createClass({
             progress: this.state.progress + step
         });
     },
-    
+
     loadProjectData: function(projectData) {
         var data = projectData,
             component = this,
@@ -110,4 +110,4 @@ let Loader = React.createClass({
     }
 });
 
-export default Loader; 
+export default Loader;

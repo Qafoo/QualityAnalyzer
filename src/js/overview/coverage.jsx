@@ -31,4 +31,4 @@ let Coverage = React.createClass({
     }
 });
 
-export default Coverage; 
+export default Coverage;

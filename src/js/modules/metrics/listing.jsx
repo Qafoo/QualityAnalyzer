@@ -28,4 +28,4 @@ let Listing = React.createClass({
     }
 });
 
-export default Listing; 
+export default Listing;
