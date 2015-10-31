@@ -88,19 +88,12 @@ class Analyze extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $exclude = array_filter(array_map('trim', explode(',', $input->getOption('exclude'))));
+        $memory_limits = $this->getMemoryLimits($input);
 
         if (!is_dir($path = realpath($input->getArgument('path')))) {
             throw new \OutOfBoundsException("Could not find " . $input->getArgument('path'));
         }
         $output->writeln("Analyze source code in $path");
-
-        $memory_limits = array();
-        foreach (explode(',', $input->getOption('memory_limits')) as $param) {
-            $kvp = explode('=', $param);
-            if (count($kvp) === 2) {
-                $memory_limits[$kvp[0]] = $kvp[1];
-            }
-        }
 
         $project = array(
             'baseDir' => $path,
@@ -143,5 +136,22 @@ class Analyze extends Command
 
         copy($file, $this->targetDir . '/' . $handler . '.xml');
         return "$handler.xml";
+    }
+
+    /**
+     * Parse memory limit options, if provided.
+     * @param  InputInterface $input
+     * @return array                 maximum memory limits, keyed by tool name
+     */
+    private function getMemoryLimits(InputInterface $input) {
+        $memory_limits = array();
+        $memory_limit_params = explode(',', $input->getOption('memory_limits'));
+        foreach ($memory_limit_params as $param) {
+            $kvp = explode('=', $param);
+            if (count($kvp) === 2) {
+                $memory_limits[$kvp[0]] = $kvp[1];
+            }
+        }
+        return $memory_limits;
     }
 }
