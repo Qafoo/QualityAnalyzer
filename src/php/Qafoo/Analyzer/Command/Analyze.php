@@ -143,7 +143,8 @@ class Analyze extends Command
      * @param  InputInterface $input
      * @return array                 maximum memory limits, keyed by tool name
      */
-    private function getMemoryLimits(InputInterface $input) {
+    private function getMemoryLimits(InputInterface $input)
+    {
         $memory_limits = array();
         $memory_limit_params = explode(',', $input->getOption('memory_limits'));
         foreach ($memory_limit_params as $param) {
