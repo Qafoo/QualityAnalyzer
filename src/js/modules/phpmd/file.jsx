@@ -5,7 +5,7 @@ import _ from 'underscore'
 
 let File = React.createClass({
     propTypes: {
-        file: React.PropTypes.object,
+        file: React.PropTypes.string,
         violations: React.PropTypes.array,
     },
 
