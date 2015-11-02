@@ -33,7 +33,7 @@ let Suite = React.createClass({
                 <span className={"label pull-right label-" + (this.hasFailed() ? "danger" : "success")}>
                     {this.hasFailed() ? failures + " / " + suite.$.tests : suite.$.tests}
                 </span>
-                <span className={"glyphicon glyphicon-" + (folded ? "plus" : "minus")}></span>&nbsp
+                <span className={"glyphicon glyphicon-" + (folded ? "plus" : "minus")}></span>&nbsp;
                 {suite.$.name}
             </div>
             {folded ? '' : (<div className="children">

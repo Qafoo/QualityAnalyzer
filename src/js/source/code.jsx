@@ -7,8 +7,8 @@ let SourceCode = React.createClass({
     propTypes: {
         code: React.PropTypes.string,
         coverage: React.PropTypes.array,
-        start: React.PropTypes.integer,
-        end: React.PropTypes.integer,
+        start: React.PropTypes.number,
+        end: React.PropTypes.number,
     },
 
     escapeHtml: function (string) {
@@ -39,7 +39,7 @@ let SourceCode = React.createClass({
                     '</span>'
             }
 
-            lines[line] = lines[line] || "&nbsp"
+            lines[line] = lines[line] || "&nbsp;"
         }
 
         return lines

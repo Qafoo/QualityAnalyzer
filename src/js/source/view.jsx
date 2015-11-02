@@ -7,8 +7,8 @@ import Coverage from "./coverage.jsx"
 let SourceView = React.createClass({
     propTypes: {
         node: React.PropTypes.object,
-        start: React.PropTypes.integer,
-        end: React.PropTypes.integer,
+        start: React.PropTypes.number,
+        end: React.PropTypes.number,
     },
 
     componentDidMount: function () {

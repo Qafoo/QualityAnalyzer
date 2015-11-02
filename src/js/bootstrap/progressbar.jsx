@@ -2,7 +2,7 @@ import React from "react"
 
 let ProgressBar = React.createClass({
     propTypes: {
-        progress: React.PropTypes.integer,
+        progress: React.PropTypes.number,
         type: React.PropTypes.string,
         text: React.PropTypes.string,
     },

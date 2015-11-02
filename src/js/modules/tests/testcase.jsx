@@ -23,8 +23,8 @@ let TestCase = React.createClass({
                     {parseFloat(testCase.$.time).toFixed(2)}s
                 </span>
                 <span className={"text-" + (failure ? "danger" : "success")}>
-                    <span className={"glyphicon glyphicon-thumbs-" + (failure ? "down" : "up")}></span>&nbsp
-                    {testCase.$.name}&nbsp
+                    <span className={"glyphicon glyphicon-thumbs-" + (failure ? "down" : "up")}></span>&nbsp;
+                    {testCase.$.name}&nbsp;
                 </span>
                 {!failure || this.state.folded ? '' : <pre><code>{failure[0]._}</code></pre>}
             </div>

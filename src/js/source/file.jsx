@@ -25,7 +25,7 @@ let SourceFile = React.createClass({
 
         return (<li className={nodeSelected ? "selected" : ""}>
             <Link to="/source" query={{ file: file.path }}>
-                <span className={"glyphicon glyphicon-file " + coverageClass} ></span>&nbsp
+                <span className={"glyphicon glyphicon-file " + coverageClass} ></span>&nbsp;
                 <span className="name">{this.props.file.name}</span>
             </Link>
         </li>)

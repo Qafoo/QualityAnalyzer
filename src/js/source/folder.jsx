@@ -33,7 +33,7 @@ let SourceFolder = React.createClass({
         return (<li className={nodeSelected ? "selected" : ""}>
             <a onClick={this.unfold}>
                 <span className={icon} ></span>
-            </a>&nbsp
+            </a>&nbsp;
             <Link to="/source" query={{ file: folder.path }}>
                 <span className="name">{this.props.folder.name}</span>
             </Link>

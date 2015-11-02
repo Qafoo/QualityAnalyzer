@@ -3,8 +3,8 @@ import { Link } from 'react-router'
 
 let NavLink = React.createClass({
     propTypes: {
-        children: React.PropTypes.object,
-        active: React.PropTypes.boolean,
+        children: React.PropTypes.array,
+        active: React.PropTypes.bool,
     },
 
     render: function () {
