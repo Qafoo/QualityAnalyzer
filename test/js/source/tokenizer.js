@@ -24,7 +24,7 @@ describe("Source/Tokenizer", function () {
                 { type: 'operator', text: ')' },
                 { type: 'whitespace', text: ' ' },
                 { type: 'operator', text: '{' },
-                { type: 'operator', text: ' }' },
+                { type: 'operator', text: '}' },
             ])
     })
 
