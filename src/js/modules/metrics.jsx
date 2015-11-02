@@ -134,7 +134,7 @@ let Metrics = React.createClass({
     sortBySingleMetric: function (metrics, metric, asc, count) {
         return _.map(metrics, function (data) {
             data.metric = data.metrics[metric]
-            Reflect.deleteProperty(data, "metrics")
+            delete data.metrics
             return data
         }).sort(function (a, b) {
             var factor = asc ? 1 : -1

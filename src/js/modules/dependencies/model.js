@@ -1,4 +1,4 @@
-/* eslint max-depth: [2, 5], prefer-reflect: [2, { exceptions: ["delete"] }]  */
+/* eslint max-depth: [2, 5] */
 import _ from 'underscore'
 
 let Model = function () {

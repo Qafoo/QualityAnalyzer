@@ -9,7 +9,8 @@
     },
     "rules": {
         "indent": [2, 4],
-        "comma-dangle": [2, "always-multiline"]
+        "comma-dangle": [2, "always-multiline"],
+        "prefer-reflect": 0
     }
 }
 
