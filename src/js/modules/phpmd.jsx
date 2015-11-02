@@ -1,32 +1,35 @@
-import React from "react";
+import React from "react"
+import _ from "underscore"
 
-import File from './phpmd/file.jsx';
+import File from './phpmd/file.jsx'
 
 let PHPMD = React.createClass({
-    getFileName: function(file) {
-        var basedir = this.props.data.baseDir,
-            file = file || "";
-
-        return file.replace(basedir, '');
+    propTypes: {
+        data: React.PropTypes.object,
     },
 
-    render: function() {
-        var component = this;
+    getFileName: function (file) {
+        var basedir = this.props.data.baseDir
 
+        file = file || ""
+        return file.replace(basedir, '')
+    },
+
+    render: function () {
         return (<div className="row">
             <div className="col-md-12">
                 <h2>Violations</h2>
                 {!this.props.data.analyzers.phpmd.pmd.file ?
                     <h3>No violations</h3> :
                     <ul className="list-unstyled list-hover">
-                        {$.map(this.props.data.analyzers.phpmd.pmd.file, function(file, key) {
-                            return (<File key={key} file={component.getFileName(file.$.name)} violations={file.violation} />);
-                        })}
+                        {_.map(this.props.data.analyzers.phpmd.pmd.file, (function (file, key) {
+                            return (<File key={key} file={this.getFileName(file.$.name)} violations={file.violation} />)
+                        }).bind(this))}
                     </ul>
                 }
             </div>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default PHPMD;
+export default PHPMD

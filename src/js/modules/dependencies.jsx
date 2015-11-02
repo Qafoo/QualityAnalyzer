@@ -1,65 +1,68 @@
-import React from 'react';
+import React from 'react'
 
-import Model from './dependencies/model.js';
-import Chart from './dependencies/chart.js';
+import Model from './dependencies/model.js'
+import Chart from './dependencies/chart.js'
 
 let Dependencies = React.createClass({
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-    model: new Model(),
-
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             leaves: [],
-            initialized: false
-        };
+            initialized: false,
+        }
     },
 
-    getChartElement: function() {
-        return document.getElementById('dependency-chart');
+    componentDidMount: function () {
+        Chart.create(this.getChartElement(), this.unfoldLeave, this.getChartState())
     },
 
-    unfoldLeave: function(leave) {
-        this.model.findAndUnfold(leave.id);
-        this.setState({
-            leaves: this.model.getLeaves(),
-        });
+    componentDidUpdate: function () {
+        Chart.update(this.getChartElement(), this.getChartState())
     },
 
-    componentDidMount: function() {
-        Chart.create(this.getChartElement(), this.unfoldLeave, this.getChartState());
+    componentWillUnmount: function () {
+        Chart.destroy(this.getChartElement())
     },
 
-    componentDidUpdate: function() {
-        Chart.update(this.getChartElement(), this.getChartState());
+    getChartElement: function () {
+        return document.getElementById('dependency-chart')
     },
 
-    getChartState: function() {
+    getChartState: function () {
         if (!this.state.initialized) {
-            this.model.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies);
+            this.model.calculateDependencyTree(this.props.data.analyzers.dependencies.dependencies)
 
             this.setState({
                 leaves: this.model.getLeaves(),
-                initialized: true
-            });
+                initialized: true,
+            })
         }
 
         return {
             leaves: this.state.leaves,
-            links: this.model.calculateDependencies(this.state.leaves)
-        };
+            links: this.model.calculateDependencies(this.state.leaves),
+        }
     },
 
-    componentWillUnmount: function() {
-        Chart.destroy(this.getChartElement());
+    unfoldLeave: function (leave) {
+        this.model.findAndUnfold(leave.id)
+        this.setState({
+            leaves: this.model.getLeaves(),
+        })
     },
 
-    render: function() {
+    model: new Model(),
+
+    render: function () {
         return (<div className="row">
             <div className="col-md-12">
                 <div id="dependency-chart"></div>
             </div>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default Dependencies;
+export default Dependencies

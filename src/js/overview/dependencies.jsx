@@ -1,9 +1,13 @@
-import React from "react";
-import {Link} from "react-router";
+import React from "react"
+import { Link } from "react-router"
 
 let Dependencies = React.createClass({
-    render: function() {
-        return ( <div className="panel panel-blue">
+    propTypes: {
+        data: React.PropTypes.object,
+    },
+
+    render: function () {
+        return (<div className="panel panel-blue">
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -11,7 +15,7 @@ let Dependencies = React.createClass({
                     </div>
                     <div className="col-xs-9 text-right">
                         <div className="huge">Dependencies</div>
-                        <div>Between components &amp; types</div>
+                        <div>Between components &amp types</div>
                     </div>
                 </div>
             </div>
@@ -24,8 +28,8 @@ let Dependencies = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default Dependencies;
+export default Dependencies

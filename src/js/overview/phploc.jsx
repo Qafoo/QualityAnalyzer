@@ -1,11 +1,15 @@
-import React from "react";
-import {Link} from "react-router";
+import React from "react"
+import { Link } from "react-router"
 
 let PhpLoc = React.createClass({
-    render: function() {
-        var data = this.props.data.phploc;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-        return ( <div className="panel panel-blue">
+    render: function () {
+        var data = this.props.data.phploc
+
+        return (<div className="panel panel-blue">
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -26,8 +30,8 @@ let PhpLoc = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default PhpLoc;
+export default PhpLoc

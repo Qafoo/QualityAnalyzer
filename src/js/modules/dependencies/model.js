@@ -1,3 +1,4 @@
+/* eslint max-depth: [2, 5], prefer-reflect: [2, { exceptions: ["delete"] }]  */
 import _ from 'underscore'
 
 let Model = function () {
@@ -8,16 +9,16 @@ let Model = function () {
         type: "package",
         children: {},
         size: -1, // Cope for external
-        folded: false
+        folded: false,
     }
 
     var addTypeWithDependencies = function (type, dependencies) {
-        var components = type.split("\\"),
-            treeReference = dependencyTree
+        var components = type.split("\\")
+        var treeReference = dependencyTree
 
         for (var i = 0; i < components.length; ++i) {
-            var component = components[i],
-                isType = false
+            var component = components[i]
+            var isType = false
 
             if (i === (components.length - 1)) {
                 isType = true
@@ -32,7 +33,7 @@ let Model = function () {
                     type: isType ? "type" : "package",
                     children: {},
                     size: 0,
-                    folded: true
+                    folded: true,
                 }
             }
 
@@ -76,7 +77,7 @@ let Model = function () {
         addTypeWithDependencies('$external', [])
     }
 
-    this.getLeaves =  function (tree, depth) {
+    this.getLeaves = function (tree, depth) {
         tree = tree || dependencyTree
         depth = depth || 0
 
@@ -118,12 +119,34 @@ let Model = function () {
         return false
     }
 
+    var collectChildrenIds = function (leave, tree, found) {
+        var efferent = []
+
+        if (tree.id === leave.id) {
+            found = true
+        }
+
+        if (tree.type === "type") {
+            if (!found) {
+                return []
+            } else {
+                return tree.efferent
+            }
+        }
+
+        for (var child in tree.children) {
+            efferent = efferent.concat(collectChildrenIds(leave, tree.children[child], found))
+        }
+
+        return efferent
+    }
+
     this.calculateDependencies = function (leaves) {
-        var fallbackLeaveId = null,
-            activeLeaves = _.filter(leaves, function (leave) {
-                return !leave.hidden
-            }),
-            links = []
+        var fallbackLeaveId = null
+        var activeLeaves = _.filter(leaves, function (leave) {
+            return !leave.hidden
+        })
+        var links = []
 
         if (activeLeaves.length <= 1) {
             return []
@@ -134,10 +157,10 @@ let Model = function () {
 
         for (var i = 0; i < (activeLeaves.length - 1); ++i) {
             var leaveDependencies = {
-                    source: activeLeaves[i].id,
-                    dependencies: []
-                },
-                nodes = collectChildrenIds(activeLeaves[i], dependencyTree, false)
+                source: activeLeaves[i].id,
+                dependencies: [],
+            }
+            var nodes = collectChildrenIds(activeLeaves[i], dependencyTree, false)
 
             for (var j = 0; j < nodes.length; ++j) {
                 var found = false
@@ -171,34 +194,12 @@ let Model = function () {
                 links.push({
                     source: leaveDependencies.source,
                     target: target,
-                    count: leaveDependencies.dependencies[target]
+                    count: leaveDependencies.dependencies[target],
                 })
             }
         }
 
         return links
-    }
-
-    var collectChildrenIds = function (leave, tree, found) {
-        var efferent = []
-
-        if (tree.id === leave.id) {
-            found = true
-        }
-
-        if (tree.type === "type") {
-            if (!found) {
-                return []
-            } else {
-                return tree.efferent
-            }
-        }
-
-        for (var child in tree.children) {
-            efferent = efferent.concat(collectChildrenIds(leave, tree.children[child], found))
-        }
-
-        return efferent
     }
 }
 

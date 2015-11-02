@@ -1,9 +1,13 @@
-import React from "react";
+import React from "react"
 
 let Dummy = React.createClass({
-    render: function() {
-        return (<h1>To Be Implemented</h1>);
-    }
-});
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-export default Dummy;
+    render: function () {
+        return (<h1>To Be Implemented</h1>)
+    },
+})
+
+export default Dummy

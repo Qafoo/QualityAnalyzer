@@ -1,159 +1,156 @@
-import _ from "underscore";
+import _ from "underscore"
 
-let Tree = function() {
+let Tree = function () {
     var sourceTree = {
         name: "/",
         path: "/",
         type: "folder",
-        children: {}
-    };
+        children: {},
+    }
+    var baseDir = ''
+    var hasFiles = false
 
-    var baseDir = '';
-
-    var hasFiles = false;
-
-    var ensureStartingSlash = function(path) {
+    var ensureStartingSlash = function (path) {
         while (path[0] === "/") {
-            path = path.substring(1);
+            path = path.substring(1)
         }
 
-        return "/" + path;
-    };
+        return "/" + path
+    }
 
-    this.getFileName = function(string) {
-        string = ensureStartingSlash(string);
+    this.getFileName = function (string) {
+        string = ensureStartingSlash(string)
 
-        return ensureStartingSlash(string.replace(baseDir, "")).substring(1);
-    };
+        return ensureStartingSlash(string.replace(baseDir, "")).substring(1)
+    }
 
-    var addFile = function(file) {
-        var components = file.name.split("/"),
-            treeReference = sourceTree,
-            path = [];
+    var addFile = function (file) {
+        var components = file.name.split("/")
+        var treeReference = sourceTree
+        var path = []
 
         for (var i = 0; i < components.length; ++i) {
-            var component = components[i];
-            path.push(component);
+            var component = components[i]
+            path.push(component)
 
             if (!treeReference.children[component]) {
                 treeReference.children[component] = {
                     name: component,
                     type: "folder",
                     path: path.join("/"),
-                    children: {}
-                };
+                    children: {},
+                }
             }
 
-            treeReference = treeReference.children[component];
+            treeReference = treeReference.children[component]
         }
 
-        treeReference.type = "file";
-        treeReference.file = file;
-        treeReference.lines = [];
+        treeReference.type = "file"
+        treeReference.file = file
+        treeReference.lines = []
         treeReference.coverage = {
             count: 0,
             covered: 0,
-        };
-        treeReference.file = file;
-        hasFiles = true;
-    };
-
-    this.addFiles = function(files) {
-        for (var file in files) {
-            addFile(files[file]);
         }
-    };
+        treeReference.file = file
+        hasFiles = true
+    }
 
-    this.addCoverage = function(coverage) {
-        var tree = this,
-            files = [];
+    this.addFiles = function (files) {
+        for (var file in files) {
+            addFile(files[file])
+        }
+    }
+
+    this.addCoverage = function (coverage) {
+        var files = []
 
         _.each(
             _.pluck(coverage.coverage.project, "package"),
-            function(namespace) {
-                files = files.concat(_.pluck(namespace, "file"));
+            function (namespace) {
+                files = files.concat(_.pluck(namespace, "file"))
             }
-        );
-        files = _.flatten(files, true);
+        )
+        files = _.flatten(files, true)
 
-        _.map(files, function(file) {
-            var node = tree.getSelectedFile(tree.getFileName(file.$.name).split("/"));
+        _.map(files, (function (file) {
+            var node = this.getSelectedFile(this.getFileName(file.$.name).split("/"))
 
             if (!node) {
-                return;
+                return
             }
 
-            node.coverage.count = file.metrics[0].$.statements * 1;
-            node.coverage.covered = file.metrics[0].$.coveredstatements * 1;
-            _.map(file.line, function(line) {
-                node.lines[line.$.num] = (line.$.count > 0);
-            });
-        });
-    };
+            node.coverage.count = file.metrics[0].$.statements * 1
+            node.coverage.covered = file.metrics[0].$.coveredstatements * 1
+            _.map(file.line, function (line) {
+                node.lines[line.$.num] = (line.$.count > 0)
+            })
+        }).bind(this))
+    }
 
-    this.calculateNodeStatistics = function(node) {
+    this.calculateNodeStatistics = function (node) {
         var statistics = {
-                files: 0,
-                coverage: {
-                    files: {
-                        count: 0,
-                        covered: 0,
-                    },
-                    lines: {
-                        count: 0,
-                        covered: 0,
-                    },
+            files: 0,
+            coverage: {
+                files: {
+                    count: 0,
+                    covered: 0,
                 },
-            };
+                lines: {
+                    count: 0,
+                    covered: 0,
+                },
+            },
+        }
 
         if (node.type === "file") {
-            statistics.files = 1;
-            statistics.coverage.files.count = 1;
-            statistics.coverage.files.covered = (node.coverage.covered >= node.coverage.count ? 1 : 0);
-            statistics.coverage.lines = node.coverage;
-            return statistics;
+            statistics.files = 1
+            statistics.coverage.files.count = 1
+            statistics.coverage.files.covered = (node.coverage.covered >= node.coverage.count ? 1 : 0)
+            statistics.coverage.lines = node.coverage
+            return statistics
         }
 
         for (var child in node.children) {
-            var childStatistics = this.calculateNodeStatistics(node.children[child]);
+            var childStatistics = this.calculateNodeStatistics(node.children[child])
 
-            statistics.files += childStatistics.files;
-            statistics.coverage.files.count += childStatistics.coverage.files.count;
-            statistics.coverage.files.covered += childStatistics.coverage.files.covered;
-            statistics.coverage.lines.count += childStatistics.coverage.lines.count;
-            statistics.coverage.lines.covered += childStatistics.coverage.lines.covered;
+            statistics.files += childStatistics.files
+            statistics.coverage.files.count += childStatistics.coverage.files.count
+            statistics.coverage.files.covered += childStatistics.coverage.files.covered
+            statistics.coverage.lines.count += childStatistics.coverage.lines.count
+            statistics.coverage.lines.covered += childStatistics.coverage.lines.covered
         }
 
-        return statistics;
-    };
+        return statistics
+    }
 
-    this.setBaseDir = function(newBaseDir) {
-        baseDir = newBaseDir;
-    };
+    this.setBaseDir = function (newBaseDir) {
+        baseDir = newBaseDir
+    }
 
-    this.getSelectedFile = function(selected) {
-        var treeReference = sourceTree;
+    this.getSelectedFile = function (selected) {
+        var treeReference = sourceTree
 
         for (var i = 0; i < selected.length; ++i) {
-            var name = selected[i];
+            var name = selected[i]
 
             if (!treeReference.children[name]) {
-                return undefined;
+                return undefined
             }
 
-            treeReference = treeReference.children[name];
+            treeReference = treeReference.children[name]
         }
 
-        return treeReference;
-    };
+        return treeReference
+    }
 
-    this.hasFiles = function() {
-        return hasFiles;
-    };
+    this.hasFiles = function () {
+        return hasFiles
+    }
 
-    this.getTree = function() {
-        return sourceTree;
-    };
-};
+    this.getTree = function () {
+        return sourceTree
+    }
+}
 
-export default Tree;
+export default Tree

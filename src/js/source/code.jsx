@@ -1,63 +1,74 @@
-import React from "react";
+import React from "react"
+import _ from "underscore"
 
-import Tokenizer from "./tokenizer.js";
+import Tokenizer from "./tokenizer.js"
 
 let SourceCode = React.createClass({
-
-    escapeHtml: function(string) {
-        var entityMap = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': '&quot;',
-            "'": '&#39;',
-            "/": '&#x2F;'
-        };
-
-        return String(string).replace(/[&<>"'\/]/g, function(character) {
-            return entityMap[character];
-        });
+    propTypes: {
+        code: React.PropTypes.string,
+        coverage: React.PropTypes.array,
+        start: React.PropTypes.integer,
+        end: React.PropTypes.integer,
     },
 
-    addMarkup: function(string) {
-        var tokenizer = new Tokenizer(),
-            tokens = tokenizer.tokenizeString(string),
-            lines = [];
+    escapeHtml: function (string) {
+        var entityMap = {
+            "&": "&amp",
+            "<": "&lt",
+            ">": "&gt",
+            '"': '&quot',
+            "'": '&#39',
+            "/": '&#x2F',
+        }
+
+        return String(string).replace(/[&<>"'\/]/g, function (character) {
+            return entityMap[character]
+        })
+    },
+
+    addMarkup: function (string) {
+        var tokenizer = new Tokenizer()
+        var tokens = tokenizer.tokenizeString(string)
+        var lines = []
 
         for (var line = 0; line < tokens.length; ++line) {
-            lines[line] = "";
+            lines[line] = ""
             for (var token = 0; token < tokens[line].length; ++token) {
                 lines[line] += '<span class="' + tokens[line][token].type + '">' +
                         this.escapeHtml(tokens[line][token].text) +
-                    '</span>';
+                    '</span>'
             }
 
-            lines[line] = lines[line] || "&nbsp;";
+            lines[line] = lines[line] || "&nbsp"
         }
 
-        return lines;
+        return lines
     },
 
-    render: function() {
-        var lines = this.addMarkup(this.props.code),
-            coverage = this.props.coverage || [],
-            start = this.props.start || 0,
-            end = this.props.end || 0;
+    render: function () {
+        var lines = this.addMarkup(this.props.code)
+        var coverage = this.props.coverage || []
+        var start = this.props.start || 0
+        var end = this.props.end || 0
 
         return (<ol className="code">
-            {$.map(lines, function(line, number) {
-                var lineNumber = number + 1;
+            {_.map(lines, function (line, number) {
+                var lineNumber = number + 1
+                var coverageClass = ""
 
-                return <li key={number} id={"l" + lineNumber}
+                if (coverage[lineNumber] !== undefined) {
+                    coverageClass = coverage[lineNumber] ? "covered" : "uncovered"
+                }
+
+                return (<li key={number} id={"l" + lineNumber}
                     className={
-                        (((lineNumber >= start) && (lineNumber <= end)) ? "highlight " : "") +
-                        (coverage[lineNumber] === undefined ? "" : (coverage[lineNumber] ? "covered" : "uncovered"))
+                        (((lineNumber >= start) && (lineNumber <= end)) ? "highlight " : "") + coverageClass
                     }
-                    dangerouslySetInnerHTML={{__html: line}}>
-                </li>
+                    dangerouslySetInnerHTML={{ __html: line }}>
+                </li>)
             })}
-        </ol>);
-    }
-});
+        </ol>)
+    },
+})
 
-export default SourceCode;
+export default SourceCode

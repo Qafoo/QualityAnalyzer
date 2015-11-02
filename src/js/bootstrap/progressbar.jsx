@@ -1,22 +1,28 @@
-import React from "react";
+import React from "react"
 
 let ProgressBar = React.createClass({
-    getDefaultProps: function() {
+    propTypes: {
+        progress: React.PropTypes.integer,
+        type: React.PropTypes.string,
+        text: React.PropTypes.string,
+    },
+
+    getDefaultProps: function () {
         return {
             progress: 0,
             type: "default",
-            text: null
-        };
+            text: null,
+        }
     },
 
-    render: function() {
-        var className = "progress-bar progress-bar-" + this.props.type;
+    render: function () {
+        var className = "progress-bar progress-bar-" + this.props.type
 
         return (<div className="progress">
-            <div className={className} role="progressbar" style={{width: this.props.progress + '%'}}>
+            <div className={className} role="progressbar" style={{ width: this.props.progress + '%' }}>
             </div>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default ProgressBar;
+export default ProgressBar

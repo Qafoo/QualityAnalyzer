@@ -1,14 +1,17 @@
-import React from "react";
-import {Link} from "react-router";
-import _ from "underscore";
+import React from "react"
+import { Link } from "react-router"
 
 let Tests = React.createClass({
-    render: function() {
-        var testinfo = this.props.data.testsuites.testsuite[0].$,
-            failures = testinfo.failures * 1 + testinfo.errors * 1,
-            failed = failures > 0;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-        return ( <div className={"panel panel-" + (failed ? "red" : "green")}>
+    render: function () {
+        var testinfo = this.props.data.testsuites.testsuite[0].$
+        var failures = testinfo.failures * 1 + testinfo.errors * 1
+        var failed = failures > 0
+
+        return (<div className={"panel panel-" + (failed ? "red" : "green")}>
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -29,8 +32,8 @@ let Tests = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default Tests;
+export default Tests

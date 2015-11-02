@@ -1,13 +1,16 @@
-import React from "react";
-import {Link} from "react-router";
-import _ from "underscore";
+import React from "react"
+import { Link } from "react-router"
 
 let CPD = React.createClass({
-    render: function() {
-        var duplications = this.props.data["pmd-cpd"].duplication || [],
-            violations = duplications.length;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-        return ( <div className={"panel panel-" + (violations ? "red" : "green")}>
+    render: function () {
+        var duplications = this.props.data["pmd-cpd"].duplication || []
+        var violations = duplications.length
+
+        return (<div className={"panel panel-" + (violations ? "red" : "green")}>
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -28,8 +31,8 @@ let CPD = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default CPD;
+export default CPD

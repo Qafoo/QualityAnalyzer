@@ -1,14 +1,19 @@
-import React from "react";
-import {Link} from 'react-router';
+import React from "react"
+import { Link } from 'react-router'
 
 let NavLink = React.createClass({
+    propTypes: {
+        children: React.PropTypes.object,
+        active: React.PropTypes.boolean,
+    },
+
     render: function () {
-        var activeClass = this.props.active ? "active" : "";
+        var activeClass = this.props.active ? "active" : ""
 
         return (<li className={activeClass}>
             <Link {...this.props}>{this.props.children}</Link>
-        </li>);
-    }
-});
+        </li>)
+    },
+})
 
-export default NavLink;
+export default NavLink
