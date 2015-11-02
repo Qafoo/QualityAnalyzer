@@ -1,40 +1,14 @@
-import React from "react";
+import React from "react"
 
-import PieChart from "../pie_chart.jsx";
+import PieChart from "../pie_chart.jsx"
 
 let PhpLoc = React.createClass({
-    getInitialState: function() {
-        return {
-            loc: [],
-            types: [],
-        };
+    propTypes: {
+        data: React.PropTypes.object,
     },
 
-    componentDidMount: function() {
-        var data = this.props.data.analyzers.phploc.phploc;
-
-        this.setState({
-            loc: [
-                {label: "Comments", value: data.cloc[0]},
-                {label: "Lines", value: data.ncloc[0]},
-            ]
-        });
-
-        this.setState({
-            types: [
-                {label: "Traits", value: data.traits[0]},
-                {label: "Abstract", value: data.abstractClasses[0]},
-                {label: "Interface", value: data.interfaces[0]},
-                {label: "Concrete", value: data.concreteClasses[0]},
-            ]
-        });
-    },
-
-    render: function() {
-        var files = (this.statistics ? this.statistics.files : "calculating…"),
-            lineCoverage = (this.statistics ? this.statistics.coverage.lines : null),
-            fileCoverage = (this.statistics ? this.statistics.coverage.files : null),
-            colors = d3.scale.ordinal().range(["#A6403D", "#333E71", "#A6883D", "#308336"]);
+    render: function () {
+        var data = this.props.data.analyzers.phploc.phploc
 
         return (<div className="row">
             <h2>Project Size</h2>
@@ -48,7 +22,10 @@ let PhpLoc = React.createClass({
                 <PieChart
                     title="Lines of Code"
                     classes={["comment", "non-comment"]}
-                    values={this.state.loc} />
+                    values={[
+                        { label: "Comments", value: data.cloc[0] },
+                        { label: "Lines", value: data.ncloc[0] },
+                    ]} />
             </div>
             <div className="col-md-2 col-sm-4">
                 <ul className="list-unstyled legend">
@@ -62,10 +39,15 @@ let PhpLoc = React.createClass({
                 <PieChart
                     title="Types"
                     classes={["traint", "abstract", "interface", "class"]}
-                    values={this.state.types} />
+                    values={[
+                        { label: "Traits", value: data.traits[0] },
+                        { label: "Abstract", value: data.abstractClasses[0] },
+                        { label: "Interface", value: data.interfaces[0] },
+                        { label: "Concrete", value: data.concreteClasses[0] },
+                    ]} />
             </div>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default PhpLoc;
+export default PhpLoc

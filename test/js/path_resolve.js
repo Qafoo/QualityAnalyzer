@@ -1,34 +1,33 @@
 /* globals describe, it, expect */
 
-import PathResolve from '../../src/js/path_resolve.js';
+import PathResolve from '../../src/js/path_resolve.js'
 
-describe("PathResolve", function() {
-
-    it("resolves root", function() {
-        var resolve = new PathResolve();
+describe("PathResolve", function () {
+    it("resolves root", function () {
+        var resolve = new PathResolve()
 
         expect(resolve.getBasePath("http://localhost:8080/"))
-            .toEqual("");
-    });
+            .toEqual("")
+    })
 
-    it("resolves subdir", function() {
-        var resolve = new PathResolve();
+    it("resolves subdir", function () {
+        var resolve = new PathResolve()
 
         expect(resolve.getBasePath("http://localhost:8080/subdir/"))
-            .toEqual("/subdir");
-    });
+            .toEqual("/subdir")
+    })
 
-    it("resolves subdir with file", function() {
-        var resolve = new PathResolve();
+    it("resolves subdir with file", function () {
+        var resolve = new PathResolve()
 
         expect(resolve.getBasePath("http://localhost:8080/subdir/index.html"))
-            .toEqual("/subdir");
-    });
+            .toEqual("/subdir")
+    })
 
-    it("resolves root file URL", function() {
-        var resolve = new PathResolve();
+    it("resolves root file URL", function () {
+        var resolve = new PathResolve()
 
         expect(resolve.getBasePath("file:///path/to/index.html"))
-            .toEqual("/path/to");
-    });
-});
+            .toEqual("/path/to")
+    })
+})

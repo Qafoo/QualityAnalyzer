@@ -1,26 +1,35 @@
-import React from "react";
-import {Link} from 'react-router';
-import _ from "underscore";
+import React from "react"
+import { Link } from 'react-router'
+import _ from "underscore"
 
-import NavLink from "./navlink.jsx";
+import NavLink from "./navlink.jsx"
 
 let Navigation = React.createClass({
-    getDefaultProps: function() {
+    propTypes: {
+        matched: React.PropTypes.object,
+        brandLink: React.PropTypes.string,
+        brand: React.PropTypes.string,
+        items: React.PropTypes.array,
+    },
+
+    getDefaultProps: function () {
         return {
             brand: "Your Brand",
             brandLink: null,
             items: {},
             matched: null,
-        };
+        }
     },
 
-    render: function() {
-        var matched = this.props.matched;
+    render: function () {
+        var matched = this.props.matched
 
         return (<nav className="navbar navbar-default navbar-fixed-top">
             <div className="container">
                 <div className="navbar-header">
-                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button type="button" className="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -32,18 +41,18 @@ let Navigation = React.createClass({
                 </div>
                 <div id="navbar" className="collapse navbar-collapse">
                     <ul className="nav navbar-nav">
-                        {_.map(this.props.items, function(item, i) {
-                            return (<NavLink key={i} to={"/" + item.path} active={item.path == matched.path}>
+                        {_.map(this.props.items, function (item, i) {
+                            return (<NavLink key={i} to={"/" + item.path} active={item.path === matched.path}>
                                 {!item.icon ? '' :
                                     <span className={item.icon}></span>
                                 } {item.name}
-                            </NavLink>);
+                            </NavLink>)
                         })}
                     </ul>
                 </div>
             </div>
-        </nav>);
-    }
-});
+        </nav>)
+    },
+})
 
-export default Navigation;
+export default Navigation

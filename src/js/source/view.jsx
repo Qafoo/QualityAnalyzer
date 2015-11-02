@@ -1,34 +1,39 @@
-import React from "react";
-import jQuery from "jquery";
+import React from "react"
+import jQuery from "jquery"
 
-import SourceCode from "./code.jsx";
-import Coverage from "./coverage.jsx";
+import SourceCode from "./code.jsx"
+import Coverage from "./coverage.jsx"
 
 let SourceView = React.createClass({
+    propTypes: {
+        node: React.PropTypes.object,
+        start: React.PropTypes.number,
+        end: React.PropTypes.number,
+    },
 
-    scrollIntoView: function() {
-        var element = null;
+    componentDidMount: function () {
+        this.scrollIntoView()
+    },
 
-        if (element = document.getElementById('l' + (this.props.start - 5))) {
+    componentDidUpdate: function () {
+        this.scrollIntoView()
+    },
+
+    scrollIntoView: function () {
+        var element = document.getElementById('l' + (this.props.start - 5))
+
+        if (element) {
             jQuery("html, body").animate({
-                scrollTop: jQuery(element).offset().top
-            }, 500);
+                scrollTop: jQuery(element).offset().top,
+            }, 500)
         }
     },
 
-    componentDidMount: function() {
-        this.scrollIntoView();
-    },
-
-    componentDidUpdate: function() {
-        this.scrollIntoView();
-    },
-
-    render: function() {
-        var node = this.props.node,
-            file = node.file || null,
-            start = this.props.start || 0,
-            end = this.props.end || 0;
+    render: function () {
+        var node = this.props.node
+        var file = node.file || null
+        var start = this.props.start || 0
+        var end = this.props.end || 0
 
         return (<div>
             <h2>{node.name}</h2>
@@ -37,8 +42,8 @@ let SourceView = React.createClass({
                 <SourceCode code={node.file.asText()} coverage={node.lines} start={start} end={end} /> :
                 <Coverage node={node} />
             }
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default SourceView;
+export default SourceView

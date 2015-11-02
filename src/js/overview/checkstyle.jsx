@@ -1,22 +1,26 @@
-import React from "react";
-import {Link} from "react-router";
-import _ from "underscore";
+import React from "react"
+import { Link } from "react-router"
+import _ from "underscore"
 
 let Checkstyle = React.createClass({
-    render: function() {
-        var violations = _.reduce(
-                _.map(
-                    this.props.data.checkstyle.file || [],
-                    function (file) {
-                        return file.error.length;
-                    }
-                ),
-                function (memo, num) {
-                    return memo + num;
-                }
-            ) || 0;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-        return ( <div className={"panel panel-" + (violations ? "red" : "green")}>
+    render: function () {
+        var violations = _.reduce(
+            _.map(
+                this.props.data.checkstyle.file || [],
+                function (file) {
+                    return file.error.length
+                }
+            ),
+            function (memo, num) {
+                return memo + num
+            }
+        ) || 0
+
+        return (<div className={"panel panel-" + (violations ? "red" : "green")}>
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -37,8 +41,8 @@ let Checkstyle = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default Checkstyle;
+export default Checkstyle

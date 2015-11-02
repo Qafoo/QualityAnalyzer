@@ -1,23 +1,25 @@
-import React from "react";
+import React from "react"
 
 let TestCase = React.createClass({
-    getInitialState: function() {
-        return {
-            folded: true
-        };
+    propTypes: {
+        testCase: React.PropTypes.object,
     },
 
-    fold: function() {
-        this.setState({folded: !this.state.folded});
+    getInitialState: function () {
+        return { folded: true }
     },
 
-    render: function() {
-        var testCase = this.props.testCase,
-            failure = testCase.failure || testCase.error || null;
+    fold: function () {
+        this.setState({ folded: !this.state.folded })
+    },
+
+    render: function () {
+        var testCase = this.props.testCase
+        var failure = testCase.failure || testCase.error || null
 
         return (<li>
-            <div className="name" onClick={this.fold} style={{cursor: (failure ? "pointer" : "default")}}>
-                <span className={"label pull-right label-" + (testCase.$.time > .05 ? "warning" : "info")}>
+            <div className="name" onClick={this.fold} style={{ cursor: (failure ? "pointer" : "default") }}>
+                <span className={"label pull-right label-" + (testCase.$.time > 0.05 ? "warning" : "info")}>
                     {parseFloat(testCase.$.time).toFixed(2)}s
                 </span>
                 <span className={"text-" + (failure ? "danger" : "success")}>
@@ -26,8 +28,8 @@ let TestCase = React.createClass({
                 </span>
                 {!failure || this.state.folded ? '' : <pre><code>{failure[0]._}</code></pre>}
             </div>
-        </li>);
-    }
-});
+        </li>)
+    },
+})
 
-export default TestCase;
+export default TestCase

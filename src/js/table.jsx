@@ -1,25 +1,30 @@
-import React from "react";
-import _ from 'underscore';
+import React from "react"
+import _ from 'underscore'
 
 let Table = React.createClass({
-    render: function() {
+    propTypes: {
+        captions: React.PropTypes.array,
+        data: React.PropTypes.array,
+    },
+
+    render: function () {
         return (<table className="table table-striped table-bordered table-hover table-condensed">
             <thead>
                 <tr>
-                    {_.map(this.props.captions, function(caption, id) {
-                        return (<th key={id}>{caption}</th>);
+                    {_.map(this.props.captions, function (caption, id) {
+                        return (<th key={id}>{caption}</th>)
                     })}
                 </tr>
             </thead>
             <tbody>
-                {_.map(this.props.data, function(row, rowId) {
-                    return (<tr key={rowId}>{_.map(row, function(cell, columnId) {
-                        return (<td key={columnId}>{cell}</td>);
-                    })}</tr>);
+                {_.map(this.props.data, function (row, rowId) {
+                    return (<tr key={rowId}>{_.map(row, function (cell, columnId) {
+                        return (<td key={columnId}>{cell}</td>)
+                    })}</tr>)
                 })}
             </tbody>
-        </table>);
-    }
-});
+        </table>)
+    },
+})
 
-export default Table;
+export default Table

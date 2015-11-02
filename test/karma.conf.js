@@ -1,16 +1,16 @@
 /* globals module */
 
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         basePath: '../',
         frameworks: ['jasmine'],
         files: [
-            'assets/tests.js'
+            'assets/tests.js',
         ],
         reporters: ['dots', 'junit'],
         junitReporter: {
             outputDir: 'build/log/',
-            outputFile: undefined
+            outputFile: undefined,
         },
         port: 9876,
         colors: true,
@@ -21,7 +21,7 @@ module.exports = function(config) {
         plugins: [
             'karma-jasmine',
             'karma-phantomjs-launcher',
-            'karma-junit-reporter'
-        ]
-    });
-};
+            'karma-junit-reporter',
+        ],
+    })
+}

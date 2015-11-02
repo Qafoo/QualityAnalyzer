@@ -1,4 +1,4 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
     bootstrapCustomizations: "./src/css/variables.scss",
@@ -7,20 +7,20 @@ module.exports = {
     debug: false,
     styleLoader: ExtractTextPlugin.extract("style-loader", "css-loader!sass?outputStyle=expanded"),
     scripts: {
-        "affix": false,
-        "alert": false,
-        "button": false,
-        "carousel": false,
-        "collapse": false,
-        "dropdown": false,
-        "modal": false,
-        "popover": false,
-        "scrollspy": false,
-        "slim_navigation": false,
-        "tab": false,
-        "tags": false,
-        "tooltip": false,
-        "transition": false
+        affix: false,
+        alert: false,
+        button: false,
+        carousel: false,
+        collapse: false,
+        dropdown: false,
+        modal: false,
+        popover: false,
+        scrollspy: false,
+        slim_navigation: false,
+        tab: false,
+        tags: false,
+        tooltip: false,
+        transition: false,
     },
     styles: {
         "mixins": true,
@@ -71,5 +71,5 @@ module.exports = {
         // Utility classes
         "utilities": true,
         "responsive-utilities": true,
-    }
-};
+    },
+}

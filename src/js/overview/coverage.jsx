@@ -1,12 +1,23 @@
-import React from "react";
-import {Link} from "react-router";
+import React from "react"
+import { Link } from "react-router"
 
 let Coverage = React.createClass({
-    render: function() {
-        var metrics = this.props.data.coverage.project[0].metrics[0].$,
-            coverage = metrics.coveredstatements / metrics.statements;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
 
-        return ( <div className={"panel panel-" + (coverage > .7 ? "green" : (coverage > .5 ? "yellow" : "red"))}>
+    render: function () {
+        var metrics = this.props.data.coverage.project[0].metrics[0].$
+        var coverage = metrics.coveredstatements / metrics.statements
+        var panelType = "red"
+
+        if (coverage > 0.7) {
+            panelType = "green"
+        } else if (coverage > 0.5) {
+            panelType = "yellow"
+        }
+
+        return (<div className={"panel panel-" + panelType}>
             <div className="panel-heading">
                 <div className="row">
                     <div className="col-xs-3 huge">
@@ -27,8 +38,8 @@ let Coverage = React.createClass({
                     <div className="clearfix"></div>
                 </div>
             </Link>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default Coverage;
+export default Coverage

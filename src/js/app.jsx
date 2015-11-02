@@ -1,100 +1,114 @@
-import React from 'react';
-import {render} from 'react-dom';
-import {Router, Route, RouteHandler, IndexRoute} from 'react-router';
-import createHistory from 'history/lib/createBrowserHistory';
-import useQueries from 'history/lib/useQueries';
-import useBasename from 'history/lib/useBasename';
+import React from 'react'
+import { render } from 'react-dom'
+import { Router, Route, IndexRoute } from 'react-router'
+import createHistory from 'history/lib/createBrowserHistory'
+import useQueries from 'history/lib/useQueries'
+import useBasename from 'history/lib/useBasename'
 
-import PathResolve from "./path_resolve.js";
+import PathResolve from "./path_resolve.js"
 
-import Loader from "./loader.jsx";
-import Overview from "./overview.jsx";
-import Source from "./source.jsx";
+import Loader from "./loader.jsx"
+import Overview from "./overview.jsx"
+import Source from "./source.jsx"
 
-import Metrics from "./modules/metrics.jsx";
-import Dependencies from "./modules/dependencies.jsx";
-import PHPMD from "./modules/phpmd.jsx";
-import Tests from "./modules/tests.jsx";
-import Checkstyle from "./modules/checkstyle.jsx";
-import CPD from "./modules/cpd.jsx";
-import PhpLoc from "./modules/phploc.jsx";
+import Metrics from "./modules/metrics.jsx"
+import Dependencies from "./modules/dependencies.jsx"
+import PHPMD from "./modules/phpmd.jsx"
+import Tests from "./modules/tests.jsx"
+import Checkstyle from "./modules/checkstyle.jsx"
+import CPD from "./modules/cpd.jsx"
+import PhpLoc from "./modules/phploc.jsx"
 
-import Navigation from "./bootstrap/navigation.jsx";
+import Navigation from "./bootstrap/navigation.jsx"
 
 let App = React.createClass({
+    propTypes: {
+        routes: React.PropTypes.array,
+        children: React.PropTypes.object,
+        location: React.PropTypes.object.isRequired,
+        params: React.PropTypes.object,
+    },
 
-    navigation: [
-        {   path: "source",
-            name: "Source",
-            icon: "glyphicon glyphicon-folder-open"
-        },
-        {   path: "phploc",
-            name: "Size",
-            icon: "glyphicon glyphicon-scale",
-            analyzer: true
-        },
-        {   path: "pdepend",
-            name: "Metrics",
-            icon: "glyphicon glyphicon-stats",
-            analyzer: true
-        },
-        {   path: "dependencies",
-            name: "Dependencies",
-            icon: "glyphicon glyphicon-retweet",
-            analyzer: true
-        },
-        {   path: "phpmd",
-            name: "Mess Detector",
-            icon: "glyphicon glyphicon-trash",
-            analyzer: true
-        },
-        {   path: "tests",
-            name: "Tests",
-            icon: "glyphicon glyphicon-thumbs-up",
-            analyzer: true
-        },
-        {   path: "checkstyle",
-            name: "Checkstyle",
-            icon: "glyphicon glyphicon-erase",
-            analyzer: true
-        },
-        {   path: "cpd",
-            name: "Copy & Paste",
-            icon: "glyphicon glyphicon-duplicate",
-            analyzer: true
-        }
-    ],
-
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             initialized: false,
             data: {
-                analyzers: {}
-            }
-        };
+                analyzers: {},
+            },
+        }
     },
 
-    setInitialized: function(data) {
+    navigation: [
+        {
+            path: "source",
+            name: "Source",
+            icon: "glyphicon glyphicon-folder-open",
+        },
+        {
+            path: "phploc",
+            name: "Size",
+            icon: "glyphicon glyphicon-scale",
+            analyzer: true,
+        },
+        {
+            path: "pdepend",
+            name: "Metrics",
+            icon: "glyphicon glyphicon-stats",
+            analyzer: true,
+        },
+        {
+            path: "dependencies",
+            name: "Dependencies",
+            icon: "glyphicon glyphicon-retweet",
+            analyzer: true,
+        },
+        {
+            path: "phpmd",
+            name: "Mess Detector",
+            icon: "glyphicon glyphicon-trash",
+            analyzer: true,
+        },
+        {
+            path: "tests",
+            name: "Tests",
+            icon: "glyphicon glyphicon-thumbs-up",
+            analyzer: true,
+        },
+        {
+            path: "checkstyle",
+            name: "Checkstyle",
+            icon: "glyphicon glyphicon-erase",
+            analyzer: true,
+        },
+        {
+            path: "cpd",
+            name: "Copy & Paste",
+            icon: "glyphicon glyphicon-duplicate",
+            analyzer: true,
+        },
+    ],
+
+    setInitialized: function (data) {
         this.setState({
             initialized: true,
-            data: data
-        });
+            data: data,
+        })
     },
 
-    render: function() {
+    render: function () {
         if (!this.state.initialized) {
             return (<div className="container">
                 <Loader onComplete={this.setInitialized} />
-            </div>);
+            </div>)
         }
 
-        var modules = [],
-            data = this.state.data;
+        var modules = []
+        var data = this.state.data
 
         for (var i = 0; i < this.navigation.length; ++i) {
             if (!this.navigation[i].analyzer ||
                 data.analyzers[this.navigation[i].path]) {
-                modules.push(this.navigation[i]);
+                modules.push(this.navigation[i])
             }
         }
 
@@ -103,20 +117,22 @@ let App = React.createClass({
 
             {!this.props.children ? '' :
             <div className="container">
-                {React.cloneElement(this.props.children, {data: data, query: this.props.location.query, params: this.props.params})}
+                {React.cloneElement(
+                    this.props.children,
+                    { data: data, query: this.props.location.query, params: this.props.params }
+                )}
             </div>}
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-
-let resolver = new PathResolve(),
-    history = useBasename(useQueries(createHistory))({
-        basename: resolver.getBasePath(window.location),
-    });
+let resolver = new PathResolve()
+let history = useBasename(useQueries(createHistory))({
+    basename: resolver.getBasePath(window.location),
+})
 
 render(
-    (<Router history={history}>
+    <Router history={history}>
         <Route path="/" component={App}>
             <IndexRoute component={Overview} />
 
@@ -132,6 +148,6 @@ render(
             <Route path="index.html" component={Overview} />
             <Route path="*" component={Overview} />
         </Route>
-    </Router>),
+    </Router>,
     document.getElementById('content')
-);
+)

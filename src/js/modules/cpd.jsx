@@ -1,11 +1,15 @@
-import React from "react";
+import React from "react"
+import _ from "underscore"
 
-import Duplication from './cpd/duplication.jsx';
+import Duplication from './cpd/duplication.jsx'
 
 let CPD = React.createClass({
-    render: function() {
-        var component = this,
-            baseDir = this.props.data.baseDir;
+    propTypes: {
+        data: React.PropTypes.object,
+    },
+
+    render: function () {
+        var baseDir = this.props.data.baseDir
 
         return (<div className="row">
             <div className="col-md-12">
@@ -13,14 +17,14 @@ let CPD = React.createClass({
                 {!this.props.data.analyzers.cpd["pmd-cpd"].duplication ?
                     <h3>No violations</h3> :
                     <ul className="list-unstyled list-hover">
-                        {$.map(this.props.data.analyzers.cpd["pmd-cpd"].duplication, function(duplication, key) {
-                            return (<Duplication key={key} baseDir={baseDir} duplication={duplication} />);
+                        {_.map(this.props.data.analyzers.cpd["pmd-cpd"].duplication, function (duplication, key) {
+                            return (<Duplication key={key} baseDir={baseDir} duplication={duplication} />)
                         })}
                     </ul>
                 }
             </div>
-        </div>);
-    }
-});
+        </div>)
+    },
+})
 
-export default CPD;
+export default CPD
