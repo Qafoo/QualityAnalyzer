@@ -62,8 +62,8 @@ let Source = React.createClass({
                     <View
                         node={current}
                         data={this.props.data}
-                        start={this.props.query.start}
-                        end={this.props.query.end} /> :
+                        start={+this.props.query.start}
+                        end={+this.props.query.end} /> :
                     <h4>Select a file in the source tree on the left.</h4>
                 }
             </div>
