@@ -53,18 +53,6 @@ module.exports = function(grunt) {
         }
     });
  
-    grunt.config("jshint", {
-        options: {
-            jshintrc: "jshint.json"
-        },
-        all: [
-            "Gruntfile.js",
-            "test/karma.conf.js",
-            "test/js//**/*.js",
-            "src/js/**/*.js"
-        ]
-    });
-
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-webpack');
