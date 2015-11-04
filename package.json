@@ -9,7 +9,7 @@
     "babel-loader": "^5.3.2",
     "bootstrap-sass": "^3.2.0",
     "bootstrap-sass-loader": "^1.0.9",
-    "css-loader": "^0.21.0",
+    "css-loader": "^0.22.0",
     "d3": "^3.5.6",
     "eslint": "^1.7.3",
     "eslint-config-react": "^1.1.0",
