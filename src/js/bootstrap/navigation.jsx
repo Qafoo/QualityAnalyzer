@@ -36,6 +36,7 @@ let Navigation = React.createClass({
                         <span className="icon-bar"></span>
                     </button>
                     <Link className="navbar-brand" to={this.props.brandLink}>
+                        <img src="assets/logo.png" height="32" width="32" />
                         {this.props.brand}
                     </Link>
                 </div>

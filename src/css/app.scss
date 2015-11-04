@@ -18,3 +18,8 @@ body {
 .label.pull-right {
     margin-right: $padding-xs-horizontal;
 }
+
+.navbar-brand img {
+    margin: 0px $padding-xs-horizontal;
+    display: inline;
+}
