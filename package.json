@@ -45,6 +45,6 @@
     "underscore": "^1.8.3",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2",
-    "xml2js": "^0.4.12"
+    "xml2js": "^0.4.14"
   }
 }
