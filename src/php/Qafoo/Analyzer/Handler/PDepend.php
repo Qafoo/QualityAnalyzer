@@ -25,8 +25,9 @@ class PDepend extends Handler implements RequiresCoverage
      * Optionally an existing result file can be provided
      *
      * @param string $dir
-     * @param array $excludes
-     * @param string $file
+     * @param string[] $excludes
+     * @param string|null $file
+     * @param string|null $coverage
      * @return void
      */
     public function handle($dir, array $excludes, $file = null, $coverage = null)
