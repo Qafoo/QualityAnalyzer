@@ -42,7 +42,7 @@ let Duplication = React.createClass({
                     <Link to="/source" query={{ file: fileFrom, start: fileFromStart, end: (fileFromStart + lines) }}>
                         {fileFrom}
                     </Link>
-                    &nbsp<span className="glyphicon glyphicon-resize-horizontal"></span>&nbsp;
+                    &nbsp;<span className="glyphicon glyphicon-resize-horizontal"></span>&nbsp;
                     <Link to="/source" query={{ file: fileTo, start: fileToStart, end: (fileToStart + lines) }}>
                         {fileTo}
                     </Link>
