@@ -12,7 +12,7 @@ class Application extends Console\Application
     /**
      * Get default commands
      *
-     * @return Console\Command[]
+     * @return \Symfony\Component\Console\Command\Command[]
      */
     protected function getDefaultCommands()
     {
