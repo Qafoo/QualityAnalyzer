@@ -12,8 +12,7 @@ class Shell
     private $baseDir;
 
     /**
-     * @param mixed $baseDir
-     * @return void
+     * @param string|null $baseDir
      */
     public function __construct($baseDir = null)
     {
