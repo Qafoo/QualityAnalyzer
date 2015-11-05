@@ -87,11 +87,20 @@ You might also want to tell the tools which directories there are to ignore by
 the tools. This is *especially important* if you have (large) libraries in your
 source directory – you do not want to analyze those. For this you may use the
 ``--exclude`` option::
-    
+
     bin/analyzer \
         --coverage=/path/to/clover.xml \
         --tests=/path/to/junit.xml \
         --exclude=libraries,vendor \
+        analyze /path/to/source
+
+For analysis of larger code bases, it may be necessary to increase the amount
+of memory a tool can access. Each tool is independently configurable through
+the ``--memory_limits`` option by supplying a comma-separated list of tool names
+with the maximum amount of memory that each should have access to (in MB)::
+
+    bin/analyzer \
+        --memory_limits="cpd=512M"
         analyze /path/to/source
 
 After the analyzer has finished use ``bin/analyze serve`` or similar means to
@@ -163,11 +172,11 @@ comitted::
 
 It will run the ``package`` task first (after running all tests, of course). If
 there are changes in the ``assets/`` folder those changes will be comitted and
-the current development state will then be pushed. 
+the current development state will then be pushed.
 
 ..
    Local Variables:
    mode: rst
    fill-column: 79
-   End: 
+   End:
    vim: et syn=rst tw=79

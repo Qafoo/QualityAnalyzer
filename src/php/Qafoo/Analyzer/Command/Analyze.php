@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Qafoo\Analyzer\Handler\RequiresCoverage;
+use Qafoo\Analyzer\Application;
 
 class Analyze extends Command
 {
@@ -76,12 +77,18 @@ class Analyze extends Command
                 'x',
                 InputOption::VALUE_REQUIRED,
                 'Directories to exclude from analyzing'
+            )->addOption(
+                'memory_limits',
+                'm',
+                InputOption::VALUE_REQUIRED,
+                'A comma-separated list of custom memory limits for each analyzer'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $exclude = array_filter(array_map('trim', explode(',', $input->getOption('exclude'))));
+        $memory_limits = $this->getMemoryLimits($input);
 
         if (!is_dir($path = realpath($input->getArgument('path')))) {
             throw new \OutOfBoundsException("Could not find " . $input->getArgument('path'));
@@ -101,7 +108,7 @@ class Analyze extends Command
                     $input->getOption('coverage') :
                     null;
 
-                if ($result = $handler->handle($path, $exclude, $file, $coverage)) {
+                if ($result = $handler->handle($path, $exclude, $file, $memory_limits[$name], $coverage)) {
                     $project['analyzers'][$name] = $this->copyResultFile($name, $result);
                 }
             } catch (\Exception $exception) {
@@ -129,5 +136,23 @@ class Analyze extends Command
 
         copy($file, $this->targetDir . '/' . $handler . '.xml');
         return "$handler.xml";
+    }
+
+    /**
+     * Parse memory limit options, if provided.
+     * @param  InputInterface $input
+     * @return array                 maximum memory limits, keyed by tool name
+     */
+    private function getMemoryLimits(InputInterface $input)
+    {
+        $memory_limits = array();
+        $memory_limit_params = explode(',', $input->getOption('memory_limits'));
+        foreach ($memory_limit_params as $param) {
+            $kvp = explode('=', $param);
+            if (count($kvp) === 2) {
+                $memory_limits[$kvp[0]] = $kvp[1];
+            }
+        }
+        return $memory_limits;
     }
 }

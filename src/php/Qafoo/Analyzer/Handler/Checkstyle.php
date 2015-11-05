@@ -7,6 +7,7 @@ use Qafoo\Analyzer\Shell;
 
 class Checkstyle extends Handler
 {
+
     /**
      * Shell
      *
@@ -14,7 +15,7 @@ class Checkstyle extends Handler
      */
     private $shell;
 
-    public function __construct(Shell $shell)
+    public function __construct(Shell $shell, $memory_limit = null)
     {
         $this->shell = $shell;
     }
@@ -29,7 +30,7 @@ class Checkstyle extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -46,7 +47,12 @@ class Checkstyle extends Handler
             $options[] = '--ignore=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/phpcs', array_merge($options, array($dir)), array(0, 1));
+        $this->shell->exec(
+            'vendor/bin/phpcs',
+            array_merge($options, array($dir)),
+            array(0, 1),
+            $memory_limit
+        );
         return $tmpFile;
     }
 }

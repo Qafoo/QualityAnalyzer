@@ -29,7 +29,7 @@ class CPD extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -44,7 +44,12 @@ class CPD extends Handler
             $options[] = '--exclude=' . $exclude;
         }
 
-        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)), array(0, 1));
+        $this->shell->exec(
+            'vendor/bin/phpcpd',
+            array_merge($options, array($dir)),
+            array(0, 1),
+            $memory_limit
+        );
         return $tmpFile;
     }
 }

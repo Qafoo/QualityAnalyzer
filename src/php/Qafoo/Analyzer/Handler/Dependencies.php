@@ -29,7 +29,7 @@ class Dependencies extends Handler
      * @param string $file
      * @return void
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle($dir, array $excludes, $file = null, $memory_limit = null)
     {
         if ($file) {
             // @TODO: Verify file is actually sensible?
@@ -44,7 +44,12 @@ class Dependencies extends Handler
             $options[] = '--ignore=' . implode(',', $excludes);
         }
 
-        $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($dir)));
+        $this->shell->exec(
+            'vendor/bin/pdepend',
+            array_merge($options, array($dir)),
+            array(0),
+            $memory_limit
+        );
         return $tmpFile;
     }
 }

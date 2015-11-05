@@ -30,9 +30,13 @@ class Shell
      * @param int[] $okCodes
      * @return string
      */
-    public function exec($command, array $arguments = array(), array $okCodes = array(0))
+    public function exec($command, array $arguments = array(), array $okCodes = array(0), $memory_limit = null)
     {
         $command = $this->makeAbsolute($command);
+
+        if (preg_match('/^\d+[M]$/i', $memory_limit)) {
+            $command = "php -d memory_limit=$memory_limit " . $command;
+        }
 
         $escapedCommand = escapeshellcmd($command) . ' ' . implode(' ', array_map('escapeshellarg', $arguments));
         exec($escapedCommand, $output, $return);
