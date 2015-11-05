@@ -64,7 +64,7 @@ Usage
 You start by analyzing a certain project or providing the tool with the paths
 to existing analyze files, like code coverage reports::
 
-    bin/analyzer analyze /path/to/source
+    bin/analyze analyze /path/to/source
 
 With the default command the tool will analyze the source code itself. For
 tools like PHPMD or PDepend this makes a lot of sense since the tool already
@@ -74,7 +74,7 @@ There are some reports we cannot generate ourselves like code coverage from
 your tests. You can tell the tool where to find certain files to make sure they
 are available and ready to be used::
 
-    bin/analyzer \
+    bin/analyze \
         --coverage=/path/to/clover.xml \
         --tests=/path/to/junit.xml \
         analyze /path/to/source
@@ -88,7 +88,7 @@ the tools. This is *especially important* if you have (large) libraries in your
 source directory – you do not want to analyze those. For this you may use the
 ``--exclude`` option::
     
-    bin/analyzer \
+    bin/analyze \
         --coverage=/path/to/clover.xml \
         --tests=/path/to/junit.xml \
         --exclude=libraries,vendor \
