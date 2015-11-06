@@ -64,8 +64,8 @@ class Shell
      * @param string $prefix
      * @return string
      */
-    public function getTempFile($prefix = 'qas')
+    public function getTempFile($prefix = 'qa')
     {
-        return tempnam(sys_get_temp_dir(), 'qa');
+        return tempnam(sys_get_temp_dir(), $prefix);
     }
 }
