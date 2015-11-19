@@ -37,7 +37,7 @@
     "node-sass": "^3.3.3",
     "object-assign": "^4.0.1",
     "phantomjs": "^1.9.18",
-    "react": "^0.14.1",
+    "react": "^0.14.3",
     "react-dom": "^0.14.0",
     "react-router": "^1.0.0-rc3",
     "sass-loader": "^3.0.0",
