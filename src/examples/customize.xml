@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+     TODO: Copy this file to your source code directory. You propbably have to
+     install all required tools and customie the basedir property
+-->
 <project name="Qafoo Quality Analyzer - Example Build File" basedir="../../" default="analyze">
 
     <!--
@@ -10,6 +14,10 @@
     <property name="logdir" value="${basedir}/qa-analyzer-log" />
     <property name="bindir" value="${basedir}/vendor/bin" />
 
+    <!--
+         TODO: You probably want to customie these varibales. But you can also
+         customize the tool calls directly below.
+    -->
     <property name="phpunit.config" value="${basedir}/phpunit.xml" />
     <property name="phpcs.coding.standard" value="PSR-2" />
     <property name="phpmd.rules" value="cleancode,codesize,design" />
