@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Qafoo Quality Analyzer - Example Build File" basedir="./" default="analyze">
+<project name="Qafoo Quality Analyzer - Example Build File" basedir="../../" default="analyze">
 
     <!--
         Include local project properties.
@@ -15,6 +15,10 @@
     <property name="phpmd.rules" value="cleancode,codesize,design" />
 
     <target name="prepare">
+        <fail unless="srcdir">
+            No source dir specified. Pass using `ant -Dsrcdir=src/` or configure it in `environment.local`.
+        </fail>
+
         <delete dir="${logdir}"/>
         <mkdir dir="${logdir}" />
     </target>
@@ -119,5 +123,7 @@
             <arg value="analyze" />
             <arg value="${srcdir}" />
         </exec>
+
+        <delete dir="${logdir}"/>
     </target>
 </project>
