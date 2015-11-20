@@ -83,6 +83,9 @@ You can also specify already generated files for all the other tools. But the
 visualization might behave strangely if some reports are generated in the wrong
 formats or some options are missing. We do not verify this (yet) properly.
 
+Ignore Sub-Directories
+----------------------
+
 You might also want to tell the tools which directories there are to ignore by
 the tools. This is *especially important* if you have (large) libraries in your
 source directory – you do not want to analyze those. For this you may use the
