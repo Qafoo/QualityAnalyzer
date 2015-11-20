@@ -107,7 +107,7 @@ Customize Tools
 If you want to customize tool execution you can always run all the tools
 yourself and pass the existing result files to the ``analyze`` command. An
 example customizable ant build file doing this can be found here:
-`src/build/build.xml`__.
+`src/examples/customize.xml`__.
 
 The parameters to pass you custom results, which wil omit running the tool by
 the analyzer command itself are::
@@ -122,7 +122,7 @@ the analyzer command itself are::
 Feel free to provide examples using different build environments by creating a
 pull request.
 
-__ src/build/build.xml
+__ src/examples/customize.xml
 
 Building & Developing The Software
 ==================================
