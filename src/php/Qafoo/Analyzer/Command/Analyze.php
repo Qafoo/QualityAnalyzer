@@ -73,6 +73,11 @@ class Analyze extends Command
                 InputOption::VALUE_REQUIRED,
                 'Path to C&P violations (PHP Copy Paste Detector) XML file'
             )->addOption(
+                'phploc',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PHPLoc result XML file'
+            )->addOption(
                 'exclude',
                 'x',
                 InputOption::VALUE_REQUIRED,
