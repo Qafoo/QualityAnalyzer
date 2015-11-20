@@ -101,6 +101,29 @@ After the analyzer has finished use ``bin/analyze serve`` or similar means to
 access the ``index.html`` with your browser and enjoy the results
 visualization.
 
+Customize Tools
+---------------
+
+If you want to customize tool execution you can always run all the tools
+yourself and pass the existing result files to the ``analyze`` command. An
+example customizable ant build file doing this can be found here:
+`src/build/build.xml`__.
+
+The parameters to pass you custom results, which wil omit running the tool by
+the analyzer command itself are::
+
+    --pdepend=PDEPEND            Path to PDepend summary XML file
+    --dependencies=DEPENDENCIES  Path to PDepend dependencies XML file
+    --phpmd=PHPMD                Path to mess detector (PMD / PHPMD) XML file
+    --checkstyle=CHECKSTYLE      Path to checkstyle violations (PHP Code Sniffer) XML file
+    --cpd=CPD                    Path to C&P violations (PHP Copy Paste Detector) XML file
+    --phploc=PHPLOC              Path to PHPLoc result XML file
+
+Feel free to provide examples using different build environments by creating a
+pull request.
+
+__ src/build/build.xml
+
 Building & Developing The Software
 ==================================
 
