@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Check README">
+    <property name="executable.rst" location="/usr/bin/rst2html" />
+
+    <target name="readme" extensionOf="-package:main~hook">
+        <exec executable="${executable.rst}" failonerror="true" dir="${basedir}" errorproperty="readme.error">
+            <arg value="${basedir}/README.rst" />
+            <arg value="${builddir}/README.html" />
+        </exec>
+
+        <fail>
+            <condition>
+                <not>
+                    <equals arg1="${readme.error}" arg2=""/>
+                </not>
+            </condition>
+            The README.rst contains errors:
+            ${readme.error}
+        </fail>
+    </target>
+</project>
