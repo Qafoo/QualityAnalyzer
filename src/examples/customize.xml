@@ -111,7 +111,7 @@
             <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
         </condition>
 
-        <exec executable="analyze" failonerror="true" dir="${basedir}">
+        <exec executable="${basedir}/bin/analyze" failonerror="true" dir="${basedir}">
             <arg line="${analyze.coverage}" />
             <arg line="${analyze.pdepend}" />
             <arg line="${analyze.dependencies}" />
