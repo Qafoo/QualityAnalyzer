@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Qafoo Quality Analyzer - Example Build File" basedir="../../" default="analyze">
+
+    <!--
+        Include local project properties.
+    -->
+    <property file="${basedir}/environment.local" />
+    <property file="${basedir}/environment" />
+
+    <property name="logdir" value="${basedir}/qa-analyzer-log" />
+    <property name="bindir" value="${basedir}/vendor/bin" />
+
+    <property name="phpunit.config" value="${basedir}/phpunit.xml" />
+    <property name="phpcs.coding.standard" value="PSR-2" />
+    <property name="phpmd.rules" value="cleancode,codesize,design" />
+
+    <target name="prepare">
+        <fail unless="srcdir">
+            No source dir specified. Pass using `ant -Dsrcdir=src/` or configure it in `environment.local`.
+        </fail>
+
+        <delete dir="${logdir}"/>
+        <mkdir dir="${logdir}" />
+    </target>
+
+    <target name="phpunit" depends="prepare">
+        <exec executable="${bindir}/phpunit" failonerror="false" dir="${basedir}">
+            <arg value="--configuration" />
+            <arg value="${phpunit.config}" />
+            <arg value="--coverage-clover" />
+            <arg value="${logdir}/clover.xml" />
+            <arg value="--log-junit" />
+            <arg value="${logdir}/junit.xml" />
+        </exec>
+    </target>
+
+    <target name="pdepend" depends="prepare, phpunit">
+        <condition property="pdepend.coverage.report" value="--coverage-report=${logdir}/clover.xml" else="">
+            <resourceexists>
+                <file file="${logdir}/clover.xml"/>
+            </resourceexists>
+        </condition>
+
+        <exec executable="${bindir}/pdepend" failonerror="false" dir="${basedir}">
+            <arg value="--dependency-xml=${logdir}/dependencies.xml" />
+            <arg value="--summary-xml=${logdir}/summary.xml" />
+            <arg value="--coderank-mode=inheritance,property,method" />
+            <arg line="${pdepend.coverage.report}" />
+            <arg value="${srcdir}" />
+        </exec>
+    </target>
+
+    <target name="phpmd" depends="prepare">
+        <exec executable="${bindir}/phpmd" failonerror="false" resultproperty="phpmd.return-value" dir="${basedir}">
+            <arg line="--reportfile" />
+            <arg line="${logdir}/phpmd.xml" />
+            <arg value="${srcdir}" />
+            <arg value="xml" />
+            <arg value="${phpmd.rules}" />
+        </exec>
+    </target>
+
+    <target name="checkstyle" depends="prepare">
+        <exec executable="${bindir}/phpcs" failonerror="false" dir="${basedir}">
+            <arg value="--standard=${coding.standard}" />
+            <arg value="--extensions=php" />
+            <arg value="--report-checkstyle=${logdir}/checkstyle.xml" />
+            <arg value="${srcdir}" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" depends="prepare">
+        <exec executable="${bindir}/phpcpd" failonerror="false" dir="${basedir}">
+            <arg value="--log-pmd" />
+            <arg value="${logdir}/cpd.xml" />
+            <arg value="${srcdir}" />
+        </exec>
+    </target>
+
+    <target name="phploc" depends="prepare">
+        <exec executable="${bindir}/phploc" failonerror="false" dir="${basedir}">
+            <arg value="--count-tests" />
+            <arg value="--log-xml=${logdir}/loc.xml" />
+            <arg value="${srcdir}" />
+        </exec>
+    </target>
+
+    <target name="parallel" depends="phpunit">
+        <parallel>
+            <antcall target="pdepend" />
+            <antcall target="phpmd" />
+            <antcall target="checkstyle" />
+            <antcall target="phpcpd" />
+            <antcall target="phploc" />
+        </parallel>
+    </target>
+
+    <target name="analyze" depends="parallel">
+        <condition property="analyze.coverage" value="--coverage=${logdir}/clover.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.pdepend" value="--pdepend=${logdir}/summary.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.dependencies" value="--dependencies=${logdir}/dependencies.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.phpmd" value="--phpmd=${logdir}/phpmd.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.tests" value="--tests=${logdir}/junit.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.cpd" value="--cpd=${logdir}/cpd.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.checkstyle" value="--checkstyle=${logdir}/checkstyle.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+        <condition property="analyze.phploc" value="--phploc=${logdir}/loc.xml" else="">
+            <resourceexists><file file="${logdir}/clover.xml"/></resourceexists>
+        </condition>
+
+        <exec executable="${basedir}/bin/analyze" failonerror="true" dir="${basedir}">
+            <arg line="${analyze.coverage}" />
+            <arg line="${analyze.pdepend}" />
+            <arg line="${analyze.dependencies}" />
+            <arg line="${analyze.phpmd}" />
+            <arg line="${analyze.tests}" />
+            <arg line="${analyze.cpd}" />
+            <arg line="${analyze.checkstyle}" />
+            <arg line="${analyze.phploc}" />
+            <arg value="analyze" />
+            <arg value="${srcdir}" />
+        </exec>
+
+        <delete dir="${logdir}"/>
+    </target>
+</project>
