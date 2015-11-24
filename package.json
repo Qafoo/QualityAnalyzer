@@ -7,7 +7,7 @@
     "babel-core": "5.8.34",
     "babel-eslint": "4.1.6",
     "babel-loader": "5.4.0",
-    "bootstrap-sass": "3.2.0",
+    "bootstrap-sass": "3.3.6",
     "bootstrap-sass-loader": "1.0.9",
     "css-loader": "0.21.0",
     "d3": "3.5.9",
