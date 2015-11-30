@@ -10,7 +10,7 @@
     "bootstrap-sass": "3.2.0",
     "bootstrap-sass-loader": "1.0.9",
     "css-loader": "0.21.0",
-    "d3": "3.5.9",
+    "d3": "3.5.10",
     "eslint": "1.9.0",
     "eslint-config-react": "1.1.1",
     "eslint-config-standard": "4.4.0",
