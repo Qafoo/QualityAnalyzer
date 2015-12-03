@@ -26,7 +26,7 @@
     "grunt-webpack": "1.0.11",
     "history": "1.13.1",
     "jasmine": "2.4.0",
-    "jasmine-core": "2.3.4",
+    "jasmine-core": "2.4.0",
     "jquery": "2.1.4",
     "jszip": "2.5.0",
     "jszip-utils": "0.0.2",
