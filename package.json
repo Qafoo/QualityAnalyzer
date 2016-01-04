@@ -30,7 +30,7 @@
     "jquery": "2.1.4",
     "jszip": "2.5.0",
     "jszip-utils": "0.0.2",
-    "karma": "0.13.15",
+    "karma": "0.13.17",
     "karma-jasmine": "0.3.6",
     "karma-junit-reporter": "0.3.7",
     "karma-phantomjs-launcher": "0.2.1",
