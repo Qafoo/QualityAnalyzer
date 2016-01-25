@@ -36,7 +36,7 @@
     "karma-phantomjs-launcher": "0.2.1",
     "node-sass": "3.4.2",
     "object-assign": "4.0.1",
-    "phantomjs": "1.9.19",
+    "phantomjs": "2.1.1",
     "react": "0.14.3",
     "react-dom": "0.14.3",
     "react-router": "1.0.0",
