@@ -4,7 +4,7 @@
   "repository": "https://github.com/Qafoo/QualityAnalyzer.git",
   "license": "AGPL-3.0",
   "dependencies": {
-    "babel-core": "5.8.34",
+    "babel-core": "6.7.2",
     "babel-eslint": "4.1.6",
     "babel-loader": "5.4.0",
     "bootstrap-sass": "3.3.6",
