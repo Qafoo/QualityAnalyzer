@@ -131,7 +131,7 @@ let Metrics = React.createClass({
         return metrics
     },
 
-    sortBySingleMetric: function (metrics, metric, asc, count) {
+    sortBySingleMetric: function (metrics, metric, asc) {
         return _.map(metrics, function (data) {
             data.metric = data.metrics[metric]
             delete data.metrics
@@ -146,7 +146,7 @@ let Metrics = React.createClass({
             } else {
                 return 0
             }
-        }).slice(0, count)
+        })
     },
 
     metrics: {
@@ -211,6 +211,8 @@ let Metrics = React.createClass({
     render: function () {
         var metrics = {}
         var metric = { name: "Undefined", asc: false, formatter: IntFormatter }
+        var page = this.props.query.page || 1
+        var perPage = 25
         var selection = { type: this.props.query.type || "class", metric: this.props.query.metric || "loc" }
 
         switch (selection.type) {
@@ -231,7 +233,7 @@ let Metrics = React.createClass({
         }
 
         metric = this.metrics[selection.type][selection.metric]
-        metrics = this.sortBySingleMetric(metrics, selection.metric, metric.asc, 25)
+        metrics = this.sortBySingleMetric(metrics, selection.metric, metric.asc)
 
         jQuery("html, body").animate({ scrollTop: 0 }, 500)
         return (<div className="row">
@@ -243,7 +245,7 @@ let Metrics = React.createClass({
             <div className="col-md-9">
                 <Table
                     captions={["Artifact", metric.name]}
-                    data={_.map(metrics, function (value) {
+                    data={_.map(metrics.slice((page - 1) * perPage, page * perPage), function (value) {
                         return [
                             (value.file ?
                                 (<Link to="/source" query={{ file: value.file, start: value.start, end: value.end }}>
@@ -257,6 +259,20 @@ let Metrics = React.createClass({
                         ]
                     })}
                 />
+                <nav>
+                    <ul className="pager">
+                        <li className={"previous" + (page <= 1 ? " disabled" : "")}>
+                            <Link to="/pdepend" query={{ type: selection.type, metric: selection.metric, page: 1 * page - 1 }}>
+                                <span aria-hidden="true">&larr;</span> Previous
+                            </Link>
+                        </li>
+                        <li className={"next" + ((page * perPage) > metrics.length ? " disabled" : "")}>
+                            <Link to="/pdepend" query={{ type: selection.type, metric: selection.metric, page: 1 * page + 1 }}>
+                                <span aria-hidden="true">&rarr;</span> Next
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>)
     },
