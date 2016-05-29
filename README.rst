@@ -83,6 +83,9 @@ You can also specify already generated files for all the other tools. But the
 visualization might behave strangely if some reports are generated in the wrong
 formats or some options are missing. We do not verify this (yet) properly.
 
+To view the report in HTML format, run `composer bundle /path/for/generated/html`
+and then open `/path/for/generated/html/index.html` with your browser.
+
 Ignore Sub-Directories
 ----------------------
 
