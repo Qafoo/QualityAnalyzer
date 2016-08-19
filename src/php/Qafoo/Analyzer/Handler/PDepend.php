@@ -4,6 +4,7 @@ namespace Qafoo\Analyzer\Handler;
 
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
+use Qafoo\Analyzer\Project;
 
 class PDepend extends Handler implements RequiresCoverage
 {
@@ -24,17 +25,18 @@ class PDepend extends Handler implements RequiresCoverage
      *
      * Optionally an existing result file can be provided
      *
-     * @param string $dir
-     * @param string[] $excludes
-     * @param string|null $file
-     * @param string|null $coverage
-     * @return void
+     * If a valid file could be generated the file name is supposed to be
+     * returned, otherwise return null.
+     *
+     * @param Project $project
+     * @param string $existingResult
+     * @return string
      */
-    public function handle($dir, array $excludes, $file = null, $coverage = null)
+    public function handle(Project $project, $existingResult = null)
     {
-        if ($file) {
+        if ($existingResult) {
             // @TODO: Verify file is actually sensible?
-            return $file;
+            return $existingResult;
         }
 
         $options = array(
@@ -42,15 +44,15 @@ class PDepend extends Handler implements RequiresCoverage
             '--coderank-mode=inheritance,property,method',
         );
 
-        if ($coverage) {
-            $options[] = '--coverage-report=' . $coverage;
+        if ($project->coverage) {
+            $options[] = '--coverage-report=' . $project->coverage;
         }
 
-        if ($excludes) {
-            $options[] = '--ignore=' . implode(',', $excludes);
+        if ($project->excludes) {
+            $options[] = '--ignore=' . implode(',', $project->excludes);
         }
 
-        $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($dir)));
+        $this->shell->exec('vendor/bin/pdepend', array_merge($options, array($project->baseDir)));
         return $tmpFile;
     }
 }

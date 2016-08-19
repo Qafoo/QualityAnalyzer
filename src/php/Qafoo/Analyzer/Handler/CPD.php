@@ -4,6 +4,7 @@ namespace Qafoo\Analyzer\Handler;
 
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
+use Qafoo\Analyzer\Project;
 
 class CPD extends Handler
 {
@@ -24,27 +25,29 @@ class CPD extends Handler
      *
      * Optionally an existing result file can be provided
      *
-     * @param string $dir
-     * @param array $excludes
-     * @param string $file
-     * @return void
+     * If a valid file could be generated the file name is supposed to be
+     * returned, otherwise return null.
+     *
+     * @param Project $project
+     * @param string $existingResult
+     * @return string
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle(Project $project, $existingResult = null)
     {
-        if ($file) {
+        if ($existingResult) {
             // @TODO: Verify file is actually sensible?
-            return $file;
+            return $existingResult;
         }
 
         $options = array(
             '--log-pmd=' . ($tmpFile = $this->shell->getTempFile()),
         );
 
-        foreach ($excludes as $exclude) {
+        foreach ($project->excludes as $exclude) {
             $options[] = '--exclude=' . $exclude;
         }
 
-        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($dir)), array(0, 1));
+        $this->shell->exec('vendor/bin/phpcpd', array_merge($options, array($project->baseDir)), array(0, 1));
         return $tmpFile;
     }
 }

@@ -4,6 +4,7 @@ namespace Qafoo\Analyzer\Handler;
 
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
+use Qafoo\Analyzer\Project;
 
 class Git extends Handler
 {
@@ -24,25 +25,27 @@ class Git extends Handler
      *
      * Optionally an existing result file can be provided
      *
-     * @param string $dir
-     * @param array $excludes
-     * @param string $file
-     * @return void
+     * If a valid file could be generated the file name is supposed to be
+     * returned, otherwise return null.
+     *
+     * @param Project $project
+     * @param string $existingResult
+     * @return string
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle(Project $project, $existingResult = null)
     {
         $resultFile = $this->shell->getTempFile() . '.js';
         $result = array(
-            '3' => $this->countGitChangesPerFile($dir, $excludes, new \DateTime('-3 months')),
-            '12' => $this->countGitChangesPerFile($dir, $excludes, new \DateTime('-1 year')),
-            'all' => $this->countGitChangesPerFile($dir, $excludes),
+            '3' => $this->countGitChangesPerFile($project, new \DateTime('-3 months')),
+            '12' => $this->countGitChangesPerFile($project, new \DateTime('-1 year')),
+            'all' => $this->countGitChangesPerFile($project),
         );
         file_put_contents($resultFile, json_encode($result));
 
         return $resultFile;
     }
 
-    protected function countGitChangesPerFile($dir, array $excludes, \DateTime $since = null)
+    protected function countGitChangesPerFile(Project $project, \DateTime $since = null)
     {
         $options = array(
             'log',
@@ -54,21 +57,21 @@ class Git extends Handler
             $options[] = '--since=' . $since->format('Y-m-d');
         }
 
-        $files = $this->shell->exec(
+        $existingResults = $this->shell->exec(
             'git',
             array_merge(
                 $options,
-                array('--', $dir),
+                array('--', $project->baseDir),
                 array_map(
                     function ($exclude) {
                         return ':!' . $exclude;
                     },
-                    $excludes
+                    $project->excludes
                 )
             )
         );
-        $files = array_count_values(array_filter(array_map('trim', explode(PHP_EOL, $files))));
-        arsort($files, SORT_NUMERIC);
-        return $files;
+        $existingResults = array_count_values(array_filter(array_map('trim', explode(PHP_EOL, $existingResults))));
+        arsort($existingResults, SORT_NUMERIC);
+        return $existingResults;
     }
 }

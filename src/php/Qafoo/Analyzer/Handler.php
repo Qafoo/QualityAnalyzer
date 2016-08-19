@@ -10,12 +10,11 @@ abstract class Handler
      * Optionally an existing result file can be provided
      *
      * If a valid file could be generated the file name is supposed to be
-     * returned.
+     * returned, otherwise return null.
      *
-     * @param string $dir
-     * @param array $excludes
-     * @param string $file
+     * @param Project $project
+     * @param string $existingResult
      * @return string
      */
-    abstract public function handle($dir, array $excludes, $file = null);
+    abstract public function handle(Project $project, $existingResult = null);
 }

@@ -6,6 +6,7 @@ use SebastianBergmann\FinderFacade\FinderFacade;
 
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Shell;
+use Qafoo\Analyzer\Project;
 
 class Source extends Handler
 {
@@ -26,19 +27,21 @@ class Source extends Handler
      *
      * Optionally an existing result file can be provided
      *
-     * @param string $dir
-     * @param array $excludes
-     * @param string $file
-     * @return void
+     * If a valid file could be generated the file name is supposed to be
+     * returned, otherwise return null.
+     *
+     * @param Project $project
+     * @param string $existingResult
+     * @return string
      */
-    public function handle($dir, array $excludes, $file = null)
+    public function handle(Project $project, $existingResult = null)
     {
         $zipFile = __DIR__ . '/../../../../../data/source.zip';
         $archive = new \ZipArchive();
         $archive->open($zipFile, \ZipArchive::OVERWRITE | \ZipArchive::CREATE);
-        $finder = new FinderFacade(array($dir), $excludes, array('*.php'));
-        foreach ($finder->findFiles() as $file) {
-            $archive->addFile($file, ltrim(str_replace($dir, '', $file), '/'));
+        $finder = new FinderFacade(array($project->baseDir), $project->excludes, array('*.php'));
+        foreach ($finder->findFiles() as $existingResult) {
+            $archive->addFile($existingResult, ltrim(str_replace($project->baseDir, '', $existingResult), '/'));
         }
         $archive->close();
     }

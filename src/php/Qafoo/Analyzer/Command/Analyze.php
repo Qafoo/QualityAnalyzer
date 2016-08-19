@@ -3,6 +3,8 @@
 namespace Qafoo\Analyzer\Command;
 
 use Qafoo\Analyzer\Handler;
+use Qafoo\Analyzer\Project;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -94,21 +96,20 @@ class Analyze extends Command
         }
         $output->writeln("Analyze source code in $path");
 
-        $project = array(
-            'baseDir' => $path,
-            'analyzers' => array(),
-        );
+        $project = new Project();
+        $project->baseDir = $path;
+        if ($input->hasOption('coverage')) {
+            $project->coverage = $input->getOption('coverage');
+        }
+
         foreach ($this->handlers as $name => $handler) {
             $output->writeln(" * Running $name");
 
             try {
-                $file = $input->hasOption($name) ? $input->getOption($name) : null;
-                $coverage = (($handler instanceof RequiresCoverage) && ($input->hasOption('coverage'))) ?
-                    $input->getOption('coverage') :
-                    null;
+                $existingResult = $input->hasOption($name) ? $input->getOption($name) : null;
 
-                if ($result = $handler->handle($path, $exclude, $file, $coverage)) {
-                    $project['analyzers'][$name] = $this->copyResultFile($name, $result);
+                if ($result = $handler->handle($project, $existingResult)) {
+                    $project->analyzers[$name] = $this->copyResultFile($name, $result);
                 }
             } catch (\Exception $exception) {
                 $output->writeln('<error>' . $exception . '</error>');
