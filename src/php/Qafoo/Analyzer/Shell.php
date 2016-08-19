@@ -29,12 +29,16 @@ class Shell
      * @param int[] $okCodes
      * @return string
      */
-    public function exec($command, array $arguments = array(), array $okCodes = array(0))
+    public function exec($command, array $arguments = array(), array $okCodes = array(0), $workingDir = null)
     {
         $command = $this->makeAbsolute($command);
 
         $escapedCommand = escapeshellcmd($command) . ' ' . implode(' ', array_map('escapeshellarg', $arguments));
+
+        $originalWorkingDir = getcwd();
+        chdir($workingDir ?: $originalWorkingDir);
         exec($escapedCommand, $output, $return);
+        chdir($originalWorkingDir);
 
         if (!in_array($return, $okCodes)) {
             throw new \Exception("Command \"$escapedCommand\" exited with non zero exit code $return: " . implode(PHP_EOL, $output));

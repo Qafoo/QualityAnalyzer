@@ -68,7 +68,9 @@ class Git extends Handler
                     },
                     $project->excludes
                 )
-            )
+            ),
+            [0],
+            $project->baseDir
         );
         $existingResults = array_count_values(array_filter(array_map('trim', explode(PHP_EOL, $existingResults))));
         arsort($existingResults, SORT_NUMERIC);
