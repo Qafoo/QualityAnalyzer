@@ -133,7 +133,12 @@ class Analyze extends Command
             throw new \OutOfBoundsException("Result file $file is not readable");
         }
 
-        copy($file, $this->targetDir . '/' . $handler . '.xml');
+        $extension = 'xml';
+        if (preg_match('(\.([a-z]+)$)', $file, $match)) {
+            $extension = $match[1];
+        }
+
+        copy($file, $this->targetDir . '/' . $handler . '.' . $extension);
         return "$handler.xml";
     }
 }
