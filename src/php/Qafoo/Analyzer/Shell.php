@@ -37,7 +37,7 @@ class Shell
         exec($escapedCommand, $output, $return);
 
         if (!in_array($return, $okCodes)) {
-            throw new \Exception("Program exited with non zero exit code $return: " . implode(PHP_EOL, $output));
+            throw new \Exception("Command \"$escapedCommand\" exited with non zero exit code $return: " . implode(PHP_EOL, $output));
         }
 
         return implode(PHP_EOL, $output);
