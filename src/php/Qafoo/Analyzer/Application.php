@@ -36,6 +36,7 @@ class Application extends Console\Application
                         'cpd' => new Handler\CPD($shell),
                         'phploc' => new Handler\Phploc($shell),
                         'git' => new Handler\Git($shell),
+                        'gitDetailed' => new Handler\GitDetailed($shell),
                     )
                 ),
             )

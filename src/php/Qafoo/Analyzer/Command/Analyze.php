@@ -97,6 +97,7 @@ class Analyze extends Command
         $output->writeln("Analyze source code in $path");
 
         $project = new Project();
+        $project->dataDir = $this->targetDir;
         $project->baseDir = $path;
         if ($input->hasOption('coverage')) {
             $project->coverage = $input->getOption('coverage');
