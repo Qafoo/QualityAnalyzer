@@ -67,6 +67,18 @@ class GitDetailed extends Handler
         return null;
     }
 
+    /**
+     * Counts GIT commits per file and range. This is used to track the number
+     * of commits on methods or classes.
+     *
+     * @HACK: I did not manage to convice GIT to omit the diff when using `-L…`
+     * – this is why we embed the "qacommit: " string and count its occurence
+     * afterwards. This causes GIT to calculate MANY diffs, which are the
+     * passed to PHP and thrown away using many string operations. This sucks.
+     *
+     * @FIX: Can be fixed immediately when we learn how to convince GIT to omit
+     * the diffs / patches.
+     */
     protected function countGitChangesPerFileRange(Project $project, $file, $from, $to)
     {
         $options = array(
