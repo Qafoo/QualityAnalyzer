@@ -46,17 +46,35 @@ let Loader = React.createClass({
         var deferreds = jQuery.map(data.analyzers, (function (file, analyzer) {
             return jQuery.ajax(
                 jQuery.extend({ url: "data/" + file }, defaults)
-            ).pipe((function (analyzerData) {
+            ).pipe((function (analyzerData, status, request) {
+                var contentType = request.getResponseHeader('Content-Type')
                 var deferred = jQuery.Deferred()
-                var parser = new xml2js.Parser()
 
-                this.advanceProgress(step / 2)
-                parser.parseString(analyzerData, function (error, result) {
-                    if (error) {
-                        deferred.reject(error)
+                switch (contentType) {
+                case 'application/xml':
+                    var parser = new xml2js.Parser()
+
+                    this.advanceProgress(step / 2)
+                    parser.parseString(analyzerData, function (error, result) {
+                        if (error) {
+                            deferred.reject(error)
+                        }
+                        deferred.resolve(result)
+                    })
+                    break;
+
+                case 'application/json':
+                    let result = JSON.parse(analyzerData)
+                    if (!result) {
+                        deferred.reject("Error parsing JSON")
+                    } else {
+                        deferred.resolve(result)
                     }
-                    deferred.resolve(result)
-                })
+                    break;
+
+                default:
+                    console.error("Cannot handle data of type:" + contentType)
+                }
 
                 return deferred.promise()
             }).bind(this)).pipe((function (result) {
