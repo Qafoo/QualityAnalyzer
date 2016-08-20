@@ -251,7 +251,7 @@ let Metrics = React.createClass({
                     data={_.map(metrics.slice((page - 1) * perPage, page * perPage), function (value) {
                         return [
                             (value.file ?
-                                (<Link to="/source" query={{ file: value.file, start: value.start, end: value.end }}>
+                                (<Link to={{ pathname: "/source", query: { file: value.file, start: value.start, end: value.end } }}>
                                     {value.namespace} <strong>{value.name}</strong>
                                 </Link>) :
                                 (<span>{value.namespace} <strong>{value.name}</strong></span>)
@@ -265,12 +265,12 @@ let Metrics = React.createClass({
                 <nav>
                     <ul className="pager">
                         <li className={"previous" + (page <= 1 ? " disabled" : "")}>
-                            <Link to="/pdepend" query={{ type: selection.type, metric: selection.metric, page: 1 * page - 1 }}>
+                            <Link to={{ pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page - 1 } }}>
                                 <span aria-hidden="true">&larr;</span> Previous
                             </Link>
                         </li>
                         <li className={"next" + ((page * perPage) > metrics.length ? " disabled" : "")}>
-                            <Link to="/pdepend" query={{ type: selection.type, metric: selection.metric, page: 1 * page + 1 }}>
+                            <Link to={{ pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page + 1 } }}>
                                 <span aria-hidden="true">&rarr;</span> Next
                             </Link>
                         </li>

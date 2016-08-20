@@ -46,7 +46,7 @@ let File = React.createClass({
                                     <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                                 </span> {error.$.source}
                             </h4>
-                            <Link to="/source" query={{ file: file, start: error.$.line, end: error.$.line }}>
+                            <Link to={{ pathname: "/source", query: { file: file, start: error.$.line, end: error.$.line } }}>
                                 <p>{error.$.message}</p>
                             </Link>
                         </li>)

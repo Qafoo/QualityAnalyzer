@@ -69723,7 +69723,7 @@
 	                    data: _underscore2['default'].map(metrics.slice((page - 1) * perPage, page * perPage), function (value) {
 	                        return [value.file ? _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: '/source', query: { file: value.file, start: value.start, end: value.end } },
+	                            { to: { pathname: "/source", query: { file: value.file, start: value.start, end: value.end } } },
 	                            value.namespace,
 	                            ' ',
 	                            _react2['default'].createElement(
@@ -69759,7 +69759,7 @@
 	                            { className: "previous" + (page <= 1 ? " disabled" : "") },
 	                            _react2['default'].createElement(
 	                                _reactRouter.Link,
-	                                { to: '/pdepend', query: { type: selection.type, metric: selection.metric, page: 1 * page - 1 } },
+	                                { to: { pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page - 1 } } },
 	                                _react2['default'].createElement(
 	                                    'span',
 	                                    { 'aria-hidden': 'true' },
@@ -69773,7 +69773,7 @@
 	                            { className: "next" + (page * perPage > metrics.length ? " disabled" : "") },
 	                            _react2['default'].createElement(
 	                                _reactRouter.Link,
-	                                { to: '/pdepend', query: { type: selection.type, metric: selection.metric, page: 1 * page + 1 } },
+	                                { to: { pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page + 1 } } },
 	                                _react2['default'].createElement(
 	                                    'span',
 	                                    { 'aria-hidden': 'true' },
@@ -69918,7 +69918,7 @@
 	                        { key: index },
 	                        _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: '/pdepend', query: { type: type, metric: item.key } },
+	                            { to: { pathname: "/pdepend", query: { type: type, metric: item.key } } },
 	                            selection.type === type && selection.metric === item.key ? _react2['default'].createElement(
 	                                'strong',
 	                                null,
@@ -71060,7 +71060,7 @@
 	                        ),
 	                        _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: '/source', query: { file: file, start: error.$.line, end: error.$.line } },
+	                            { to: { pathname: "/source", query: { file: file, start: error.$.line, end: error.$.line } } },
 	                            _react2['default'].createElement(
 	                                'p',
 	                                null,
@@ -71220,7 +71220,7 @@
 	                    ' ',
 	                    _react2['default'].createElement(
 	                        _reactRouter.Link,
-	                        { to: '/source', query: { file: fileFrom, start: fileFromStart, end: fileFromStart + lines } },
+	                        { to: { pathname: "/source", query: { file: fileFrom, start: fileFromStart, end: fileFromStart + lines } } },
 	                        fileFrom
 	                    ),
 	                    ' ',
@@ -71228,7 +71228,7 @@
 	                    ' ',
 	                    _react2['default'].createElement(
 	                        _reactRouter.Link,
-	                        { to: '/source', query: { file: fileTo, start: fileToStart, end: fileToStart + lines } },
+	                        { to: { patname: "/source", query: { file: fileTo, start: fileToStart, end: fileToStart + lines } } },
 	                        fileTo
 	                    )
 	                )
