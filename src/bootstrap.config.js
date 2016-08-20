@@ -12,7 +12,7 @@ module.exports = {
         button: false,
         carousel: false,
         collapse: false,
-        dropdown: false,
+        dropdown: true,
         modal: false,
         popover: false,
         scrollspy: false,

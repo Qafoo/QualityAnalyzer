@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import _ from "underscore"
 
 import NavLink from "./navlink.jsx"
+import NavDropDown from "./navdropdown.jsx"
 
 let Navigation = React.createClass({
     propTypes: {
@@ -43,11 +44,19 @@ let Navigation = React.createClass({
                 <div id="navbar" className="collapse navbar-collapse">
                     <ul className="nav navbar-nav">
                         {_.map(this.props.items, function (item, i) {
-                            return (<NavLink key={i} to={"/" + item.path} active={item.path === matched.path}>
-                                {!item.icon ? '' :
-                                    <span className={item.icon}></span>
-                                } {item.name}
-                            </NavLink>)
+                            if ('children' in item) {
+                                return (<NavDropDown key={i} items={item.children} matched={matched}>
+                                    {!item.icon ? '' :
+                                        <span className={item.icon}></span>
+                                    } {item.name} <span className="caret"></span>
+                                </NavDropDown>)
+                            } else {
+                                return (<NavLink key={i} to={"/" + item.path} active={item.path === matched.path} enabled={!!item.enabled}>
+                                    {!item.icon ? '' :
+                                        <span className={item.icon}></span>
+                                    } {item.name}
+                                </NavLink>)
+                            }
                         })}
                     </ul>
                 </div>

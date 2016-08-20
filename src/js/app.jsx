@@ -45,46 +45,58 @@ let App = React.createClass({
             icon: "glyphicon glyphicon-folder-open",
         },
         {
-            path: "phploc",
-            name: "Size",
-            icon: "glyphicon glyphicon-scale",
-            analyzer: true,
-        },
-        {
-            path: "pdepend",
             name: "Metrics",
-            icon: "glyphicon glyphicon-stats",
-            analyzer: true,
+            icon: "glyphicon glyphicon-scale",
+            children: [
+                {
+                    path: "phploc",
+                    name: "Size",
+                    icon: "glyphicon glyphicon-scale",
+                    analyzer: true,
+                },
+                {
+                    path: "pdepend",
+                    name: "Metrics",
+                    icon: "glyphicon glyphicon-stats",
+                    analyzer: true,
+                },
+                {
+                    path: "dependencies",
+                    name: "Dependencies",
+                    icon: "glyphicon glyphicon-retweet",
+                    analyzer: true,
+                },
+            ],
         },
         {
-            path: "dependencies",
-            name: "Dependencies",
-            icon: "glyphicon glyphicon-retweet",
-            analyzer: true,
-        },
-        {
-            path: "phpmd",
-            name: "Mess Detector",
-            icon: "glyphicon glyphicon-trash",
-            analyzer: true,
-        },
-        {
-            path: "tests",
-            name: "Tests",
-            icon: "glyphicon glyphicon-thumbs-up",
-            analyzer: true,
-        },
-        {
-            path: "checkstyle",
-            name: "Checkstyle",
-            icon: "glyphicon glyphicon-erase",
-            analyzer: true,
-        },
-        {
-            path: "cpd",
-            name: "Copy & Paste",
-            icon: "glyphicon glyphicon-duplicate",
-            analyzer: true,
+            name: "Reports",
+            icon: "glyphicon glyphicon-list-alt",
+            children: [
+                {
+                    path: "phpmd",
+                    name: "Mess Detector",
+                    icon: "glyphicon glyphicon-trash",
+                    analyzer: true,
+                },
+                {
+                    path: "tests",
+                    name: "Tests",
+                    icon: "glyphicon glyphicon-thumbs-up",
+                    analyzer: true,
+                },
+                {
+                    path: "checkstyle",
+                    name: "Checkstyle",
+                    icon: "glyphicon glyphicon-erase",
+                    analyzer: true,
+                },
+                {
+                    path: "cpd",
+                    name: "Copy & Paste",
+                    icon: "glyphicon glyphicon-duplicate",
+                    analyzer: true,
+                },
+            ],
         },
     ],
 
@@ -102,18 +114,26 @@ let App = React.createClass({
             </div>)
         }
 
-        var modules = []
         var data = this.state.data
 
         for (var i = 0; i < this.navigation.length; ++i) {
             if (!this.navigation[i].analyzer ||
                 data.analyzers[this.navigation[i].path]) {
-                modules.push(this.navigation[i])
+                this.navigation[i].enabled = true
+            }
+
+            if ('children' in this.navigation[i]) {
+                for (var j = 0; j < this.navigation[i].children.length; ++j) {
+                    if (!this.navigation[i].children[j].analyzer ||
+                        data.analyzers[this.navigation[i].children[j].path]) {
+                        this.navigation[i].children[j].enabled = true
+                    }
+                }
             }
         }
 
         return (<div className="loaded">
-            <Navigation brand="Quality Analyzer" brandLink="/" items={modules} matched={this.props.routes[1] || null} />
+            <Navigation brand="Quality Analyzer" brandLink="/" items={this.navigation} matched={this.props.routes[1] || null} />
 
             {!this.props.children ? '' :
             <div className="container">

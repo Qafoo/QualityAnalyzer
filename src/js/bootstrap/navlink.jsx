@@ -3,15 +3,26 @@ import { Link } from 'react-router'
 
 let NavLink = React.createClass({
     propTypes: {
+        to: React.PropTypes.string,
         children: React.PropTypes.array,
         active: React.PropTypes.bool,
+        enabled: React.PropTypes.bool,
     },
 
-    render: function () {
-        var activeClass = this.props.active ? "active" : ""
+    getInitialProps: function () {
+        return {
+            active: false,
+            enabled: true,
+        }
+    },
+    
 
-        return (<li className={activeClass}>
-            <Link {...this.props}>{this.props.children}</Link>
+    render: function () {
+        var classNames = (this.props.active ? "active " : "") +
+            (!this.props.enabled ? "disabled " : "")
+
+        return (<li className={classNames}>
+            <Link to={this.props.to}>{this.props.children}</Link>
         </li>)
     },
 })
