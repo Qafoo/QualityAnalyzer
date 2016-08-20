@@ -141,6 +141,6 @@ class Analyze extends Command
         }
 
         copy($file, $this->targetDir . '/' . $handler . '.' . $extension);
-        return "$handler.xml";
+        return "$handler.$extension";
     }
 }
