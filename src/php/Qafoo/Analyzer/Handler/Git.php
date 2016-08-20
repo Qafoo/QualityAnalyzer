@@ -34,7 +34,7 @@ class Git extends Handler
      */
     public function handle(Project $project, $existingResult = null)
     {
-        $resultFile = $this->shell->getTempFile() . '.js';
+        $resultFile = $this->shell->getTempFile() . '.json';
         $result = array(
             '3' => $this->countGitChangesPerFile($project, new \DateTime('-3 months')),
             '12' => $this->countGitChangesPerFile($project, new \DateTime('-1 year')),
