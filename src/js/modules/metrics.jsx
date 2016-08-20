@@ -157,9 +157,11 @@ let Metrics = React.createClass({
             nof: { name: "Number of Functions", asc: false, formatter: IntFormatter },
             noi: { name: "Number of Interfaces", asc: false, formatter: IntFormatter },
             nom: { name: "Number of Methods", asc: false, formatter: IntFormatter },
+            commits: { name: "GIT Commits", asc: false, formatter: IntFormatter },
         },
         class: {
             loc: { name: "Lines of Code", asc: false, formatter: IntFormatter },
+            commits: { name: "GIT Commits", asc: false, formatter: IntFormatter },
             cloc: { name: "Comment Lines of Code", asc: false, formatter: IntFormatter },
             ncloc: { name: "Non-Comment Line of Code", asc: false, formatter: IntFormatter },
             eloc: { name: "Executable Lines of Code", asc: false, formatter: IntFormatter },
@@ -187,6 +189,7 @@ let Metrics = React.createClass({
         },
         method: {
             loc: { name: "Lines of Code", asc: false, formatter: IntFormatter },
+            commits: { name: "GIT Commits", asc: false, formatter: IntFormatter },
             cloc: { name: "Comment Lines of Code", asc: false, formatter: IntFormatter },
             ncloc: { name: "Non-Comment Line of Code", asc: false, formatter: IntFormatter },
             eloc: { name: "Executable Lines of Code", asc: false, formatter: IntFormatter },
