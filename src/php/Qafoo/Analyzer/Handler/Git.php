@@ -57,6 +57,7 @@ class Git extends Handler
             $options[] = '--since=' . $since->format('Y-m-d');
         }
 
+        $gitBasePath = trim($this->shell->exec('git', array('rev-parse', '--show-toplevel'), [0], $project->baseDir));
         $existingResults = $this->shell->exec(
             'git',
             array_merge(
@@ -72,7 +73,18 @@ class Git extends Handler
             [0],
             $project->baseDir
         );
-        $existingResults = array_count_values(array_filter(array_map('trim', explode(PHP_EOL, $existingResults))));
+
+        $existingResults = array_count_values(
+            array_filter(
+                array_map(
+                    function ($line) use ($gitBasePath) {
+                        return $gitBasePath . '/' . trim($line);
+                    },
+                    explode(PHP_EOL, $existingResults)
+                )
+            )
+        );
+
         arsort($existingResults, SORT_NUMERIC);
         return $existingResults;
     }
