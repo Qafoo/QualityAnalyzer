@@ -79,6 +79,7 @@ let Tree = function () {
     this.aggregateQualityInformation = function (node) {
         node = node || sourceTree
 
+        // @TODO: Only use selected quality reports
         if (node.type === 'file') {
             node.qualityIndex = _.reduce(
                 _.pluck(node.quality, 'index'),
@@ -100,6 +101,8 @@ let Tree = function () {
                 return a + b
             }
         ) / _.toArray(node.children).length
+
+        // @TODO: Reduce data fields
     }
 
     this.setBaseDir = function (newBaseDir) {
