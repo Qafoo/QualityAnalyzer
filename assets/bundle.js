@@ -49484,6 +49484,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _underscore = __webpack_require__(355);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
 	var _sourceFolderJsx = __webpack_require__(365);
 	
 	var _sourceFolderJsx2 = _interopRequireDefault(_sourceFolderJsx);
@@ -49526,6 +49530,8 @@
 	
 	        this.sourceTree.setBaseDir(this.props.data.baseDir);
 	        _jszipUtils2["default"].getBinaryContent("data/source.zip", (function (error, data) {
+	            var _this = this;
+	
 	            if (error) {
 	                console.log("Error", error);
 	                return;
@@ -49534,9 +49540,55 @@
 	            var source = new _jszip2["default"](data);
 	
 	            this.sourceTree.addFiles(source.files);
+	
 	            if (this.props.data.analyzers.coverage) {
-	                this.sourceTree.addCoverage(this.props.data.analyzers.coverage);
+	                (function () {
+	                    var coverage = _this.props.data.analyzers.coverage;
+	                    var files = [];
+	
+	                    _underscore2["default"].each(_underscore2["default"].pluck(coverage.coverage.project, "package"), function (namespace) {
+	                        files = files.concat(_underscore2["default"].pluck(namespace, "file"));
+	                    });
+	                    files = _underscore2["default"].flatten(files, true);
+	
+	                    _underscore2["default"].map(files, (function (file) {
+	                        var fileName = file.$.name;
+	
+	                        if ('metrics' in file && 'loc' in file.metrics[0].$) {
+	                            var lines = file.metrics[0].$.loc;
+	
+	                            this.sourceTree.addQualityInformation('size', fileName,
+	                            // Everything >= 1100 lines yields 0 qulity, everything
+	                            // <= 100 lines is 100% quality
+	                            1000 / (1000 - Math.min(Math.max(lines - 100, 0), 1000)), { lines: lines });
+	                        }
+	
+	                        if ('line' in file) {
+	                            var coveredLines = _underscore2["default"].filter(_underscore2["default"].map(file.line, function (line) {
+	                                return line.$.count > 0;
+	                            })).length;
+	
+	                            this.sourceTree.addQualityInformation('coverage', fileName, coveredLines / file.line.length, { lines: file.line.length, covered: coveredLines });
+	                        }
+	                    }).bind(_this));
+	                })();
 	            }
+	
+	            if (this.props.data.analyzers.git) {
+	                var averageCommits = _underscore2["default"].reduce(this.props.data.analyzers.git.all, function (a, b) {
+	                    return a + b;
+	                }) / _underscore2["default"].toArray(this.props.data.analyzers.git.all).length;
+	
+	                for (var fileName in this.props.data.analyzers.git.all) {
+	                    console.log(fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: this.props.data.analyzers.git.all[fileName], average: averageCommits });
+	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: this.props.data.analyzers.git.all[fileName], average: averageCommits });
+	                }
+	            }
+	
+	            this.sourceTree.aggregateQualityInformation();
+	
+	            console.log(this.sourceTree.getTree());
+	
 	            this.setState({ loaded: true });
 	        }).bind(this));
 	    },
@@ -50126,6 +50178,7 @@
 	    };
 	    var baseDir = '';
 	    var hasFiles = false;
+	    var reducer = {};
 	
 	    var ensureStartingSlash = function ensureStartingSlash(path) {
 	        while (path[0] === "/") {
@@ -50155,6 +50208,8 @@
 	                    name: component,
 	                    type: "folder",
 	                    path: path.join("/"),
+	                    quality: {},
+	                    qualityIndex: 1,
 	                    children: {}
 	                };
 	            }
@@ -50164,12 +50219,8 @@
 	
 	        treeReference.type = "file";
 	        treeReference.file = file;
-	        treeReference.lines = [];
-	        treeReference.coverage = {
-	            count: 0,
-	            covered: 0
-	        };
-	        treeReference.file = file;
+	        treeReference.quality = {};
+	        treeReference.qualityIndex = 1;
 	        hasFiles = true;
 	    };
 	
@@ -50179,63 +50230,39 @@
 	        }
 	    };
 	
-	    this.addCoverage = function (coverage) {
-	        var files = [];
+	    this.addQualityInformation = function (type, file, quality, data, reduceFunction) {
+	        reducer[type] = reduceFunction;
 	
-	        _underscore2["default"].each(_underscore2["default"].pluck(coverage.coverage.project, "package"), function (namespace) {
-	            files = files.concat(_underscore2["default"].pluck(namespace, "file"));
-	        });
-	        files = _underscore2["default"].flatten(files, true);
+	        var node = this.getSelectedFile(this.getFileName(file).split("/"));
 	
-	        _underscore2["default"].map(files, (function (file) {
-	            var node = this.getSelectedFile(this.getFileName(file.$.name).split("/"));
+	        if (!node) {
+	            return;
+	        }
 	
-	            if (!node) {
-	                return;
-	            }
-	
-	            node.coverage.count = file.metrics[0].$.statements * 1;
-	            node.coverage.covered = file.metrics[0].$.coveredstatements * 1;
-	            _underscore2["default"].map(file.line, function (line) {
-	                node.lines[line.$.num] = line.$.count > 0;
-	            });
-	        }).bind(this));
+	        node.quality[type] = {
+	            index: quality,
+	            data: data
+	        };
 	    };
 	
-	    this.calculateNodeStatistics = function (node) {
-	        var statistics = {
-	            files: 0,
-	            coverage: {
-	                files: {
-	                    count: 0,
-	                    covered: 0
-	                },
-	                lines: {
-	                    count: 0,
-	                    covered: 0
-	                }
-	            }
-	        };
+	    this.aggregateQualityInformation = function (node) {
+	        node = node || sourceTree;
 	
-	        if (node.type === "file") {
-	            statistics.files = 1;
-	            statistics.coverage.files.count = 1;
-	            statistics.coverage.files.covered = node.coverage.covered >= node.coverage.count ? 1 : 0;
-	            statistics.coverage.lines = node.coverage;
-	            return statistics;
+	        if (node.type === 'file') {
+	            node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.quality, 'index'), function (a, b) {
+	                return a + b;
+	            }) / _underscore2["default"].toArray(node.quality).length;
+	
+	            return node;
 	        }
 	
 	        for (var child in node.children) {
-	            var childStatistics = this.calculateNodeStatistics(node.children[child]);
-	
-	            statistics.files += childStatistics.files;
-	            statistics.coverage.files.count += childStatistics.coverage.files.count;
-	            statistics.coverage.files.covered += childStatistics.coverage.files.covered;
-	            statistics.coverage.lines.count += childStatistics.coverage.lines.count;
-	            statistics.coverage.lines.covered += childStatistics.coverage.lines.covered;
+	            this.aggregateQualityInformation(node.children[child]);
 	        }
 	
-	        return statistics;
+	        node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.children, 'qualityIndex'), function (a, b) {
+	            return a + b;
+	        }) / _underscore2["default"].toArray(node.children).length;
 	    };
 	
 	    this.setBaseDir = function (newBaseDir) {

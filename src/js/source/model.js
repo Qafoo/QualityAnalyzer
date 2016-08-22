@@ -9,6 +9,7 @@ let Tree = function () {
     }
     var baseDir = ''
     var hasFiles = false
+    var reducer = {}
 
     var ensureStartingSlash = function (path) {
         while (path[0] === "/") {
@@ -38,6 +39,8 @@ let Tree = function () {
                     name: component,
                     type: "folder",
                     path: path.join("/"),
+                    quality: {},
+                    qualityIndex: 1,
                     children: {},
                 }
             }
@@ -47,12 +50,8 @@ let Tree = function () {
 
         treeReference.type = "file"
         treeReference.file = file
-        treeReference.lines = []
-        treeReference.coverage = {
-            count: 0,
-            covered: 0,
-        }
-        treeReference.file = file
+        treeReference.quality = {}
+        treeReference.qualityIndex = 1
         hasFiles = true
     }
 
@@ -62,66 +61,45 @@ let Tree = function () {
         }
     }
 
-    this.addCoverage = function (coverage) {
-        var files = []
+    this.addQualityInformation = function (type, file, quality, data, reduceFunction) {
+        reducer[type] = reduceFunction
 
-        _.each(
-            _.pluck(coverage.coverage.project, "package"),
-            function (namespace) {
-                files = files.concat(_.pluck(namespace, "file"))
-            }
-        )
-        files = _.flatten(files, true)
+        var node = this.getSelectedFile(this.getFileName(file).split("/"))
 
-        _.map(files, (function (file) {
-            var node = this.getSelectedFile(this.getFileName(file.$.name).split("/"))
+        if (!node) {
+            return
+        }
 
-            if (!node) {
-                return
-            }
-
-            node.coverage.count = file.metrics[0].$.statements * 1
-            node.coverage.covered = file.metrics[0].$.coveredstatements * 1
-            _.map(file.line, function (line) {
-                node.lines[line.$.num] = (line.$.count > 0)
-            })
-        }).bind(this))
+        node.quality[type] = {
+            index: quality,
+            data: data,
+        }
     }
 
-    this.calculateNodeStatistics = function (node) {
-        var statistics = {
-            files: 0,
-            coverage: {
-                files: {
-                    count: 0,
-                    covered: 0,
-                },
-                lines: {
-                    count: 0,
-                    covered: 0,
-                },
-            },
+    this.aggregateQualityInformation = function (node) {
+        node = node || sourceTree
+
+        if (node.type === 'file') {
+            node.qualityIndex = _.reduce(
+                _.pluck(node.quality, 'index'),
+                function (a, b) {
+                    return a + b
+                }
+            ) / _.toArray(node.quality).length
+
+            return node
         }
 
-        if (node.type === "file") {
-            statistics.files = 1
-            statistics.coverage.files.count = 1
-            statistics.coverage.files.covered = (node.coverage.covered >= node.coverage.count ? 1 : 0)
-            statistics.coverage.lines = node.coverage
-            return statistics
+        for (let child in node.children) {
+            this.aggregateQualityInformation(node.children[child])
         }
 
-        for (var child in node.children) {
-            var childStatistics = this.calculateNodeStatistics(node.children[child])
-
-            statistics.files += childStatistics.files
-            statistics.coverage.files.count += childStatistics.coverage.files.count
-            statistics.coverage.files.covered += childStatistics.coverage.files.covered
-            statistics.coverage.lines.count += childStatistics.coverage.lines.count
-            statistics.coverage.lines.covered += childStatistics.coverage.lines.covered
-        }
-
-        return statistics
+        node.qualityIndex = _.reduce(
+            _.pluck(node.children, 'qualityIndex'),
+            function (a, b) {
+                return a + b
+            }
+        ) / _.toArray(node.children).length
     }
 
     this.setBaseDir = function (newBaseDir) {
