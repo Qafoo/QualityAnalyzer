@@ -49558,9 +49558,9 @@
 	                            var lines = file.metrics[0].$.loc;
 	
 	                            this.sourceTree.addQualityInformation('size', fileName,
-	                            // Everything >= 1100 lines yields 0 qulity, everything
-	                            // <= 100 lines is 100% quality
-	                            1000 / (1000 - Math.min(Math.max(lines - 100, 0), 1000)), { lines: lines });
+	                            // Everything >= 1100 lines yields 0 quality,
+	                            // everything <= 100 lines is 100% quality
+	                            1000 / (1000 - Math.min(Math.max(lines - 100, 0), 1000)), { lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods });
 	                        }
 	
 	                        if ('line' in file) {
@@ -49568,7 +49568,7 @@
 	                                return line.$.count > 0;
 	                            })).length;
 	
-	                            this.sourceTree.addQualityInformation('coverage', fileName, coveredLines / file.line.length, { lines: file.line.length, covered: coveredLines });
+	                            this.sourceTree.addQualityInformation('coverage', fileName, coveredLines / file.line.length, { lines: 1 * file.line.length, covered: 1 * coveredLines });
 	                        }
 	                    }).bind(_this));
 	                })();
@@ -49580,8 +49580,7 @@
 	                }) / _underscore2["default"].toArray(this.props.data.analyzers.git.all).length;
 	
 	                for (var fileName in this.props.data.analyzers.git.all) {
-	                    console.log(fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: this.props.data.analyzers.git.all[fileName], average: averageCommits });
-	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: this.props.data.analyzers.git.all[fileName], average: averageCommits });
+	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1 });
 	                }
 	            }
 	
@@ -50174,11 +50173,13 @@
 	        name: "/",
 	        path: "/",
 	        type: "folder",
+	        quality: {},
+	        qualityIndex: 1,
 	        children: {}
 	    };
 	    var baseDir = '';
 	    var hasFiles = false;
-	    var reducer = {};
+	    var qualityFields = {};
 	
 	    var ensureStartingSlash = function ensureStartingSlash(path) {
 	        while (path[0] === "/") {
@@ -50230,9 +50231,8 @@
 	        }
 	    };
 	
-	    this.addQualityInformation = function (type, file, quality, data, reduceFunction) {
-	        reducer[type] = reduceFunction;
-	
+	    this.addQualityInformation = function (type, file, quality, data) {
+	        qualityFields[type] = true;
 	        var node = this.getSelectedFile(this.getFileName(file).split("/"));
 	
 	        if (!node) {
@@ -50248,6 +50248,7 @@
 	    this.aggregateQualityInformation = function (node) {
 	        node = node || sourceTree;
 	
+	        // @TODO: Only use selected quality reports
 	        if (node.type === 'file') {
 	            node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.quality, 'index'), function (a, b) {
 	                return a + b;
@@ -50263,6 +50264,22 @@
 	        node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.children, 'qualityIndex'), function (a, b) {
 	            return a + b;
 	        }) / _underscore2["default"].toArray(node.children).length;
+	
+	        for (var type in qualityFields) {
+	            node.quality[type] = {
+	                data: _underscore2["default"].reduce(_underscore2["default"].pluck(_underscore2["default"].pluck(_underscore2["default"].pluck(node.children, 'quality'), type), 'data'), function (a, b) {
+	                    for (var field in b) {
+	                        if (field in a) {
+	                            a[field] += b[field];
+	                        } else {
+	                            a[field] = b[field];
+	                        }
+	                    }
+	
+	                    return a;
+	                }, {})
+	            };
+	        }
 	    };
 	
 	    this.setBaseDir = function (newBaseDir) {

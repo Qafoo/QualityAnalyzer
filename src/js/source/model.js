@@ -5,11 +5,13 @@ let Tree = function () {
         name: "/",
         path: "/",
         type: "folder",
+        quality: {},
+        qualityIndex: 1,
         children: {},
     }
     var baseDir = ''
     var hasFiles = false
-    var reducer = {}
+    var qualityFields = {}
 
     var ensureStartingSlash = function (path) {
         while (path[0] === "/") {
@@ -61,9 +63,8 @@ let Tree = function () {
         }
     }
 
-    this.addQualityInformation = function (type, file, quality, data, reduceFunction) {
-        reducer[type] = reduceFunction
-
+    this.addQualityInformation = function (type, file, quality, data) {
+        qualityFields[type] = true
         var node = this.getSelectedFile(this.getFileName(file).split("/"))
 
         if (!node) {
@@ -102,7 +103,25 @@ let Tree = function () {
             }
         ) / _.toArray(node.children).length
 
-        // @TODO: Reduce data fields
+        for (let type in qualityFields) {
+            node.quality[type] = {
+                data: _.reduce(
+                    _.pluck(_.pluck(_.pluck(node.children, 'quality'), type), 'data'),
+                    function (a, b) {
+                        for (let field in b) {
+                            if (field in a) {
+                                a[field] += b[field]
+                            } else {
+                                a[field] = b[field]
+                            }
+                        }
+
+                        return a
+                    },
+                    {}
+                )
+            }
+        }
     }
 
     this.setBaseDir = function (newBaseDir) {

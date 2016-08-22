@@ -59,10 +59,10 @@ let Source = React.createClass({
                         this.sourceTree.addQualityInformation(
                             'size',
                             fileName,
-                            // Everything >= 1100 lines yields 0 qulity, everything
-                            // <= 100 lines is 100% quality
+                            // Everything >= 1100 lines yields 0 quality,
+                            // everything <= 100 lines is 100% quality
                             1000 / (1000 - Math.min(Math.max(lines - 100, 0), 1000)),
-                            {lines: lines}
+                            {lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods}
                         )
                     }
 
@@ -75,7 +75,7 @@ let Source = React.createClass({
                             'coverage',
                             fileName,
                             coveredLines / file.line.length,
-                            {lines: file.line.length, covered: coveredLines}
+                            {lines: 1 * file.line.length, covered: 1 * coveredLines}
                         )
                     }
                 }).bind(this))
@@ -90,16 +90,11 @@ let Source = React.createClass({
                 ) / _.toArray(this.props.data.analyzers.git.all).length
 
                 for (let fileName in this.props.data.analyzers.git.all) {
-                    console.log(
-                        fileName,
-                        Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)),
-                        {commits: this.props.data.analyzers.git.all[fileName], average: averageCommits}
-                    )
                     this.sourceTree.addQualityInformation(
                         'commits',
                         fileName,
                         Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)),
-                        {commits: this.props.data.analyzers.git.all[fileName], average: averageCommits}
+                        {commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1}
                     )
                 }
             }
