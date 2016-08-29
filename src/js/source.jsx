@@ -61,7 +61,7 @@ let Source = React.createClass({
                             fileName,
                             // Everything >= 1100 lines yields 0 quality,
                             // everything <= 100 lines is 100% quality
-                            1000 / (1000 - Math.min(Math.max(lines - 100, 0), 1000)),
+                            (1000 - Math.min(Math.max(lines - 100, 0), 1000)) / 1000,
                             {lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods}
                         )
                     }
@@ -100,8 +100,6 @@ let Source = React.createClass({
             }
 
             this.sourceTree.aggregateQualityInformation()
-
-            console.log(this.sourceTree.getTree())
 
             this.setState({ loaded: true })
         }).bind(this))
