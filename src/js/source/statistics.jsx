@@ -13,7 +13,7 @@ let Statistics = React.createClass({
     render: function () {
         return (<div className="row">
             <div className="col-sm-6 col-xs-12">
-                <h3>Worst Files</h3>
+                <h4>Worst Files</h4>
                 <ul className="list-unstyled">
                     {_.map(this.props.node.worst, function (item) {
                         return (<li key={item.node.path}>

@@ -59716,7 +59716,7 @@
 	                "div",
 	                { className: "col-sm-6 col-xs-12" },
 	                _react2["default"].createElement(
-	                    "h3",
+	                    "h4",
 	                    null,
 	                    "Worst Files"
 	                ),
