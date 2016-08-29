@@ -2,7 +2,7 @@ import React from "react"
 import jQuery from "jquery"
 
 import SourceCode from "./code.jsx"
-import Coverage from "./coverage.jsx"
+import Statisitcs from "./statistics.jsx"
 
 let SourceView = React.createClass({
     propTypes: {
@@ -40,7 +40,7 @@ let SourceView = React.createClass({
             <h3>{node.path}</h3>
             {file ?
                 <SourceCode code={node.file.asText()} coverage={node.lines} start={start} end={end} /> :
-                <Coverage node={node} />
+                <Statisitcs node={node} />
             }
         </div>)
     },

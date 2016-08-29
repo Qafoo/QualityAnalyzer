@@ -3,6 +3,7 @@ import { Link } from "react-router"
 
 import _ from "underscore"
 
+import Icon from "./icon.jsx"
 import File from "./file.jsx"
 
 let SourceFolder = React.createClass({
@@ -32,7 +33,7 @@ let SourceFolder = React.createClass({
 
         return (<li className={nodeSelected ? "selected" : ""}>
             <a onClick={this.unfold}>
-                <span className={icon} ></span>
+                <Icon quality={folder.qualityIndex} icon={icon} /> 
             </a>&nbsp;
             <Link to={{ pathname: "/source", query: { file: folder.path } }}>
                 <span className="name">{this.props.folder.name}</span>
