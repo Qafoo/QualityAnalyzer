@@ -8,6 +8,7 @@ let Tree = function () {
         quality: {},
         qualityIndex: 1,
         children: {},
+        worst: [],
     }
     var baseDir = ''
     var hasFiles = false
@@ -44,6 +45,7 @@ let Tree = function () {
                     quality: {},
                     qualityIndex: 1,
                     children: {},
+                    worst: [],
                 }
             }
 
@@ -53,6 +55,7 @@ let Tree = function () {
         treeReference.type = "file"
         treeReference.file = file
         treeReference.quality = {}
+        treeReference.worst = []
         treeReference.qualityIndex = 1
         hasFiles = true
     }
@@ -88,6 +91,10 @@ let Tree = function () {
                     return a + b
                 }
             ) / _.toArray(node.quality).length
+            node.worst = [{
+                index: node.qualityIndex,
+                node: node,
+            }]
 
             return node
         }
@@ -102,6 +109,8 @@ let Tree = function () {
                 return a + b
             }
         ) / _.toArray(node.children).length
+
+        node.worst = _.sortBy(_.flatten(_.pluck(node.children, 'worst'), true), 'index').slice(0, 5)
 
         for (let type in qualityFields) {
             node.quality[type] = {
