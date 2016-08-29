@@ -49761,7 +49761,7 @@
 	    },
 	
 	    render: function render() {
-	        var color = _d32["default"].scale.linear().domain([0, .7, 1]).range(["#308336", "#A6883D", "#A6403D"]);
+	        var color = _d32["default"].scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
 	
 	        return _react2["default"].createElement("span", { className: this.props.icon, style: { color: color(this.props.quality) } });
 	    }
@@ -59451,10 +59451,10 @@
 	            ),
 	            _react2["default"].createElement(
 	                "h3",
-	                null,
+	                { className: "text-muted" },
 	                node.path
 	            ),
-	            file ? _react2["default"].createElement(_codeJsx2["default"], { code: node.file.asText(), coverage: node.lines, start: start, end: end }) : _react2["default"].createElement(_statisticsJsx2["default"], { node: node })
+	            file ? _react2["default"].createElement(_codeJsx2["default"], { code: node.file.asText(), coverage: node.lines, quality: node.quality, start: start, end: end }) : _react2["default"].createElement(_statisticsJsx2["default"], { node: node })
 	        );
 	    }
 	});
@@ -59491,6 +59491,7 @@
 	
 	    propTypes: {
 	        code: _react2["default"].PropTypes.string,
+	        quality: _react2["default"].PropTypes.object,
 	        coverage: _react2["default"].PropTypes.array,
 	        start: _react2["default"].PropTypes.number,
 	        end: _react2["default"].PropTypes.number
@@ -59533,22 +59534,78 @@
 	        var coverage = this.props.coverage || [];
 	        var start = this.props.start || 0;
 	        var end = this.props.end || 0;
+	        var color = d3.scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
 	
 	        return _react2["default"].createElement(
-	            "ol",
-	            { className: "code" },
-	            _underscore2["default"].map(lines, function (line, number) {
-	                var lineNumber = number + 1;
-	                var coverageClass = "";
+	            "div",
+	            null,
+	            _react2["default"].createElement(
+	                "table",
+	                { className: "table table-bordered" },
+	                _react2["default"].createElement(
+	                    "tbody",
+	                    null,
+	                    _react2["default"].createElement(
+	                        "tr",
+	                        null,
+	                        _underscore2["default"].map(this.props.quality, (function (data, key) {
+	                            return _react2["default"].createElement(
+	                                "td",
+	                                { key: key, className: "text-center", style: { width: 100 / _underscore2["default"].toArray(this.props.quality).length + "%" } },
+	                                _react2["default"].createElement(
+	                                    "big",
+	                                    { style: { color: color(data.index) } },
+	                                    data.index.toFixed(2)
+	                                ),
+	                                _react2["default"].createElement("br", null),
+	                                (function () {
+	                                    switch (key) {
+	                                        case 'size':
+	                                            return _react2["default"].createElement(
+	                                                "small",
+	                                                null,
+	                                                data.data.lines,
+	                                                " lines of code"
+	                                            );
+	                                        case 'coverage':
+	                                            return _react2["default"].createElement(
+	                                                "small",
+	                                                null,
+	                                                data.data.covered,
+	                                                " of ",
+	                                                data.data.lines,
+	                                                " lines covered"
+	                                            );
+	                                        case 'commits':
+	                                            return _react2["default"].createElement(
+	                                                "small",
+	                                                null,
+	                                                data.data.commits,
+	                                                " commits"
+	                                            );
+	                                    }
+	                                })()
+	                            );
+	                        }).bind(this))
+	                    )
+	                )
+	            ),
+	            _react2["default"].createElement(
+	                "ol",
+	                { className: "code" },
+	                _underscore2["default"].map(lines, function (line, number) {
+	                    var lineNumber = number + 1;
+	                    var coverageClass = "";
 	
-	                if (coverage[lineNumber] !== undefined) {
-	                    coverageClass = coverage[lineNumber] ? "covered" : "uncovered";
-	                }
+	                    if (coverage[lineNumber] !== undefined) {
+	                        coverageClass = coverage[lineNumber] ? "covered" : "uncovered";
+	                    }
 	
-	                return _react2["default"].createElement("li", { key: number, id: "l" + lineNumber,
-	                    className: (lineNumber >= start && lineNumber <= end ? "highlight " : "") + coverageClass,
-	                    dangerouslySetInnerHTML: { __html: line } });
-	            })
+	                    return _react2["default"].createElement("li", { key: number, id: "l" + lineNumber,
+	                        className: (lineNumber >= start && lineNumber <= end ? "highlight " : "") + coverageClass,
+	                        dangerouslySetInnerHTML: { __html: line } });
+	                })
+	            )
 	        );
 	    }
 	});

@@ -19,7 +19,7 @@ let SourceIcon = React.createClass({
     render: function () {
         let color = d3.scale.linear()
             .domain([0, .7, 1])
-            .range(["#308336", "#A6883D", "#A6403D"])
+            .range(["#A6403D", "#A6883D", "#308336"])
 
         return (<span className={this.props.icon} style={{ color: color(this.props.quality) }}></span>)
     },

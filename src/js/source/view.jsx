@@ -37,9 +37,9 @@ let SourceView = React.createClass({
 
         return (<div>
             <h2>{node.name}</h2>
-            <h3>{node.path}</h3>
+            <h3 className="text-muted">{node.path}</h3>
             {file ?
-                <SourceCode code={node.file.asText()} coverage={node.lines} start={start} end={end} /> :
+                <SourceCode code={node.file.asText()} coverage={node.lines} quality={node.quality} start={start} end={end} /> :
                 <Statisitcs node={node} />
             }
         </div>)
