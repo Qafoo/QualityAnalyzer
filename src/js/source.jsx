@@ -17,6 +17,11 @@ let Source = React.createClass({
     getInitialState: function () {
         return {
             loaded: false,
+            active: {
+                size: true,
+                commits: true,
+                coverage: true,
+            }
         }
     },
 
@@ -106,11 +111,32 @@ let Source = React.createClass({
                 }
             }
 
-            this.sourceTree.aggregateQualityInformation()
+            this.sourceTree.aggregateQualityInformation(null, this.getActiveFields(this.state.active))
 
             this.setState({ loaded: true })
         }).bind(this))
     },
+
+    getActiveFields: function (active) {
+        let fields = []
+        for (let field in active) {
+            if (active[field]) {
+                fields.push(field)
+            }
+        }
+
+        return fields
+    },
+    
+
+    changeActiveQualityIndex: function (field) {
+        let active = this.state.active
+        active[field] = !active[field]
+        this.sourceTree.aggregateQualityInformation(null, this.getActiveFields(active))
+
+        this.setState({ active: active })
+    },
+    
 
     sourceTree: new Tree(),
 
@@ -118,14 +144,32 @@ let Source = React.createClass({
         var file = this.sourceTree.getFileName(this.props.query.file || "/")
         var selected = file.split("/")
         var current = this.sourceTree.getSelectedFile(selected)
+        var tree = this.sourceTree.getTree()
 
         selected.unshift("/")
         return (<div className="row">
             <div className="col-md-4">
                 {!this.state.loaded ? (<h2>Loading source…</h2>) :
                 <ul className="source-tree">
-                    <Folder folder={this.sourceTree.getTree()} selected={selected} />
+                    <Folder folder={tree} selected={selected} />
                 </ul>}
+                <form>
+                    <div className="checkbox">
+                        <label>
+                            <input checked={this.state.active.size} onChange={(function() { this.changeActiveQualityIndex('size') }).bind(this)} type="checkbox" /> Size
+                        </label>
+                    </div>
+                    <div className="checkbox">
+                        <label>
+                            <input checked={this.state.active.coverage} onChange={(function() { this.changeActiveQualityIndex('coverage') }).bind(this)} type="checkbox" /> Code Coverage
+                        </label>
+                    </div>
+                    <div className="checkbox">
+                        <label>
+                            <input checked={this.state.active.commits} onChange={(function() { this.changeActiveQualityIndex('commits') }).bind(this)} type="checkbox" /> GIT Commits
+                        </label>
+                    </div>
+                </form> 
             </div>
             <div className="col-md-8">
                 {current ?

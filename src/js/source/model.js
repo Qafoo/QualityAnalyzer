@@ -80,13 +80,13 @@ let Tree = function () {
         }
     }
 
-    this.aggregateQualityInformation = function (node) {
+    this.aggregateQualityInformation = function (node, active) {
         node = node || sourceTree
+        console.log(active)
 
-        // @TODO: Only use selected quality reports
         if (node.type === 'file') {
             node.qualityIndex = _.reduce(
-                _.pluck(node.quality, 'index'),
+                _.pluck(_.pick(node.quality, active), 'index'),
                 function (a, b) {
                     return a + b
                 }
@@ -100,7 +100,7 @@ let Tree = function () {
         }
 
         for (let child in node.children) {
-            this.aggregateQualityInformation(node.children[child])
+            this.aggregateQualityInformation(node.children[child], active)
         }
 
         node.qualityIndex = _.reduce(

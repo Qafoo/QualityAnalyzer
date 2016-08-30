@@ -49518,7 +49518,12 @@
 	
 	    getInitialState: function getInitialState() {
 	        return {
-	            loaded: false
+	            loaded: false,
+	            active: {
+	                size: true,
+	                commits: true,
+	                coverage: true
+	            }
 	        };
 	    },
 	
@@ -49595,10 +49600,29 @@
 	                }
 	            }
 	
-	            this.sourceTree.aggregateQualityInformation();
+	            this.sourceTree.aggregateQualityInformation(null, this.getActiveFields(this.state.active));
 	
 	            this.setState({ loaded: true });
 	        }).bind(this));
+	    },
+	
+	    getActiveFields: function getActiveFields(active) {
+	        var fields = [];
+	        for (var field in active) {
+	            if (active[field]) {
+	                fields.push(field);
+	            }
+	        }
+	
+	        return fields;
+	    },
+	
+	    changeActiveQualityIndex: function changeActiveQualityIndex(field) {
+	        var active = this.state.active;
+	        active[field] = !active[field];
+	        this.sourceTree.aggregateQualityInformation(null, this.getActiveFields(active));
+	
+	        this.setState({ active: active });
 	    },
 	
 	    sourceTree: new _sourceModelJs2["default"](),
@@ -49607,6 +49631,7 @@
 	        var file = this.sourceTree.getFileName(this.props.query.file || "/");
 	        var selected = file.split("/");
 	        var current = this.sourceTree.getSelectedFile(selected);
+	        var tree = this.sourceTree.getTree();
 	
 	        selected.unshift("/");
 	        return _react2["default"].createElement(
@@ -49622,7 +49647,47 @@
 	                ) : _react2["default"].createElement(
 	                    "ul",
 	                    { className: "source-tree" },
-	                    _react2["default"].createElement(_sourceFolderJsx2["default"], { folder: this.sourceTree.getTree(), selected: selected })
+	                    _react2["default"].createElement(_sourceFolderJsx2["default"], { folder: tree, selected: selected })
+	                ),
+	                _react2["default"].createElement(
+	                    "form",
+	                    null,
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "checkbox" },
+	                        _react2["default"].createElement(
+	                            "label",
+	                            null,
+	                            _react2["default"].createElement("input", { checked: this.state.active.size, onChange: (function () {
+	                                    this.changeActiveQualityIndex('size');
+	                                }).bind(this), type: "checkbox" }),
+	                            " Size"
+	                        )
+	                    ),
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "checkbox" },
+	                        _react2["default"].createElement(
+	                            "label",
+	                            null,
+	                            _react2["default"].createElement("input", { checked: this.state.active.coverage, onChange: (function () {
+	                                    this.changeActiveQualityIndex('coverage');
+	                                }).bind(this), type: "checkbox" }),
+	                            " Code Coverage"
+	                        )
+	                    ),
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "checkbox" },
+	                        _react2["default"].createElement(
+	                            "label",
+	                            null,
+	                            _react2["default"].createElement("input", { checked: this.state.active.commits, onChange: (function () {
+	                                    this.changeActiveQualityIndex('commits');
+	                                }).bind(this), type: "checkbox" }),
+	                            " GIT Commits"
+	                        )
+	                    )
 	                )
 	            ),
 	            _react2["default"].createElement(
@@ -60087,12 +60152,12 @@
 	        };
 	    };
 	
-	    this.aggregateQualityInformation = function (node) {
+	    this.aggregateQualityInformation = function (node, active) {
 	        node = node || sourceTree;
+	        console.log(active);
 	
-	        // @TODO: Only use selected quality reports
 	        if (node.type === 'file') {
-	            node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.quality, 'index'), function (a, b) {
+	            node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(_underscore2["default"].pick(node.quality, active), 'index'), function (a, b) {
 	                return a + b;
 	            }) / _underscore2["default"].toArray(node.quality).length;
 	            node.worst = [{
@@ -60104,7 +60169,7 @@
 	        }
 	
 	        for (var child in node.children) {
-	            this.aggregateQualityInformation(node.children[child]);
+	            this.aggregateQualityInformation(node.children[child], active);
 	        }
 	
 	        node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(node.children, 'qualityIndex'), function (a, b) {
