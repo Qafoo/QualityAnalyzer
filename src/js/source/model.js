@@ -82,19 +82,22 @@ let Tree = function () {
 
     this.aggregateQualityInformation = function (node, active) {
         node = node || sourceTree
-        console.log(active)
 
         if (node.type === 'file') {
-            node.qualityIndex = _.reduce(
-                _.pluck(_.pick(node.quality, active), 'index'),
-                function (a, b) {
-                    return a + b
-                }
-            ) / _.toArray(node.quality).length
-            node.worst = [{
-                index: node.qualityIndex,
-                node: node,
-            }]
+            if (!active.length) {
+                node.qualityIndex = 1
+            } else {
+                node.qualityIndex = _.reduce(
+                    _.pluck(_.pick(node.quality, active), 'index'),
+                    function (a, b) {
+                        return a + b
+                    }
+                ) / active.length
+                node.worst = [{
+                    index: node.qualityIndex,
+                    node: node,
+                }]
+            }
 
             return node
         }

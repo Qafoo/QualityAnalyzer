@@ -48,7 +48,7 @@ let SourceCode = React.createClass({
 
     render: function () {
         var lines = this.addMarkup(this.props.code)
-        var coverage = this.props.quality.coverage.data.lines || []
+        var coverage = 'coverage' in this.props.quality ? this.props.quality.coverage.data.lines : []
         var start = this.props.start || 0
         var end = this.props.end || 0
         let color = d3.scale.linear()

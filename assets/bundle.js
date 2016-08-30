@@ -49520,9 +49520,9 @@
 	        return {
 	            loaded: false,
 	            active: {
-	                size: true,
-	                commits: true,
-	                coverage: true
+	                size: false,
+	                commits: false,
+	                coverage: false
 	            }
 	        };
 	    },
@@ -49596,7 +49596,7 @@
 	                }) / _underscore2["default"].toArray(this.props.data.analyzers.git.all).length;
 	
 	                for (var fileName in this.props.data.analyzers.git.all) {
-	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)), { commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1 });
+	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 2)), { commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1 });
 	                }
 	            }
 	
@@ -49650,9 +49650,14 @@
 	                    _react2["default"].createElement(_sourceFolderJsx2["default"], { folder: tree, selected: selected })
 	                ),
 	                _react2["default"].createElement(
+	                    "h4",
+	                    null,
+	                    "Quality Indicators"
+	                ),
+	                _react2["default"].createElement(
 	                    "form",
 	                    null,
-	                    _react2["default"].createElement(
+	                    'size' in tree.quality ? _react2["default"].createElement(
 	                        "div",
 	                        { className: "checkbox" },
 	                        _react2["default"].createElement(
@@ -49663,8 +49668,8 @@
 	                                }).bind(this), type: "checkbox" }),
 	                            " Size"
 	                        )
-	                    ),
-	                    _react2["default"].createElement(
+	                    ) : null,
+	                    'coverage' in tree.quality ? _react2["default"].createElement(
 	                        "div",
 	                        { className: "checkbox" },
 	                        _react2["default"].createElement(
@@ -49675,8 +49680,8 @@
 	                                }).bind(this), type: "checkbox" }),
 	                            " Code Coverage"
 	                        )
-	                    ),
-	                    _react2["default"].createElement(
+	                    ) : null,
+	                    'commits' in tree.quality ? _react2["default"].createElement(
 	                        "div",
 	                        { className: "checkbox" },
 	                        _react2["default"].createElement(
@@ -49687,7 +49692,7 @@
 	                                }).bind(this), type: "checkbox" }),
 	                            " GIT Commits"
 	                        )
-	                    )
+	                    ) : null
 	                )
 	            ),
 	            _react2["default"].createElement(
@@ -59607,7 +59612,7 @@
 	
 	    render: function render() {
 	        var lines = this.addMarkup(this.props.code);
-	        var coverage = this.props.quality.coverage.data.lines || [];
+	        var coverage = 'coverage' in this.props.quality ? this.props.quality.coverage.data.lines : [];
 	        var start = this.props.start || 0;
 	        var end = this.props.end || 0;
 	        var color = d3.scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
@@ -60154,16 +60159,19 @@
 	
 	    this.aggregateQualityInformation = function (node, active) {
 	        node = node || sourceTree;
-	        console.log(active);
 	
 	        if (node.type === 'file') {
-	            node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(_underscore2["default"].pick(node.quality, active), 'index'), function (a, b) {
-	                return a + b;
-	            }) / _underscore2["default"].toArray(node.quality).length;
-	            node.worst = [{
-	                index: node.qualityIndex,
-	                node: node
-	            }];
+	            if (!active.length) {
+	                node.qualityIndex = 1;
+	            } else {
+	                node.qualityIndex = _underscore2["default"].reduce(_underscore2["default"].pluck(_underscore2["default"].pick(node.quality, active), 'index'), function (a, b) {
+	                    return a + b;
+	                }) / active.length;
+	                node.worst = [{
+	                    index: node.qualityIndex,
+	                    node: node
+	                }];
+	            }
 	
 	            return node;
 	        }

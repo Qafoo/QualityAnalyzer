@@ -18,9 +18,9 @@ let Source = React.createClass({
         return {
             loaded: false,
             active: {
-                size: true,
-                commits: true,
-                coverage: true,
+                size: false,
+                commits: false,
+                coverage: false,
             }
         }
     },
@@ -105,7 +105,7 @@ let Source = React.createClass({
                     this.sourceTree.addQualityInformation(
                         'commits',
                         fileName,
-                        Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 5)),
+                        Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 2)),
                         {commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1}
                     )
                 }
@@ -153,22 +153,26 @@ let Source = React.createClass({
                 <ul className="source-tree">
                     <Folder folder={tree} selected={selected} />
                 </ul>}
+                <h4>Quality Indicators</h4>
                 <form>
+                {'size' in tree.quality ?
                     <div className="checkbox">
                         <label>
                             <input checked={this.state.active.size} onChange={(function() { this.changeActiveQualityIndex('size') }).bind(this)} type="checkbox" /> Size
                         </label>
-                    </div>
+                    </div> : null}
+                {'coverage' in tree.quality ?
                     <div className="checkbox">
                         <label>
                             <input checked={this.state.active.coverage} onChange={(function() { this.changeActiveQualityIndex('coverage') }).bind(this)} type="checkbox" /> Code Coverage
                         </label>
-                    </div>
+                    </div> : null}
+                {'commits' in tree.quality ?
                     <div className="checkbox">
                         <label>
                             <input checked={this.state.active.commits} onChange={(function() { this.changeActiveQualityIndex('commits') }).bind(this)} type="checkbox" /> GIT Commits
                         </label>
-                    </div>
+                    </div> : null}
                 </form> 
             </div>
             <div className="col-md-8">
