@@ -66,16 +66,23 @@ let Source = React.createClass({
                         )
                     }
 
-                    if ('line' in file) {
-                        let coveredLines = _.filter(_.map(file.line, function (line) {
-                            return (line.$.count > 0)
-                        })).length
+                    if (file.metrics[0].$.elements === '0') {
+                        this.sourceTree.addQualityInformation('coverage', fileName, 1, {count: 0, covered: 0, lines: {} })
+                    } else if ('line' in file) {
+                        let lines = {}
+                        _.map(file.line, function (line) {
+                            lines[line.$.num] = (line.$.count > 0)
+                        })
                         
                         this.sourceTree.addQualityInformation(
                             'coverage',
                             fileName,
-                            coveredLines / file.line.length,
-                            {lines: 1 * file.line.length, covered: 1 * coveredLines}
+                            _.toArray(_.filter(lines)).length / _.toArray(lines).length,
+                            {
+                                count: _.toArray(lines).length,
+                                covered: _.toArray(_.filter(lines)).length,
+                                lines: lines,
+                            }
                         )
                     }
                 }).bind(this))

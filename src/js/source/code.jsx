@@ -48,7 +48,7 @@ let SourceCode = React.createClass({
 
     render: function () {
         var lines = this.addMarkup(this.props.code)
-        var coverage = this.props.coverage || []
+        var coverage = this.props.quality.coverage.data.lines || []
         var start = this.props.start || 0
         var end = this.props.end || 0
         let color = d3.scale.linear()
@@ -65,7 +65,7 @@ let SourceCode = React.createClass({
                             {(() => {
                                 switch (key) {
                                     case 'size': return <small>{data.data.lines} lines of code</small>
-                                    case 'coverage': return <small>{data.data.covered} of {data.data.lines} lines covered</small>
+                                    case 'coverage': return <small>{data.data.covered} of {data.data.count} lines covered</small>
                                     case 'commits': return <small>{data.data.commits} commits</small>
                                 }
                             })()}

@@ -40,10 +40,10 @@ let Statistics = React.createClass({
                     <h4>Lines Covered</h4>
                     <PieChart
                         id="chart-loc"
-                        title={(this.props.node.quality.coverage.data.covered / this.props.node.quality.coverage.data.lines * 100).toFixed(2) + "%"}
+                        title={(this.props.node.quality.coverage.data.covered / this.props.node.quality.coverage.data.count * 100).toFixed(2) + "%"}
                         classes={["uncovered", "covered"]}
                         values={[
-                            { label: "uncovered", value: this.props.node.quality.coverage.data.lines - this.props.node.quality.coverage.data.covered },
+                            { label: "uncovered", value: this.props.node.quality.coverage.data.count - this.props.node.quality.coverage.data.covered },
                             { label: "covered", value: this.props.node.quality.coverage.data.covered },
                         ]} />
                 </div> : null}

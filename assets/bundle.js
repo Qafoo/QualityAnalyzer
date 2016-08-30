@@ -49552,6 +49552,8 @@
 	                    files = _underscore2["default"].flatten(files, true);
 	
 	                    _underscore2["default"].map(files, (function (file) {
+	                        var _this2 = this;
+	
 	                        var fileName = file.$.name;
 	
 	                        if ('metrics' in file && 'loc' in file.metrics[0].$) {
@@ -49563,12 +49565,21 @@
 	                            (1000 - Math.min(Math.max(lines - 100, 0), 1000)) / 1000, { lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods });
 	                        }
 	
-	                        if ('line' in file) {
-	                            var coveredLines = _underscore2["default"].filter(_underscore2["default"].map(file.line, function (line) {
-	                                return line.$.count > 0;
-	                            })).length;
+	                        if (file.metrics[0].$.elements === '0') {
+	                            this.sourceTree.addQualityInformation('coverage', fileName, 1, { count: 0, covered: 0, lines: {} });
+	                        } else if ('line' in file) {
+	                            (function () {
+	                                var lines = {};
+	                                _underscore2["default"].map(file.line, function (line) {
+	                                    lines[line.$.num] = line.$.count > 0;
+	                                });
 	
-	                            this.sourceTree.addQualityInformation('coverage', fileName, coveredLines / file.line.length, { lines: 1 * file.line.length, covered: 1 * coveredLines });
+	                                _this2.sourceTree.addQualityInformation('coverage', fileName, _underscore2["default"].toArray(_underscore2["default"].filter(lines)).length / _underscore2["default"].toArray(lines).length, {
+	                                    count: _underscore2["default"].toArray(lines).length,
+	                                    covered: _underscore2["default"].toArray(_underscore2["default"].filter(lines)).length,
+	                                    lines: lines
+	                                });
+	                            })();
 	                        }
 	                    }).bind(_this));
 	                })();
@@ -59454,7 +59465,7 @@
 	                { className: "text-muted" },
 	                node.path
 	            ),
-	            file ? _react2["default"].createElement(_codeJsx2["default"], { code: node.file.asText(), coverage: node.lines, quality: node.quality, start: start, end: end }) : _react2["default"].createElement(_statisticsJsx2["default"], { node: node })
+	            file ? _react2["default"].createElement(_codeJsx2["default"], { code: node.file.asText(), quality: node.quality, start: start, end: end }) : _react2["default"].createElement(_statisticsJsx2["default"], { node: node })
 	        );
 	    }
 	});
@@ -59531,7 +59542,7 @@
 	
 	    render: function render() {
 	        var lines = this.addMarkup(this.props.code);
-	        var coverage = this.props.coverage || [];
+	        var coverage = this.props.quality.coverage.data.lines || [];
 	        var start = this.props.start || 0;
 	        var end = this.props.end || 0;
 	        var color = d3.scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
@@ -59573,7 +59584,7 @@
 	                                                null,
 	                                                data.data.covered,
 	                                                " of ",
-	                                                data.data.lines,
+	                                                data.data.count,
 	                                                " lines covered"
 	                                            );
 	                                        case 'commits':
@@ -59813,9 +59824,9 @@
 	                    ),
 	                    _react2["default"].createElement(_pie_chartJsx2["default"], {
 	                        id: "chart-loc",
-	                        title: (this.props.node.quality.coverage.data.covered / this.props.node.quality.coverage.data.lines * 100).toFixed(2) + "%",
+	                        title: (this.props.node.quality.coverage.data.covered / this.props.node.quality.coverage.data.count * 100).toFixed(2) + "%",
 	                        classes: ["uncovered", "covered"],
-	                        values: [{ label: "uncovered", value: this.props.node.quality.coverage.data.lines - this.props.node.quality.coverage.data.covered }, { label: "covered", value: this.props.node.quality.coverage.data.covered }] })
+	                        values: [{ label: "uncovered", value: this.props.node.quality.coverage.data.count - this.props.node.quality.coverage.data.covered }, { label: "covered", value: this.props.node.quality.coverage.data.covered }] })
 	                ) : null
 	            )
 	        );
