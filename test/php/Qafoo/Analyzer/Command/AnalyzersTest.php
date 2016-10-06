@@ -16,7 +16,7 @@ class AnalyzersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getName()
+    public function getCommandName()
     {
         self::assertEquals(Analyzers::NAME, (new Analyzers([]))->getName());
     }
