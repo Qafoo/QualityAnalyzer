@@ -101,6 +101,21 @@ After the analyzer has finished use ``bin/analyze serve`` or similar means to
 access the ``index.html`` with your browser and enjoy the results
 visualization.
 
+Exclude Analyzers
+-----------------
+
+You might also to avoid some analyzers to be run on your code intentionally, e.g.
+if you don't want your git usage be analysed. For this you may use the
+``--exclude_analyzers`` option::
+
+    bin/analyze \
+        --exclude_analyzers=git,gitDetailed \
+        analyze /path/to/source
+
+To get a list of all available analyzers, run::
+
+    bin/analyze list:analyzers
+
 Customize Tools
 ---------------
 
