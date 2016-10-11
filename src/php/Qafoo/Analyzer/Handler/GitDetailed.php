@@ -52,20 +52,20 @@ class GitDetailed extends Handler
                 $file     = $fileNode->getAttribute('name');
 
                 $classCommits = $this->countGitChangesPerFileRange(
-                   $project,
-                   $file,
-                   $classNode->getAttribute('start'),
-                   $classNode->getAttribute('end')
+                     $project,
+                     $file,
+                     $classNode->getAttribute('start'),
+                     $classNode->getAttribute('end')
                 );
                 $packageCommits += $classCommits;
                 $classNode->setAttribute('commits', $classCommits);
 
                 foreach ($xPath->query('./method', $classNode) as $methodNode) {
                     $methodCommits = $this->countGitChangesPerFileRange(
-                       $project,
-                       $file,
-                       $methodNode->getAttribute('start'),
-                       $methodNode->getAttribute('end')
+                         $project,
+                         $file,
+                         $methodNode->getAttribute('start'),
+                         $methodNode->getAttribute('end')
                     );
                     $methodNode->setAttribute('commits', $methodCommits);
                 }
