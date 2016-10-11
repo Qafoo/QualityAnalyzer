@@ -52,20 +52,20 @@ class GitDetailed extends Handler
                 $file     = $fileNode->getAttribute('name');
 
                 $classCommits = $this->countGitChangesPerFileRange(
-                     $project,
-                     $file,
-                     $classNode->getAttribute('start'),
-                     $classNode->getAttribute('end')
+                    $project,
+                    $file,
+                    $classNode->getAttribute('start'),
+                    $classNode->getAttribute('end')
                 );
                 $packageCommits += $classCommits;
                 $classNode->setAttribute('commits', $classCommits);
 
                 foreach ($xPath->query('./method', $classNode) as $methodNode) {
                     $methodCommits = $this->countGitChangesPerFileRange(
-                         $project,
-                         $file,
-                         $methodNode->getAttribute('start'),
-                         $methodNode->getAttribute('end')
+                        $project,
+                        $file,
+                        $methodNode->getAttribute('start'),
+                        $methodNode->getAttribute('end')
                     );
                     $methodNode->setAttribute('commits', $methodCommits);
                 }
@@ -104,15 +104,15 @@ class GitDetailed extends Handler
         $existingResults = $this->shell->exec('git', $options, [0], $project->baseDir);
 
         return count(
-          array_filter(
-            array_map(
-              'trim',
-              explode(PHP_EOL, $existingResults)
-            ),
-            function ($line) {
-                return (strpos($line, 'qacommit: ') === 0);
-            }
-          )
+            array_filter(
+                array_map(
+                    'trim',
+                    explode(PHP_EOL, $existingResults)
+                ),
+                function ($line) {
+                    return (strpos($line, 'qacommit: ') === 0);
+                }
+            )
         );
     }
 }
