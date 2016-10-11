@@ -9625,24 +9625,29 @@
 	
 	        var data = this.state.data;
 	
+	        var enableChildren = function enableChildren(i) {
+	            for (var j = 0; j < this.navigation[i].children.length; ++j) {
+	                if (!this.navigation[i].children[j].analyzer || data.analyzers[this.navigation[i].children[j].path]) {
+	                    this.navigation[i].children[j].enabled = true;
+	                }
+	            }
+	        };
+	
 	        for (var i = 0; i < this.navigation.length; ++i) {
 	            if (!this.navigation[i].analyzer || data.analyzers[this.navigation[i].path]) {
 	                this.navigation[i].enabled = true;
 	            }
 	
 	            if ('children' in this.navigation[i]) {
-	                for (var j = 0; j < this.navigation[i].children.length; ++j) {
-	                    if (!this.navigation[i].children[j].analyzer || data.analyzers[this.navigation[i].children[j].path]) {
-	                        this.navigation[i].children[j].enabled = true;
-	                    }
-	                }
+	                enableChildren.call(this, i);
 	            }
 	        }
 	
 	        return _react2['default'].createElement(
 	            'div',
 	            { className: 'loaded' },
-	            _react2['default'].createElement(_bootstrapNavigationJsx2['default'], { brand: 'Quality Analyzer', brandLink: '/', items: this.navigation, matched: this.props.routes[1] || null }),
+	            _react2['default'].createElement(_bootstrapNavigationJsx2['default'], { brand: 'Quality Analyzer', brandLink: '/', items: this.navigation,
+	                matched: this.props.routes[1] || null }),
 	            !this.props.children ? '' : _react2['default'].createElement(
 	                'div',
 	                { className: 'container' },
@@ -49818,11 +49823,20 @@
 	                            this.sourceTree.addQualityInformation('size', fileName,
 	                            // Everything >= 1100 lines yields 0 quality,
 	                            // everything <= 100 lines is 100% quality
-	                            (1000 - Math.min(Math.max(lines - 100, 0), 1000)) / 1000, { lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods });
+	                            (1000 - Math.min(Math.max(lines - 100, 0), 1000)) / 1000, {
+	                                lines: 1 * lines,
+	                                files: 1,
+	                                classes: 1 * file.metrics[0].$.classes,
+	                                methods: 1 * file.metrics[0].$.methods
+	                            });
 	                        }
 	
 	                        if (file.metrics[0].$.elements === '0') {
-	                            this.sourceTree.addQualityInformation('coverage', fileName, 1, { count: 0, covered: 0, lines: {} });
+	                            this.sourceTree.addQualityInformation('coverage', fileName, 1, {
+	                                count: 0,
+	                                covered: 0,
+	                                lines: {}
+	                            });
 	                        } else if ('line' in file) {
 	                            (function () {
 	                                var lines = {};
@@ -49847,7 +49861,9 @@
 	                }) / _underscore2["default"].toArray(this.props.data.analyzers.git.all).length;
 	
 	                for (var fileName in this.props.data.analyzers.git.all) {
-	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 2)), { commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1 });
+	                    var fileProps = this.props.data.analyzers.git.all[fileName];
+	                    var number = Math.max(0, fileProps - averageCommits);
+	                    this.sourceTree.addQualityInformation('commits', fileName, Math.max(0, 1 - number / (averageCommits * 2)), { commits: 1 * fileProps, average: 1 * averageCommits, count: 1 });
 	                }
 	            }
 	
@@ -49914,9 +49930,12 @@
 	                        _react2["default"].createElement(
 	                            "label",
 	                            null,
-	                            _react2["default"].createElement("input", { checked: this.state.active.size, onChange: (function () {
+	                            _react2["default"].createElement("input", {
+	                                checked: this.state.active.size,
+	                                onChange: (function () {
 	                                    this.changeActiveQualityIndex('size');
-	                                }).bind(this), type: "checkbox" }),
+	                                }).bind(this),
+	                                type: "checkbox" }),
 	                            " Size"
 	                        )
 	                    ) : null,
@@ -49926,9 +49945,12 @@
 	                        _react2["default"].createElement(
 	                            "label",
 	                            null,
-	                            _react2["default"].createElement("input", { checked: this.state.active.coverage, onChange: (function () {
+	                            _react2["default"].createElement("input", {
+	                                checked: this.state.active.coverage,
+	                                onChange: (function () {
 	                                    this.changeActiveQualityIndex('coverage');
-	                                }).bind(this), type: "checkbox" }),
+	                                }).bind(this),
+	                                type: "checkbox" }),
 	                            " Code Coverage"
 	                        )
 	                    ) : null,
@@ -49938,9 +49960,12 @@
 	                        _react2["default"].createElement(
 	                            "label",
 	                            null,
-	                            _react2["default"].createElement("input", { checked: this.state.active.commits, onChange: (function () {
+	                            _react2["default"].createElement("input", {
+	                                checked: this.state.active.commits,
+	                                onChange: (function () {
 	                                    this.changeActiveQualityIndex('commits');
-	                                }).bind(this), type: "checkbox" }),
+	                                }).bind(this),
+	                                type: "checkbox" }),
 	                            " GIT Commits"
 	                        )
 	                    ) : null
@@ -50075,8 +50100,6 @@
 	
 	var _d32 = _interopRequireDefault(_d3);
 	
-	var _reactRouter = __webpack_require__(173);
-	
 	var SourceIcon = _react2["default"].createClass({
 	    displayName: "SourceIcon",
 	
@@ -50093,7 +50116,7 @@
 	    },
 	
 	    render: function render() {
-	        var color = _d32["default"].scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
+	        var color = _d32["default"].scale.linear().domain([0, 0.7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
 	
 	        return _react2["default"].createElement("span", { className: this.props.icon, style: { color: color(this.props.quality) } });
 	    }
@@ -59810,6 +59833,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _d3 = __webpack_require__(367);
+	
+	var _d32 = _interopRequireDefault(_d3);
+	
 	var _underscore = __webpack_require__(355);
 	
 	var _underscore2 = _interopRequireDefault(_underscore);
@@ -59866,7 +59893,7 @@
 	        var coverage = 'coverage' in this.props.quality ? this.props.quality.coverage.data.lines : [];
 	        var start = this.props.start || 0;
 	        var end = this.props.end || 0;
-	        var color = d3.scale.linear().domain([0, .7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
+	        var color = _d32["default"].scale.linear().domain([0, 0.7, 1]).range(["#A6403D", "#A6883D", "#308336"]);
 	
 	        return _react2["default"].createElement(
 	            "div",
@@ -59883,7 +59910,9 @@
 	                        _underscore2["default"].map(this.props.quality, (function (data, key) {
 	                            return _react2["default"].createElement(
 	                                "td",
-	                                { key: key, className: "text-center", style: { width: 100 / _underscore2["default"].toArray(this.props.quality).length + "%" } },
+	                                { key: key,
+	                                    className: "text-center",
+	                                    style: { width: 100 / _underscore2["default"].toArray(this.props.quality).length + "%" } },
 	                                _react2["default"].createElement(
 	                                    "big",
 	                                    { style: { color: color(data.index) } },
@@ -60041,6 +60070,10 @@
 	    },
 	
 	    render: function render() {
+	        var coverageData = this.props.node.quality.coverage.data;
+	        var percent = (coverageData.covered / coverageData.count * 100).toFixed(2);
+	        var uncovered = coverageData.count - coverageData.covered;
+	        var covered = coverageData.covered;
 	        return _react2["default"].createElement(
 	            "div",
 	            { className: "row" },
@@ -60145,9 +60178,9 @@
 	                    ),
 	                    _react2["default"].createElement(_pie_chartJsx2["default"], {
 	                        id: "chart-loc",
-	                        title: (this.props.node.quality.coverage.data.covered / this.props.node.quality.coverage.data.count * 100).toFixed(2) + "%",
+	                        title: percent + "%",
 	                        classes: ["uncovered", "covered"],
-	                        values: [{ label: "uncovered", value: this.props.node.quality.coverage.data.count - this.props.node.quality.coverage.data.covered }, { label: "covered", value: this.props.node.quality.coverage.data.covered }] })
+	                        values: [{ label: "uncovered", value: uncovered }, { label: "covered", value: covered }] })
 	                ) : null
 	            )
 	        );
@@ -70416,7 +70449,9 @@
 	                    data: _underscore2['default'].map(metrics.slice((page - 1) * perPage, page * perPage), function (value) {
 	                        return [value.file ? _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: { pathname: "/source", query: { file: value.file, start: value.start, end: value.end } } },
+	                            { to: {
+	                                    pathname: "/source",
+	                                    query: { file: value.file, start: value.start, end: value.end } } },
 	                            value.namespace,
 	                            ' ',
 	                            _react2['default'].createElement(
@@ -70452,7 +70487,9 @@
 	                            { className: "previous" + (page <= 1 ? " disabled" : "") },
 	                            _react2['default'].createElement(
 	                                _reactRouter.Link,
-	                                { to: { pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page - 1 } } },
+	                                { to: {
+	                                        pathname: "/pdepend",
+	                                        query: { type: selection.type, metric: selection.metric, page: 1 * page - 1 } } },
 	                                _react2['default'].createElement(
 	                                    'span',
 	                                    { 'aria-hidden': 'true' },
@@ -70466,7 +70503,9 @@
 	                            { className: "next" + (page * perPage > metrics.length ? " disabled" : "") },
 	                            _react2['default'].createElement(
 	                                _reactRouter.Link,
-	                                { to: { pathname: "/pdepend", query: { type: selection.type, metric: selection.metric, page: 1 * page + 1 } } },
+	                                { to: {
+	                                        pathname: "/pdepend",
+	                                        query: { type: selection.type, metric: selection.metric, page: 1 * page + 1 } } },
 	                                _react2['default'].createElement(
 	                                    'span',
 	                                    { 'aria-hidden': 'true' },
@@ -71357,7 +71396,9 @@
 	                        ),
 	                        _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: { pathname: "/source", query: { file: file, start: violation.$.beginline, end: violation.$.endline } } },
+	                            { to: {
+	                                    pathname: "/source",
+	                                    query: { file: file, start: violation.$.beginline, end: violation.$.endline } } },
 	                            _react2['default'].createElement(
 	                                'p',
 	                                null,
@@ -71752,7 +71793,9 @@
 	                        ),
 	                        _react2['default'].createElement(
 	                            _reactRouter.Link,
-	                            { to: { pathname: "/source", query: { file: file, start: error.$.line, end: error.$.line } } },
+	                            { to: {
+	                                    pathname: "/source",
+	                                    query: { file: file, start: error.$.line, end: error.$.line } } },
 	                            _react2['default'].createElement(
 	                                'p',
 	                                null,
@@ -71912,7 +71955,9 @@
 	                    ' ',
 	                    _react2['default'].createElement(
 	                        _reactRouter.Link,
-	                        { to: { pathname: "/source", query: { file: fileFrom, start: fileFromStart, end: fileFromStart + lines } } },
+	                        { to: {
+	                                pathname: "/source",
+	                                query: { file: fileFrom, start: fileFromStart, end: fileFromStart + lines } } },
 	                        fileFrom
 	                    ),
 	                    ' ',
@@ -71920,7 +71965,9 @@
 	                    ' ',
 	                    _react2['default'].createElement(
 	                        _reactRouter.Link,
-	                        { to: { patname: "/source", query: { file: fileTo, start: fileToStart, end: fileToStart + lines } } },
+	                        { to: {
+	                                patname: "/source",
+	                                query: { file: fileTo, start: fileToStart, end: fileToStart + lines } } },
 	                        fileTo
 	                    )
 	                )
@@ -72148,7 +72195,8 @@
 	                            } else {
 	                                return _react2["default"].createElement(
 	                                    _navlinkJsx2["default"],
-	                                    { key: i, to: "/" + item.path, active: item.path === matched.path, enabled: !!item.enabled },
+	                                    { key: i, to: "/" + item.path, active: item.path === matched.path,
+	                                        enabled: !!item.enabled },
 	                                    !item.icon ? '' : _react2["default"].createElement("span", { className: item.icon }),
 	                                    " ",
 	                                    item.name
@@ -72234,8 +72282,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRouter = __webpack_require__(173);
-	
 	var _underscore = __webpack_require__(355);
 	
 	var _underscore2 = _interopRequireDefault(_underscore);
@@ -72250,28 +72296,31 @@
 	    propTypes: {
 	        matched: _react2["default"].PropTypes.object,
 	        children: _react2["default"].PropTypes.array,
-	        active: _react2["default"].PropTypes.bool
+	        active: _react2["default"].PropTypes.bool,
+	        items: _react2["default"].PropTypes.array
 	    },
 	
 	    render: function render() {
 	        var matched = this.props.matched;
-	        var activeClass = this.props.active ? "active" : "";
+	        var items = this.props.items;
 	
 	        return _react2["default"].createElement(
 	            "li",
 	            { className: "dropdown" },
 	            _react2["default"].createElement(
 	                "a",
-	                { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-haspopup": "true", "aria-expanded": "false" },
+	                { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown",
+	                    role: "button", "aria-haspopup": "true", "aria-expanded": "false" },
 	                this.props.children
 	            ),
 	            _react2["default"].createElement(
 	                "ul",
 	                { className: "dropdown-menu" },
-	                _underscore2["default"].map(this.props.items, function (item, i) {
+	                _underscore2["default"].map(items, function (item, i) {
 	                    return _react2["default"].createElement(
 	                        _navlinkJsx2["default"],
-	                        { key: i, to: "/" + item.path, active: item.path === matched.path, enabled: !!item.enabled },
+	                        { key: i, to: "/" + item.path, active: item.path === matched.path,
+	                            enabled: !!item.enabled },
 	                        !item.icon ? '' : _react2["default"].createElement("span", { className: item.icon }),
 	                        " ",
 	                        item.name

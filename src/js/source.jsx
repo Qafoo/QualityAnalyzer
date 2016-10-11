@@ -21,7 +21,7 @@ let Source = React.createClass({
                 size: false,
                 commits: false,
                 coverage: false,
-            }
+            },
         }
     },
 
@@ -67,18 +67,27 @@ let Source = React.createClass({
                             // Everything >= 1100 lines yields 0 quality,
                             // everything <= 100 lines is 100% quality
                             (1000 - Math.min(Math.max(lines - 100, 0), 1000)) / 1000,
-                            {lines: 1 * lines, files: 1, classes: 1 * file.metrics[0].$.classes, methods: 1 * file.metrics[0].$.methods}
+                            {
+                                lines: 1 * lines,
+                                files: 1,
+                                classes: 1 * file.metrics[0].$.classes,
+                                methods: 1 * file.metrics[0].$.methods,
+                            }
                         )
                     }
 
                     if (file.metrics[0].$.elements === '0') {
-                        this.sourceTree.addQualityInformation('coverage', fileName, 1, {count: 0, covered: 0, lines: {} })
+                        this.sourceTree.addQualityInformation('coverage', fileName, 1, {
+                            count: 0,
+                            covered: 0,
+                            lines: {},
+                        })
                     } else if ('line' in file) {
                         let lines = {}
                         _.map(file.line, function (line) {
                             lines[line.$.num] = (line.$.count > 0)
                         })
-                        
+
                         this.sourceTree.addQualityInformation(
                             'coverage',
                             fileName,
@@ -102,11 +111,13 @@ let Source = React.createClass({
                 ) / _.toArray(this.props.data.analyzers.git.all).length
 
                 for (let fileName in this.props.data.analyzers.git.all) {
+                    var fileProps = this.props.data.analyzers.git.all[fileName]
+                    let number = Math.max(0, fileProps - averageCommits)
                     this.sourceTree.addQualityInformation(
                         'commits',
                         fileName,
-                        Math.max(0, 1 - Math.max(0, this.props.data.analyzers.git.all[fileName] - averageCommits) / (averageCommits * 2)),
-                        {commits: 1 * this.props.data.analyzers.git.all[fileName], average: 1 * averageCommits, count: 1}
+                        Math.max(0, 1 - number / (averageCommits * 2)),
+                        { commits: 1 * fileProps, average: 1 * averageCommits, count: 1 }
                     )
                 }
             }
@@ -127,7 +138,6 @@ let Source = React.createClass({
 
         return fields
     },
-    
 
     changeActiveQualityIndex: function (field) {
         let active = this.state.active
@@ -136,7 +146,6 @@ let Source = React.createClass({
 
         this.setState({ active: active })
     },
-    
 
     sourceTree: new Tree(),
 
@@ -158,22 +167,31 @@ let Source = React.createClass({
                 {'size' in tree.quality ?
                     <div className="checkbox">
                         <label>
-                            <input checked={this.state.active.size} onChange={(function() { this.changeActiveQualityIndex('size') }).bind(this)} type="checkbox" /> Size
+                            <input
+                                checked={this.state.active.size}
+                                onChange={(function () { this.changeActiveQualityIndex('size') }).bind(this)}
+                                type="checkbox" /> Size
                         </label>
                     </div> : null}
                 {'coverage' in tree.quality ?
                     <div className="checkbox">
                         <label>
-                            <input checked={this.state.active.coverage} onChange={(function() { this.changeActiveQualityIndex('coverage') }).bind(this)} type="checkbox" /> Code Coverage
+                            <input
+                                checked={this.state.active.coverage}
+                                onChange={(function () { this.changeActiveQualityIndex('coverage') }).bind(this)}
+                                type="checkbox" /> Code Coverage
                         </label>
                     </div> : null}
                 {'commits' in tree.quality ?
                     <div className="checkbox">
                         <label>
-                            <input checked={this.state.active.commits} onChange={(function() { this.changeActiveQualityIndex('commits') }).bind(this)} type="checkbox" /> GIT Commits
+                            <input
+                                checked={this.state.active.commits}
+                                onChange={(function () { this.changeActiveQualityIndex('commits') }).bind(this)}
+                                type="checkbox" /> GIT Commits
                         </label>
                     </div> : null}
-                </form> 
+                </form>
             </div>
             <div className="col-md-8">
                 {current ?
