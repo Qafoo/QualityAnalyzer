@@ -49,64 +49,63 @@ class Analyze extends Command
     protected function configure()
     {
         $this
-          ->setName(self::NAME)
-          ->setDescription('Analyze PHP code')
-          ->addArgument(
-            self::ARGUMENT_PATH,
-            InputArgument::REQUIRED,
-            'Path to the source code which should be analyzed'
-          )->addOption(
-            self::OPTION_COVERAGE,
-            self::ALIAS_COVERAGE,
-            InputOption::VALUE_REQUIRED,
-            'Path to code coverage (clover) XML file'
-          )->addOption(
-            self::OPTION_PDEPEND,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to PDepend summary XML file'
-          )->addOption(
-            self::OPTION_DEPENDENCIES,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to PDepend dependencies XML file'
-          )->addOption(
-            self::OPTION_PHPMD,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to mess detector (PMD / PHPMD) XML file'
-          )->addOption(
-            self::OPTION_CHECKSTYLE,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to checkstyle violations (PHP Code Sniffer) XML file'
-          )->addOption(
-            self::OPTION_TESTS,
-            self::ALIAS_TESTS,
-            InputOption::VALUE_REQUIRED,
-            'Path to jUnit (PHPUnit) test result XML file'
-          )->addOption(
-            self::OPTION_CPD,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to C&P violations (PHP Copy Paste Detector) XML file'
-          )->addOption(
-            self::OPTION_PHPLOC,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Path to PHPLoc result XML file'
-          )->addOption(
-            self::OPTION_EXCLUDE,
-            self::ALIAS_EXCLUDE,
-            InputOption::VALUE_REQUIRED,
-            'Directories to exclude from analyzing'
-          )->addOption(
-            self::OPTION_EXCLUDE_ANALYZERS,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Analyzers to exclude from analyzing as comma separated list, e.g. "git,gitDetailed"'
-          )
-        ;
+            ->setName(self::NAME)
+            ->setDescription('Analyze PHP code')
+            ->addArgument(
+                self::ARGUMENT_PATH,
+                InputArgument::REQUIRED,
+                'Path to the source code which should be analyzed'
+            )->addOption(
+                self::OPTION_COVERAGE,
+                self::ALIAS_COVERAGE,
+                InputOption::VALUE_REQUIRED,
+                'Path to code coverage (clover) XML file'
+            )->addOption(
+                self::OPTION_PDEPEND,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PDepend summary XML file'
+            )->addOption(
+                self::OPTION_DEPENDENCIES,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PDepend dependencies XML file'
+            )->addOption(
+                self::OPTION_PHPMD,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to mess detector (PMD / PHPMD) XML file'
+            )->addOption(
+                self::OPTION_CHECKSTYLE,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to checkstyle violations (PHP Code Sniffer) XML file'
+            )->addOption(
+                self::OPTION_TESTS,
+                self::ALIAS_TESTS,
+                InputOption::VALUE_REQUIRED,
+                'Path to jUnit (PHPUnit) test result XML file'
+            )->addOption(
+                self::OPTION_CPD,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to C&P violations (PHP Copy Paste Detector) XML file'
+            )->addOption(
+                self::OPTION_PHPLOC,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Path to PHPLoc result XML file'
+            )->addOption(
+                self::OPTION_EXCLUDE,
+                self::ALIAS_EXCLUDE,
+                InputOption::VALUE_REQUIRED,
+                'Directories to exclude from analyzing'
+            )->addOption(
+                self::OPTION_EXCLUDE_ANALYZERS,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Analyzers to exclude from analyzing as comma separated list, e.g. "git,gitDetailed"'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -118,7 +117,7 @@ class Analyze extends Command
         }
         $output->writeln("Analyze source code in $path");
 
-        $project          = new Project();
+        $project = new Project();
         $project->dataDir = $this->targetDir;
         $project->baseDir = $path;
         if ($input->hasOption(self::OPTION_COVERAGE)) {
