@@ -11,10 +11,8 @@ let Statistics = React.createClass({
     },
 
     render: function () {
-        var coverageData = this.props.node.quality.coverage.data
-        var percent = (coverageData.covered / coverageData.count * 100).toFixed(2)
-        var uncovered = coverageData.count - coverageData.covered
-        var covered = coverageData.covered
+        var coverageData = this.props.node.quality.coverage ? this.props.node.quality.coverage.data : null
+
         return (<div className="row">
             <div className="col-sm-6 col-xs-12">
                 <h4>Worst Files</h4>
@@ -40,15 +38,15 @@ let Statistics = React.createClass({
                     </dl>
                 </div> : null}
 
-                {'coverage' in this.props.node.quality ? <div>
+                {coverageData ? <div>
                     <h4>Lines Covered</h4>
                     <PieChart
                         id="chart-loc"
-                        title={percent + "%"}
+                        title={(coverageData.covered / coverageData.count * 100).toFixed(2) + "%"}
                         classes={["uncovered", "covered"]}
                         values={[
-                            { label: "uncovered", value: uncovered },
-                            { label: "covered", value: covered },
+                            { label: "uncovered", value: coverageData.count - coverageData.covered },
+                            { label: "covered", value: coverageData.covered },
                         ]} />
                 </div> : null}
             </div>
