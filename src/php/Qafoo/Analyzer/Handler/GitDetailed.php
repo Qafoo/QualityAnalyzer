@@ -3,8 +3,8 @@
 namespace Qafoo\Analyzer\Handler;
 
 use Qafoo\Analyzer\Handler;
-use Qafoo\Analyzer\Shell;
 use Qafoo\Analyzer\Project;
+use Qafoo\Analyzer\Shell;
 
 class GitDetailed extends Handler
 {
@@ -29,7 +29,8 @@ class GitDetailed extends Handler
      * returned, otherwise return null.
      *
      * @param Project $project
-     * @param string $existingResult
+     * @param string  $existingResult
+     *
      * @return string
      */
     public function handle(Project $project, $existingResult = null)
@@ -48,14 +49,24 @@ class GitDetailed extends Handler
             $packageCommits = 0;
             foreach ($xPath->query('./class', $packageNode) as $classNode) {
                 $fileNode = $xPath->query('./file', $classNode)->item(0);
-                $file = $fileNode->getAttribute('name');
+                $file     = $fileNode->getAttribute('name');
 
-                $classCommits = $this->countGitChangesPerFileRange($project, $file, $classNode->getAttribute('start'), $classNode->getAttribute('end'));
+                $classCommits = $this->countGitChangesPerFileRange(
+                    $project,
+                    $file,
+                    $classNode->getAttribute('start'),
+                    $classNode->getAttribute('end')
+                );
                 $packageCommits += $classCommits;
                 $classNode->setAttribute('commits', $classCommits);
 
                 foreach ($xPath->query('./method', $classNode) as $methodNode) {
-                    $methodCommits = $this->countGitChangesPerFileRange($project, $file, $methodNode->getAttribute('start'), $methodNode->getAttribute('end'));
+                    $methodCommits = $this->countGitChangesPerFileRange(
+                        $project,
+                        $file,
+                        $methodNode->getAttribute('start'),
+                        $methodNode->getAttribute('end')
+                    );
                     $methodNode->setAttribute('commits', $methodCommits);
                 }
             }
@@ -64,6 +75,7 @@ class GitDetailed extends Handler
         }
 
         $document->save($pdependResultFile);
+
         return null;
     }
 
@@ -76,20 +88,21 @@ class GitDetailed extends Handler
      * afterwards. This causes GIT to calculate MANY diffs, which are the
      * passed to PHP and thrown away using many string operations. This sucks.
      *
-     * @FIX: Can be fixed immediately when we learn how to convince GIT to omit
+     * @FIX : Can be fixed immediately when we learn how to convince GIT to omit
      * the diffs / patches.
      */
     protected function countGitChangesPerFileRange(Project $project, $file, $from, $to)
     {
-        $options = array(
-            'log',
-            '--format=format:qacommit: %H',
-            '--no-patch',
-            '-L',
-            "$from,$to:$file"
-        );
+        $options = [
+          'log',
+          '--format=format:qacommit: %H',
+          '--no-patch',
+          '-L',
+          "$from,$to:$file",
+        ];
 
         $existingResults = $this->shell->exec('git', $options, [0], $project->baseDir);
+
         return count(
             array_filter(
                 array_map(

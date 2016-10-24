@@ -131,7 +131,7 @@ let Tree = function () {
                         return a
                     },
                     {}
-                )
+                ),
             }
         }
     }

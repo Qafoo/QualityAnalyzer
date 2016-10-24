@@ -110,11 +110,20 @@ let App = React.createClass({
     render: function () {
         if (!this.state.initialized) {
             return (<div className="container">
-                <Loader onComplete={this.setInitialized} />
+                <Loader onComplete={this.setInitialized}/>
             </div>)
         }
 
         var data = this.state.data
+
+        var enableChildren = function (i) {
+            for (var j = 0; j < this.navigation[i].children.length; ++j) {
+                if (!this.navigation[i].children[j].analyzer ||
+                    data.analyzers[this.navigation[i].children[j].path]) {
+                    this.navigation[i].children[j].enabled = true
+                }
+            }
+        }
 
         for (var i = 0; i < this.navigation.length; ++i) {
             if (!this.navigation[i].analyzer ||
@@ -123,25 +132,21 @@ let App = React.createClass({
             }
 
             if ('children' in this.navigation[i]) {
-                for (var j = 0; j < this.navigation[i].children.length; ++j) {
-                    if (!this.navigation[i].children[j].analyzer ||
-                        data.analyzers[this.navigation[i].children[j].path]) {
-                        this.navigation[i].children[j].enabled = true
-                    }
-                }
+                enableChildren.call(this, i)
             }
         }
 
         return (<div className="loaded">
-            <Navigation brand="Quality Analyzer" brandLink="/" items={this.navigation} matched={this.props.routes[1] || null} />
+            <Navigation brand="Quality Analyzer" brandLink="/" items={this.navigation}
+                        matched={this.props.routes[1] || null}/>
 
             {!this.props.children ? '' :
-            <div className="container">
-                {React.cloneElement(
-                    this.props.children,
-                    { data: data, query: this.props.location.query, params: this.props.params }
-                )}
-            </div>}
+                <div className="container">
+                    {React.cloneElement(
+                        this.props.children,
+                        { data: data, query: this.props.location.query, params: this.props.params }
+                    )}
+                </div>}
         </div>)
     },
 })
@@ -154,19 +159,19 @@ let history = useBasename(useQueries(createHistory))({
 render(
     <Router history={history}>
         <Route path="/" component={App}>
-            <IndexRoute component={Overview} />
+            <IndexRoute component={Overview}/>
 
-            <Route name="source" path="source" component={Source} />
-            <Route name="phploc" path="phploc" component={PhpLoc} />
-            <Route name="pdepend" path="pdepend" component={Metrics} />
-            <Route name="dependencies" path="dependencies" component={Dependencies} />
-            <Route name="phpmd" path="phpmd" component={PHPMD} />
-            <Route name="tests" path="tests" component={Tests} />
-            <Route name="checkstyle" path="checkstyle" component={Checkstyle} />
-            <Route name="cpd" path="cpd" component={CPD} />
+            <Route name="source" path="source" component={Source}/>
+            <Route name="phploc" path="phploc" component={PhpLoc}/>
+            <Route name="pdepend" path="pdepend" component={Metrics}/>
+            <Route name="dependencies" path="dependencies" component={Dependencies}/>
+            <Route name="phpmd" path="phpmd" component={PHPMD}/>
+            <Route name="tests" path="tests" component={Tests}/>
+            <Route name="checkstyle" path="checkstyle" component={Checkstyle}/>
+            <Route name="cpd" path="cpd" component={CPD}/>
 
-            <Route path="index.html" component={Overview} />
-            <Route path="*" component={Overview} />
+            <Route path="index.html" component={Overview}/>
+            <Route path="*" component={Overview}/>
         </Route>
     </Router>,
     document.getElementById('content')

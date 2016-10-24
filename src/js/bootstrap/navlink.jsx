@@ -15,7 +15,6 @@ let NavLink = React.createClass({
             enabled: true,
         }
     },
-    
 
     render: function () {
         var classNames = (this.props.active ? "active " : "") +
