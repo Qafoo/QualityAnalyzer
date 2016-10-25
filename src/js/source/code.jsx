@@ -1,4 +1,5 @@
 import React from "react"
+import d3 from "d3"
 import _ from "underscore"
 
 import Tokenizer from "./tokenizer.js"
@@ -52,7 +53,7 @@ let SourceCode = React.createClass({
         var start = this.props.start || 0
         var end = this.props.end || 0
         let color = d3.scale.linear()
-            .domain([0, .7, 1])
+            .domain([0, 0.7, 1])
             .range(["#A6403D", "#A6883D", "#308336"])
 
         return (<div>
@@ -60,13 +61,18 @@ let SourceCode = React.createClass({
                 <tbody>
                     <tr>
                     {_.map(this.props.quality, (function (data, key) {
-                        return (<td key={key} className="text-center" style={{ width: (100 / _.toArray(this.props.quality).length) + "%"}}>
+                        return (<td key={key}
+                                    className="text-center"
+                                    style={{ width: (100 / _.toArray(this.props.quality).length) + "%" }}>
                             <big style={{ color: color(data.index) }}>{data.index.toFixed(2)}</big><br />
                             {(() => {
                                 switch (key) {
-                                    case 'size': return <small>{data.data.lines} lines of code</small>
-                                    case 'coverage': return <small>{data.data.covered} of {data.data.count} lines covered</small>
-                                    case 'commits': return <small>{data.data.commits} commits</small>
+                                case 'size':
+                                    return <small>{data.data.lines} lines of code</small>
+                                case 'coverage':
+                                    return <small>{data.data.covered} of {data.data.count} lines covered</small>
+                                case 'commits':
+                                    return <small>{data.data.commits} commits</small>
                                 }
                             })()}
                         </td>)

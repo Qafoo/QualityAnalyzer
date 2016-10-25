@@ -51,7 +51,8 @@ let Navigation = React.createClass({
                                     } {item.name} <span className="caret"></span>
                                 </NavDropDown>)
                             } else {
-                                return (<NavLink key={i} to={"/" + item.path} active={item.path === matched.path} enabled={!!item.enabled}>
+                                return (<NavLink key={i} to={"/" + item.path} active={item.path === matched.path}
+                                                 enabled={!!item.enabled}>
                                     {!item.icon ? '' :
                                         <span className={item.icon}></span>
                                     } {item.name}

@@ -24,12 +24,16 @@ class Shell
      *
      * Fails if the command returns with a non zero exit code
      *
-     * @param string $command
+     * @param string   $command
      * @param string[] $arguments
-     * @param int[] $okCodes
+     * @param int[]    $okCodes
+     *
+     * @param null     $workingDir
+     *
      * @return string
+     * @throws \Exception
      */
-    public function exec($command, array $arguments = array(), array $okCodes = array(0), $workingDir = null)
+    public function exec($command, array $arguments = [], array $okCodes = [0], $workingDir = null)
     {
         $command = $this->makeAbsolute($command);
 
@@ -41,7 +45,13 @@ class Shell
         chdir($originalWorkingDir);
 
         if (!in_array($return, $okCodes)) {
-            throw new \Exception("Command \"$escapedCommand\" exited with non zero exit code $return: " . implode(PHP_EOL, $output));
+            $message = sprintf(
+                'Command "%s" exited with non zero exit code %s: %s',
+                $escapedCommand,
+                $return,
+                implode(PHP_EOL, $output)
+            );
+            throw new \Exception($message);
         }
 
         return implode(PHP_EOL, $output);
@@ -51,6 +61,7 @@ class Shell
      * Make absolute
      *
      * @param string $command
+     *
      * @return string
      */
     protected function makeAbsolute($command)
@@ -66,6 +77,7 @@ class Shell
      * Get temp file
      *
      * @param string $prefix
+     *
      * @return string
      */
     public function getTempFile($prefix = 'qa')

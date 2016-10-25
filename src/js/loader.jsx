@@ -61,7 +61,7 @@ let Loader = React.createClass({
                         }
                         deferred.resolve(result)
                     })
-                    break;
+                    break
 
                 case 'application/json':
                     let result = JSON.parse(analyzerData)
@@ -70,7 +70,7 @@ let Loader = React.createClass({
                     } else {
                         deferred.resolve(result)
                     }
-                    break;
+                    break
 
                 default:
                     console.error("Cannot handle data of type:" + contentType)

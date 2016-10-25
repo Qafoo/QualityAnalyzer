@@ -83,6 +83,10 @@ You can also specify already generated files for all the other tools. But the
 visualization might behave strangely if some reports are generated in the wrong
 formats or some options are missing. We do not verify this (yet) properly.
 
+To view the report in HTML format, run `bin/analyze bundle
+/path/for/generated/html` and then open `/path/for/generated/html/index.html`
+with your browser.
+
 Ignore Sub-Directories
 ----------------------
 
@@ -100,6 +104,21 @@ source directory – you do not want to analyze those. For this you may use the
 After the analyzer has finished use ``bin/analyze serve`` or similar means to
 access the ``index.html`` with your browser and enjoy the results
 visualization.
+
+Exclude Analyzers
+-----------------
+
+You might also to avoid some analyzers to be run on your code intentionally, e.g.
+if you don't want your git usage be analysed. For this you may use the
+``--exclude_analyzers`` option::
+
+    bin/analyze \
+        --exclude_analyzers=git,gitDetailed \
+        analyze /path/to/source
+
+To get a list of all available analyzers, run::
+
+    bin/analyze list:analyzers
 
 Customize Tools
 ---------------

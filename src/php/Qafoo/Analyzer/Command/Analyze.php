@@ -4,104 +4,127 @@ namespace Qafoo\Analyzer\Command;
 
 use Qafoo\Analyzer\Handler;
 use Qafoo\Analyzer\Project;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Qafoo\Analyzer\Handler\RequiresCoverage;
-
 class Analyze extends Command
 {
+    const ARGUMENT_PATH            = 'path';
+    const NAME                     = 'analyze';
+    const OPTION_COVERAGE          = 'coverage';
+    const OPTION_EXCLUDE_ANALYZERS = 'exclude_analyzers';
+    const OPTION_PDEPEND           = 'pdepend';
+    const OPTION_DEPENDENCIES      = 'dependencies';
+    const OPTION_PHPMD             = 'phpmd';
+    const OPTION_CHECKSTYLE        = 'checkstyle';
+    const OPTION_TESTS             = 'tests';
+    const OPTION_CPD               = 'cpd';
+    const OPTION_PHPLOC            = 'phploc';
+    const OPTION_EXCLUDE           = 'exclude';
+    const ALIAS_COVERAGE           = 'c';
+    const ALIAS_TESTS              = 't';
+    const ALIAS_EXCLUDE            = 'x';
+
     /**
      * Handlers
      *
      * @var Handler[]
      */
-    private $handlers = array();
+    private $handlers = [];
 
-    public function __construct(array $handlers = array(), $targetDir = null)
+    /** @var string */
+    private $targetDir;
+
+    public function __construct(array $handlers = [], $targetDir = null)
     {
         parent::__construct();
 
-        $this->handlers = $handlers;
+        $this->handlers  = $handlers;
         $this->targetDir = $targetDir ?: __DIR__ . '/../../../../../data/';
     }
 
     protected function configure()
     {
         $this
-            ->setName('analyze')
+            ->setName(self::NAME)
             ->setDescription('Analyze PHP code')
             ->addArgument(
-                'path',
+                self::ARGUMENT_PATH,
                 InputArgument::REQUIRED,
                 'Path to the source code which should be analyzed'
             )->addOption(
-                'coverage',
-                'c',
+                self::OPTION_COVERAGE,
+                self::ALIAS_COVERAGE,
                 InputOption::VALUE_REQUIRED,
                 'Path to code coverage (clover) XML file'
             )->addOption(
-                'pdepend',
+                self::OPTION_PDEPEND,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to PDepend summary XML file'
             )->addOption(
-                'dependencies',
+                self::OPTION_DEPENDENCIES,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to PDepend dependencies XML file'
             )->addOption(
-                'phpmd',
+                self::OPTION_PHPMD,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to mess detector (PMD / PHPMD) XML file'
             )->addOption(
-                'checkstyle',
+                self::OPTION_CHECKSTYLE,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to checkstyle violations (PHP Code Sniffer) XML file'
             )->addOption(
-                'tests',
-                't',
+                self::OPTION_TESTS,
+                self::ALIAS_TESTS,
                 InputOption::VALUE_REQUIRED,
                 'Path to jUnit (PHPUnit) test result XML file'
             )->addOption(
-                'cpd',
+                self::OPTION_CPD,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to C&P violations (PHP Copy Paste Detector) XML file'
             )->addOption(
-                'phploc',
+                self::OPTION_PHPLOC,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to PHPLoc result XML file'
             )->addOption(
-                'exclude',
-                'x',
+                self::OPTION_EXCLUDE,
+                self::ALIAS_EXCLUDE,
                 InputOption::VALUE_REQUIRED,
                 'Directories to exclude from analyzing'
+            )->addOption(
+                self::OPTION_EXCLUDE_ANALYZERS,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Analyzers to exclude from analyzing as comma separated list, e.g. "git,gitDetailed"'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $exclude = array_filter(array_map('trim', explode(',', $input->getOption('exclude'))));
+        $exclude = array_filter(array_map('trim', explode(',', $input->getOption(self::OPTION_EXCLUDE))));
 
-        if (!is_dir($path = realpath($input->getArgument('path')))) {
-            throw new \OutOfBoundsException("Could not find " . $input->getArgument('path'));
+        if (!is_dir($path = realpath($input->getArgument(self::ARGUMENT_PATH)))) {
+            throw new \OutOfBoundsException("Could not find " . $input->getArgument(self::ARGUMENT_PATH));
         }
         $output->writeln("Analyze source code in $path");
 
         $project = new Project();
         $project->dataDir = $this->targetDir;
         $project->baseDir = $path;
-        if ($input->hasOption('coverage')) {
-            $project->coverage = $input->getOption('coverage');
+        if ($input->hasOption(self::OPTION_COVERAGE)) {
+            $project->coverage = $input->getOption(self::OPTION_COVERAGE);
         }
+
+        $this->filterHandlers($input);
 
         foreach ($this->handlers as $name => $handler) {
             $output->writeln(" * Running $name");
@@ -122,12 +145,23 @@ class Analyze extends Command
         $output->writeln("Done");
     }
 
+    private function filterHandlers(InputInterface $input)
+    {
+        if ($excludeHandlers = $input->getOption(self::OPTION_EXCLUDE_ANALYZERS)) {
+            $excludeHandlers = array_map('trim', explode(',', $excludeHandlers));
+            $excludeHandlers = array_combine($excludeHandlers, $excludeHandlers);
+            $this->handlers  = array_diff_key($this->handlers, $excludeHandlers);
+        }
+    }
+
     /**
      * Copy result file
      *
      * @param string $handler
      * @param string $file
+     *
      * @return string
+     * @throws \OutOfBoundsException
      */
     protected function copyResultFile($handler, $file)
     {
@@ -141,6 +175,7 @@ class Analyze extends Command
         }
 
         copy($file, $this->targetDir . '/' . $handler . '.' . $extension);
+
         return "$handler.$extension";
     }
 }
