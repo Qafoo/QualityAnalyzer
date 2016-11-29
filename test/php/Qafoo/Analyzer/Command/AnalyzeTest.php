@@ -16,6 +16,35 @@ class AnalyzeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function exclude()
+    {
+        $coverageHandler = $this->buildMock(Handler\Coverage::class);
+        $handlers        = ['coverage' => $coverageHandler];
+
+        $coverageHandler->expects(self::once())
+                        ->method('handle')
+                        ->with(self::attributeEqualTo('excludes', ['path1', 'path2']), self::anything())
+                        ->willReturn('success')
+        ;
+
+        $app = new Application();
+        $app->add(new Analyze($handlers));
+
+        $command = $app->find(Analyze::NAME);
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+          [
+            'command'   => $command->getName(),
+            'path'      => __DIR__,
+            '--exclude' => 'path1,path2',
+          ]
+        );
+    }
+
+    /**
+     * @test
+     */
     public function excludeHandlers()
     {
         $coverageHandler = $this->buildMock(Handler\Coverage::class);
