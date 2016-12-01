@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "66da5be0ce3c751787603a3df27b887c",
-    "content-hash": "dc5b62bb8f2622e54c4dccc37a0d3848",
+    "hash": "6b958036a7eaf8ce3c33eddba731bc5b",
+    "content-hash": "fe3d9deb288048e1d718562a294e31d7",
     "packages": [
         {
             "name": "kore/data-object",
