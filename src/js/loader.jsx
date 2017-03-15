@@ -51,6 +51,7 @@ let Loader = React.createClass({
                 var deferred = jQuery.Deferred()
 
                 switch (contentType) {
+                case 'text/xml':
                 case 'application/xml':
                     var parser = new xml2js.Parser()
 
