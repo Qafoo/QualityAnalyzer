@@ -80,8 +80,9 @@ class Shell
      *
      * @return string
      */
-    public function getTempFile($prefix = 'qa')
+    public function getTempFile($prefix = 'qa', $postfix = null)
     {
-        return tempnam(sys_get_temp_dir(), $prefix);
+        return tempnam(sys_get_temp_dir(), $prefix) .
+            ($postfix ? '.' . $postfix : '');
     }
 }

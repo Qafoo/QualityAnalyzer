@@ -40,7 +40,7 @@ class Dependencies extends Handler
         }
 
         $options = array(
-            '--dependency-xml=' . ($tmpFile = $this->shell->getTempFile()),
+            '--dependency-xml=' . ($tmpFile = $this->shell->getTempFile('qa', 'xml')),
         );
 
         if ($project->excludes) {

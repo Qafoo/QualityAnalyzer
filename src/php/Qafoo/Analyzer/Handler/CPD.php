@@ -40,7 +40,7 @@ class CPD extends Handler
         }
 
         $options = array(
-            '--log-pmd=' . ($tmpFile = $this->shell->getTempFile()),
+            '--log-pmd=' . ($tmpFile = $this->shell->getTempFile('qa', 'xml')),
         );
 
         foreach ($project->excludes as $exclude) {

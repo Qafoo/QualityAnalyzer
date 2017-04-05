@@ -40,7 +40,7 @@ class PDepend extends Handler implements RequiresCoverage
         }
 
         $options = array(
-            '--summary-xml=' . ($tmpFile = $this->shell->getTempFile()),
+            '--summary-xml=' . ($tmpFile = $this->shell->getTempFile('qa', 'xml')),
             '--coderank-mode=inheritance,property,method',
         );
 

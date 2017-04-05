@@ -40,7 +40,7 @@ class PHPMD extends Handler
         }
 
         $options = array(
-            '--reportfile', ($tmpFile = $this->shell->getTempFile()),
+            '--reportfile', ($tmpFile = $this->shell->getTempFile('qa', 'xml')),
         );
 
         if ($project->excludes) {

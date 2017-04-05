@@ -41,7 +41,7 @@ class Phploc extends Handler
 
         $options = array(
             '--count-tests',
-            '--log-xml=' . ($tmpFile = $this->shell->getTempFile()),
+            '--log-xml=' . ($tmpFile = $this->shell->getTempFile('qa', 'xml')),
         );
 
         foreach ($project->excludes as $exclude) {
