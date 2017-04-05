@@ -1,10 +1,17 @@
 <?php
 
+$mimeTypes = array(
+    'xml' => 'application/xml',
+    'json' => 'application/json',
+    'js' => 'application/json',
+    'zip' => 'application/zip',
+);
+
 $baseDir = __DIR__ . '/../';
 if (file_exists($baseDir . $_SERVER['SCRIPT_NAME'])) {
-    // Workaround for PHP web server not recognizing JSON mime type;
-    if (substr($_SERVER['SCRIPT_NAME'], -4, 4) === 'json') {
-        header('Content-Type: application/json');
+    $extension = pathinfo($_SERVER['SCRIPT_NAME'], PATHINFO_EXTENSION);
+    if (isset($mimeTypes[$extension])) {
+        header('Content-Type: ' . $mimeTypes[$extension]);
         readfile($baseDir . $_SERVER['SCRIPT_NAME']);
         exit(0);
     } else {
