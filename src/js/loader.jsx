@@ -74,7 +74,7 @@ let Loader = React.createClass({
                     break
 
                 default:
-                    console.error("Cannot handle data of type:" + contentType)
+                    console.error("Cannot handle data of type " + contentType + " while loading " + file)
                 }
 
                 return deferred.promise()
