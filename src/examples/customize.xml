@@ -19,7 +19,7 @@
          customize the tool calls directly below.
     -->
     <property name="phpunit.config" value="${basedir}/phpunit.xml" />
-    <property name="phpcs.coding.standard" value="PSR-2" />
+    <property name="phpcs.coding.standard" value="PSR2" />
     <property name="phpmd.rules" value="cleancode,codesize,design" />
 
     <target name="prepare">
@@ -70,7 +70,7 @@
 
     <target name="checkstyle" depends="prepare">
         <exec executable="${bindir}/phpcs" failonerror="false" dir="${basedir}">
-            <arg value="--standard=${coding.standard}" />
+            <arg value="--standard=${phpcs.coding.standard}" />
             <arg value="--extensions=php" />
             <arg value="--report-checkstyle=${logdir}/checkstyle.xml" />
             <arg value="${srcdir}" />
