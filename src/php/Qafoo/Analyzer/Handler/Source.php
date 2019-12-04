@@ -40,8 +40,13 @@ class Source extends Handler
         $archive = new \ZipArchive();
         $archive->open($zipFile, \ZipArchive::OVERWRITE | \ZipArchive::CREATE);
         $finder = new FinderFacade(array($project->baseDir), $project->excludes, array('*.php'));
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $isSeven = true;
+        }
         foreach ($finder->findFiles() as $existingResult) {
-            $archive->addFile($existingResult, ltrim(str_replace($project->baseDir, '', $existingResult), '/'));
+            if (is_file($existingResult) && $isSeven || !$isSeven) {
+                $archive->addFile($existingResult, ltrim(str_replace($project->baseDir, '', $existingResult), '/'));
+            }
         }
         $archive->close();
     }
