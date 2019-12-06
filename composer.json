@@ -7,10 +7,10 @@
         "ext-zip": "*",
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "@stable",
-        "phploc/phploc": "^2.1|^3.0",
+        "phploc/phploc": "^5.0",
         "squizlabs/php_codesniffer": "@stable",
         "sebastian/phpcpd": "@stable",
-        "symfony/console": "^2.7|^3.0",
+        "symfony/console": "^4.0",
         "sebastian/finder-facade": "^1.2",
         "kore/data-object": "^1.1",
         "roave/security-advisories": "dev-master"
